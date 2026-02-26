@@ -11,6 +11,7 @@ import FeatureCard from '@/components/cards/FeatureCard'
 import LifestyleCard from '@/components/cards/LifestyleCard'
 import ButtonPrimary from '@/components/buttons/ButtonPrimary'
 import ButtonOutline from '@/components/buttons/ButtonOutline'
+import { deepMerge } from '@/lib/data-utils'
 
 /* ─── Fallback Data (used when Sanity is not configured) ─── */
 const heroData = {
@@ -71,15 +72,55 @@ const antiguaDetails = [
   { title: 'Stable', description: 'Growing economy & government' },
 ]
 
-export default function HomePage() {
+interface HomePageProps {
+  cmsData?: Record<string, any> | null
+}
+
+export default function HomePage({ cmsData }: HomePageProps) {
+  const hero = deepMerge(heroData, cmsData?.hero)
+  const intro = deepMerge(introData, cmsData?.intro)
+  const lifestyle = cmsData?.lifestyle?.cards?.length ? cmsData.lifestyle.cards : lifestyleCards
+  const features = cmsData?.features?.cards?.length ? cmsData.features.cards : featureCards
+  const villas = cmsData?.villas?.cards?.length ? cmsData.villas.cards : villaCards
+  const antigua = cmsData?.antigua?.details?.length ? cmsData.antigua.details : antiguaDetails
+
+  // Quote section
+  const quoteText = cmsData?.quote?.text || "An investment in Pearns Point is an investment in an unparalleled way of life — where every sunrise brings possibility and every sunset is a masterpiece."
+  const quoteAttribution = cmsData?.quote?.attribution || "Pearns Point, Antigua & Barbuda"
+
+  // Antigua section text
+  const antiguaSection = cmsData?.antigua || {}
+  const antiguaEyebrow = antiguaSection.eyebrow || 'The Island'
+  const antiguaTitle = antiguaSection.title || 'Antigua, Jewel of<br />the <em className="font-light italic">Caribbean</em>'
+  const antiguaBody = antiguaSection.body || 'A hidden jewel of pure tranquility and immense beauty. Antigua offers exceptional cuisine, world-class sailing, a vibrant culture, and a growing economy backed by a politically stable government — making it an ideal destination for lifestyle and investment alike.'
+  const antiguaImage = antiguaSection.image || 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=800&q=80'
+  const antiguaBadgeNumber = antiguaSection.badgeNumber || '365'
+  const antiguaBadgeLabel = antiguaSection.badgeLabel || 'beaches'
+
+  // CBI section
+  const cbiSection = cmsData?.cbi || {}
+  const cbiEyebrow = cbiSection.eyebrow || 'Citizenship by Investment'
+  const cbiTitle = cbiSection.title || 'Your Passport to a<br /><em className="font-light italic">New Horizon</em>'
+  const cbiBody = cbiSection.body || "Antigua & Barbuda\u2019s Citizenship by Investment Programme offers a distinguished pathway to second citizenship — with visa-free access to over 150 countries including the UK, EU Schengen zone, and more."
+
+  // Lifestyle section text
+  const lifestyleEyebrow = cmsData?.lifestyle?.eyebrow || 'The Lifestyle'
+  const lifestyleTitle = cmsData?.lifestyle?.title || 'More Than a Home.<br />A Way of <em className="font-light italic">Living.</em>'
+  const lifestyleSubtitle = cmsData?.lifestyle?.subtitle || 'Pearns Point is an invitation to an extraordinary life — where turquoise waters, world-class dining, and unhurried luxury define every single day.'
+
+  // Features section text
+  const featuresEyebrow = cmsData?.features?.eyebrow || 'Why Pearns Point'
+  const featuresTitle = cmsData?.features?.title || 'Crafted with <em className="font-light italic">Purpose</em><br />& Precision'
+  const featuresSubtitle = cmsData?.features?.subtitle || 'Every element of Pearns Point has been carefully considered — from the preservation of native ecosystems to the freedom of bespoke architectural design.'
+
   return (
     <>
       {/* HERO */}
       <PageHero
-        backgroundImage={heroData.backgroundImage}
-        eyebrow={heroData.eyebrow}
-        title={heroData.title}
-        subtitle={heroData.subtitle}
+        backgroundImage={hero.backgroundImage}
+        eyebrow={hero.eyebrow}
+        title={hero.title}
+        subtitle={hero.subtitle}
         isHome={true}
         youtubeId="46A0w8iI8hs"
       >
@@ -112,12 +153,12 @@ export default function HomePage() {
           <ScrollReveal>
             <div className="relative">
               <img
-                src={introData.mainImage}
+                src={intro.mainImage}
                 alt="Caribbean waterfront"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
               <img
-                src={introData.accentImage}
+                src={intro.accentImage}
                 alt="White sand beach"
                 className="absolute -bottom-[30px] -right-[40px] w-1/2 aspect-square object-cover rounded-[4px] border-[5px] border-cream shadow-[0_16px_40px_rgba(0,0,0,0.1)] max-lg:hidden"
               />
@@ -125,18 +166,18 @@ export default function HomePage() {
           </ScrollReveal>
           <ScrollReveal>
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              {introData.eyebrow}
+              {intro.eyebrow}
             </p>
             <h2
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-              dangerouslySetInnerHTML={{ __html: introData.title }}
+              dangerouslySetInnerHTML={{ __html: intro.title }}
             />
             <GoldRule className="my-7" />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[520px]">
-              {introData.body}
+              {intro.body}
             </p>
             <div className="flex gap-10 mt-12 pt-9 border-t border-sand max-sm:flex-col max-sm:gap-5">
-              {introData.stats.map((stat, i) => (
+              {intro.stats.map((stat, i) => (
                 <div key={i}>
                   <div className="font-display text-[2.6rem] font-normal text-ocean leading-none">
                     {stat.number}
@@ -155,17 +196,15 @@ export default function HomePage() {
       <section className="bg-white overflow-hidden">
         <ScrollReveal className="text-center py-[120px] pb-16 px-[60px] max-lg:px-7">
           <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-            The Lifestyle
+            {lifestyleEyebrow}
           </p>
-          <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-            More Than a Home.<br />A Way of <em className="font-light italic">Living.</em>
-          </h2>
+          <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5" dangerouslySetInnerHTML={{ __html: lifestyleTitle }} />
           <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[580px] mx-auto">
-            Pearns Point is an invitation to an extraordinary life — where turquoise waters, world-class dining, and unhurried luxury define every single day.
+            {lifestyleSubtitle}
           </p>
         </ScrollReveal>
         <div className="grid grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
-          {lifestyleCards.map((card, i) => (
+          {lifestyle.map((card: any, i: number) => (
             <LifestyleCard key={i} {...card} />
           ))}
         </div>
@@ -173,8 +212,8 @@ export default function HomePage() {
 
       {/* QUOTE */}
       <QuoteStrip
-        text="An investment in Pearns Point is an investment in an unparalleled way of life — where every sunrise brings possibility and every sunset is a masterpiece."
-        attribution="Pearns Point, Antigua & Barbuda"
+        text={quoteText}
+        attribution={quoteAttribution}
       />
 
       {/* FEATURES */}
@@ -182,17 +221,15 @@ export default function HomePage() {
         <div className="max-w-content mx-auto">
           <ScrollReveal className="text-center mb-20">
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              Why Pearns Point
+              {featuresEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Crafted with <em className="font-light italic">Purpose</em><br />& Precision
-            </h2>
+            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5" dangerouslySetInnerHTML={{ __html: featuresTitle }} />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto">
-              Every element of Pearns Point has been carefully considered — from the preservation of native ecosystems to the freedom of bespoke architectural design.
+              {featuresSubtitle}
             </p>
           </ScrollReveal>
           <StaggerReveal className="grid grid-cols-3 gap-10 max-lg:grid-cols-1">
-            {featureCards.map((card, i) => (
+            {features.map((card: any, i: number) => (
               <FeatureCard key={i} {...card} />
             ))}
           </StaggerReveal>
@@ -217,7 +254,7 @@ export default function HomePage() {
           </ScrollReveal>
           <ScrollReveal>
             <div className="grid grid-cols-[1.3fr_1fr] grid-rows-[1fr_1fr] gap-5 h-[700px] max-lg:grid-cols-1 max-lg:h-auto">
-              {villaCards.map((card, i) => (
+              {villas.map((card: any, i: number) => (
                 <div
                   key={i}
                   className={`group relative overflow-hidden rounded-[4px] cursor-pointer ${
@@ -253,31 +290,29 @@ export default function HomePage() {
           <ScrollReveal>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1548574505-5e239809ee19?w=800&q=80"
+                src={antiguaImage}
                 alt="Antigua harbour"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
               <div className="absolute -top-6 -right-6 w-[130px] h-[130px] rounded-full bg-ocean flex items-center justify-center text-center shadow-[0_8px_24px_rgba(26,122,138,0.3)]">
                 <div>
-                  <strong className="block font-display text-[2rem] font-normal text-white leading-none">365</strong>
-                  <span className="text-[0.6rem] font-normal tracking-[0.1em] text-white/70">beaches</span>
+                  <strong className="block font-display text-[2rem] font-normal text-white leading-none">{antiguaBadgeNumber}</strong>
+                  <span className="text-[0.6rem] font-normal tracking-[0.1em] text-white/70">{antiguaBadgeLabel}</span>
                 </div>
               </div>
             </div>
           </ScrollReveal>
           <ScrollReveal>
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              The Island
+              {antiguaEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Antigua, Jewel of<br />the <em className="font-light italic">Caribbean</em>
-            </h2>
+            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5" dangerouslySetInnerHTML={{ __html: antiguaTitle }} />
             <GoldRule className="my-7" />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[520px]">
-              A hidden jewel of pure tranquility and immense beauty. Antigua offers exceptional cuisine, world-class sailing, a vibrant culture, and a growing economy backed by a politically stable government — making it an ideal destination for lifestyle and investment alike.
+              {antiguaBody}
             </p>
             <div className="grid grid-cols-2 gap-7 mt-11">
-              {antiguaDetails.map((detail, i) => (
+              {antigua.map((detail: any, i: number) => (
                 <div key={i} className="pt-5 border-t-2 border-sand">
                   <h4 className="font-display text-[1.3rem] font-normal text-ocean mb-1">{detail.title}</h4>
                   <p className="text-[0.72rem] font-light text-prose-light leading-[1.5]">{detail.description}</p>
@@ -294,13 +329,11 @@ export default function HomePage() {
       >
         <ScrollReveal className="max-w-[700px] mx-auto">
           <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-            Citizenship by Investment
+            {cbiEyebrow}
           </p>
-          <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-            Your Passport to a<br /><em className="font-light italic">New Horizon</em>
-          </h2>
+          <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5" dangerouslySetInnerHTML={{ __html: cbiTitle }} />
           <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-11">
-            Antigua & Barbuda&apos;s Citizenship by Investment Programme offers a distinguished pathway to second citizenship — with visa-free access to over 150 countries including the UK, EU Schengen zone, and more.
+            {cbiBody}
           </p>
           <div className="flex gap-3 justify-center flex-wrap max-sm:flex-col max-sm:items-center">
             <ButtonPrimary href="/citizenship-by-investment">Learn About CBI</ButtonPrimary>

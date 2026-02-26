@@ -161,7 +161,38 @@ const lotAreas = [
 
 const pillNavSections = lotAreas.map((a) => ({ id: a.id, label: a.label }))
 
-export default function LotsSitePlanPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function LotsSitePlanPage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Explore the Peninsula'
+  const heroTitle = cmsData?.heroTitle || 'Lots & <em>Site Plan</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || 'Discover the exciting opportunities available across eight distinct areas of the Pearns Point peninsula — each with its own character, views, and unique appeal.'
+
+  const siteMapImage = cmsData?.siteMapImage || 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80'
+  const displayLotAreas = cmsData?.lotAreas?.length ? cmsData.lotAreas.map((area: any, idx: number) => ({
+    id: area.name?.toLowerCase().replace(/\s+/g, '-') || lotAreas[idx]?.id || `area-${idx}`,
+    label: area.name || lotAreas[idx]?.label || '',
+    lots: area.lotRange || lotAreas[idx]?.lots || '',
+    name: area.name?.split(' ').slice(0, -1).join(' ') || area.name || '',
+    nameItalic: area.name?.split(' ').slice(-1)[0] || '',
+    description: area.description || '',
+    features: area.features || [],
+    heroImage: area.heroImage || lotAreas[idx]?.heroImage || '',
+    thumbs: area.thumbnails || lotAreas[idx]?.thumbs || [],
+    heroAlt: area.name || '',
+    thumbAlts: (area.thumbnails || []).map((_: any, i: number) => `${area.name} view ${i + 1}`),
+    videoId: area.youtubeId || 'YOUTUBE_ID_HERE',
+  })) : lotAreas
+  const displayPillNavSections = displayLotAreas.map((a: any) => ({ id: a.id, label: a.label }))
+  const availabilityStats = cmsData?.availabilityBanner?.stats?.length ? cmsData.availabilityBanner.stats : [
+    { number: '49', label: 'Total Plots' },
+    { number: '8', label: 'Distinct Areas' },
+    { number: '137', label: 'Acres' },
+  ]
+
   const [videoOpen, setVideoOpen] = useState(false)
   const [activeVideoId, setActiveVideoId] = useState('')
 
@@ -174,10 +205,10 @@ export default function LotsSitePlanPage() {
     <>
       {/* ── HERO ── */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85"
-        eyebrow="Explore the Peninsula"
-        title='Lots & <em>Site Plan</em>'
-        subtitle="Discover the exciting opportunities available across eight distinct areas of the Pearns Point peninsula — each with its own character, views, and unique appeal."
+        backgroundImage={heroImage}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
       />
 
       {/* ── SITE MAP ── */}
@@ -195,7 +226,7 @@ export default function LotsSitePlanPage() {
           </p>
           <div className="relative bg-white rounded-[6px] p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-black/[0.04]">
             <img
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80"
+              src={siteMapImage}
               alt="Pearns Point Site Plan — aerial view of peninsula"
               className="w-full h-auto rounded-[4px]"
             />
@@ -207,11 +238,11 @@ export default function LotsSitePlanPage() {
       </section>
 
       {/* ── PILL NAV (sticky) ── */}
-      <ScrollPillNav sections={pillNavSections} />
+      <ScrollPillNav sections={displayPillNavSections} />
 
       {/* ── LOT AREAS ── */}
       <div className="pb-[60px]">
-        {lotAreas.map((area, idx) => (
+        {displayLotAreas.map((area: any, idx: number) => (
           <div key={area.id}>
             {/* Divider */}
             <div className="max-w-content mx-auto px-[60px] max-lg:px-7">
@@ -247,7 +278,7 @@ export default function LotsSitePlanPage() {
 
                     {/* Features */}
                     <div className="flex gap-6 flex-wrap mb-7">
-                      {area.features.map((feat) => (
+                      {area.features.map((feat: any) => (
                         <span key={feat} className="flex items-center gap-2 text-[0.7rem] font-normal text-prose-mid">
                           <span className="w-1.5 h-1.5 rounded-full bg-ocean flex-shrink-0" />
                           {feat}
@@ -281,7 +312,7 @@ export default function LotsSitePlanPage() {
                         style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
                       />
                     </div>
-                    {area.thumbs.map((thumb, ti) => (
+                    {area.thumbs.map((thumb: any, ti: number) => (
                       <div key={ti} className="overflow-hidden rounded-[4px]">
                         <img
                           src={thumb}
@@ -321,13 +352,9 @@ export default function LotsSitePlanPage() {
             variants={staggerItem}
             className="flex justify-center gap-[60px] mb-10 max-sm:flex-col max-sm:gap-6"
           >
-            {[
-              { num: '49', label: 'Total Plots' },
-              { num: '8', label: 'Distinct Areas' },
-              { num: '137', label: 'Acres' },
-            ].map((stat) => (
+            {availabilityStats.map((stat: any) => (
               <div key={stat.label}>
-                <div className="font-display text-[3rem] font-normal text-lagoon leading-none">{stat.num}</div>
+                <div className="font-display text-[3rem] font-normal text-lagoon leading-none">{stat.number}</div>
                 <div className="text-[0.58rem] font-medium tracking-[0.2em] uppercase text-white/40 mt-1.5">
                   {stat.label}
                 </div>

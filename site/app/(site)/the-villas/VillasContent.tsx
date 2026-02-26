@@ -105,15 +105,56 @@ const galleryItems = [
   },
 ]
 
-export default function TheVillasPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function TheVillasPage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Architecture & Design'
+  const heroTitle = cmsData?.heroTitle || 'The <em>Villas</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || 'Signature details and a horizontal design philosophy maximise the spectacular views — offering creative layout possibilities to suit every individual style.'
+
+  // Philosophy
+  const philEyebrow = cmsData?.philosophy?.eyebrow || 'Design Philosophy'
+  const philTitle = cmsData?.philosophy?.title || 'Where Architecture<br>Meets <em class="font-light italic">Paradise</em>'
+  const philBody = cmsData?.philosophy?.body || "Every villa at Pearns Point is designed around a horizontal philosophy \u2014 maximising the spectacular views from every room and providing creative layout possibilities to suit individual ideas and styles, whether modern or classical."
+  const philBody2 = "Effective use of natural elements is paramount. The island\u2019s pervasive trade winds keep indoor temperatures cool, while locally sourced materials ensure each home feels intrinsically connected to its Caribbean surroundings."
+  const philImage = cmsData?.philosophy?.image || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'
+
+  // Showcase image
+  const showcaseImage = cmsData?.showcaseImage || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80'
+
+  // Features
+  const featuresEyebrow = cmsData?.features?.eyebrow || 'Villa Features'
+  const featuresTitle = cmsData?.features?.title || 'Designed for <em class="font-light italic">Durability</em>,<br>Built for Beauty'
+  const featuresSubtitle = cmsData?.features?.subtitle || 'The villas are designed to ensure durability is assured, ecological impact is minimised, and barely any maintenance is required \u2014 so you can focus on living, not upkeep.'
+
+  // Architects
+  const archEyebrow = cmsData?.architects?.eyebrow || 'The Architects'
+  const archTitle = cmsData?.architects?.title || 'World-Class<br><em class="font-light italic">Creative</em> Partners'
+  const archBody = cmsData?.architects?.body || "Homeowners at Pearns Point have the opportunity to work with some of the most celebrated design studios in the world \u2014 or bring their own team, subject to architectural covenants that protect the peninsula\u2019s luxury vision."
+  const archImage = cmsData?.architects?.image || 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'
+  const archPartners = cmsData?.architects?.partners?.length ? cmsData.architects.partners : architectCards
+
+  // Quote
+  const quoteText = cmsData?.quote?.text || 'Signature details and a horizontal design maximise the spectacular views and provide creative layout possibilities to suit individual ideas and styles.'
+
+  // Bespoke
+  const bespokeEyebrow = cmsData?.bespoke?.eyebrow || 'Your Own Vision'
+  const bespokeTitle = cmsData?.bespoke?.title || 'Bring Your Own<br><em class="font-light italic">Design</em> Team'
+  const bespokeBody = cmsData?.bespoke?.body || "While we offer access to internationally celebrated architects, homeowners are also free to engage their own design teams \u2014 subject to certain architectural and building covenants that protect the low-density, luxury character of the peninsula."
+  const bespokeBody2 = "Whether you choose our recommended partners or bring your own vision, the result will be a home uniquely tailored to you \u2014 set within one of the most beautiful landscapes in the Caribbean."
+  const bespokeImage = cmsData?.bespoke?.image || 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c0?w=800&q=80'
+
   return (
     <>
       {/* ── PAGE HERO ── */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=85"
-        eyebrow="Architecture & Design"
-        title='The <em>Villas</em>'
-        subtitle="Signature details and a horizontal design philosophy maximise the spectacular views — offering creative layout possibilities to suit every individual style."
+        backgroundImage={heroImage}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
       />
 
       {/* ── DESIGN PHILOSOPHY ── */}
@@ -121,28 +162,25 @@ export default function TheVillasPage() {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80"
+              src={philImage}
               alt="Villa exterior design"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
           <ScrollReveal>
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              Design Philosophy
+              {philEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Where Architecture<br />Meets <em className="font-light italic">Paradise</em>
-            </h2>
+            <h2
+              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
+              dangerouslySetInnerHTML={{ __html: philTitle }}
+            />
             <GoldRule className="my-7" />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
-              Every villa at Pearns Point is designed around a horizontal philosophy — maximising the
-              spectacular views from every room and providing creative layout possibilities to suit
-              individual ideas and styles, whether modern or classical.
+              {philBody}
             </p>
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
-              Effective use of natural elements is paramount. The island&apos;s pervasive trade winds
-              keep indoor temperatures cool, while locally sourced materials ensure each home feels
-              intrinsically connected to its Caribbean surroundings.
+              {philBody2}
             </p>
           </ScrollReveal>
         </div>
@@ -151,7 +189,7 @@ export default function TheVillasPage() {
       {/* ── FULL-WIDTH SHOWCASE IMAGE ── */}
       <ScrollReveal className="relative overflow-hidden h-[60vh] min-h-[400px]">
         <img
-          src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80"
+          src={showcaseImage}
           alt="Villa interior with ocean view"
           className="w-full h-full object-cover"
         />
@@ -169,14 +207,14 @@ export default function TheVillasPage() {
         <div className="max-w-content mx-auto">
           <ScrollReveal className="text-center mb-[72px]">
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              Villa Features
+              {featuresEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Designed for <em className="font-light italic">Durability</em>,<br />Built for Beauty
-            </h2>
+            <h2
+              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
+              dangerouslySetInnerHTML={{ __html: featuresTitle }}
+            />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto">
-              The villas are designed to ensure durability is assured, ecological impact is minimised,
-              and barely any maintenance is required — so you can focus on living, not upkeep.
+              {featuresSubtitle}
             </p>
           </ScrollReveal>
           <StaggerReveal className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-sm:grid-cols-1">
@@ -193,28 +231,27 @@ export default function TheVillasPage() {
           <div className="grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
             <ScrollReveal>
               <img
-                src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80"
+                src={archImage}
                 alt="Architectural detail"
                 className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
             </ScrollReveal>
             <ScrollReveal>
               <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-                The Architects
+                {archEyebrow}
               </p>
-              <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-                World-Class<br /><em className="font-light italic">Creative</em> Partners
-              </h2>
+              <h2
+                className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
+                dangerouslySetInnerHTML={{ __html: archTitle }}
+              />
               <GoldRule className="my-7" />
               <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
-                Homeowners at Pearns Point have the opportunity to work with some of the most celebrated
-                design studios in the world — or bring their own team, subject to architectural covenants
-                that protect the peninsula&apos;s luxury vision.
+                {archBody}
               </p>
             </ScrollReveal>
           </div>
           <StaggerReveal className="grid grid-cols-3 gap-6 mt-16 max-lg:grid-cols-1">
-            {architectCards.map((card, i) => (
+            {archPartners.map((card: any, i: number) => (
               <ArchitectCard key={i} {...card} />
             ))}
           </StaggerReveal>
@@ -222,7 +259,7 @@ export default function TheVillasPage() {
       </section>
 
       {/* ── QUOTE STRIP ── */}
-      <QuoteStrip text="Signature details and a horizontal design maximise the spectacular views and provide creative layout possibilities to suit individual ideas and styles." />
+      <QuoteStrip text={quoteText} />
 
       {/* ── VILLA GALLERY ── */}
       <section className="py-[140px] px-[60px] max-lg:px-7">
@@ -261,26 +298,23 @@ export default function TheVillasPage() {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
           <ScrollReveal className="order-1">
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              Your Own Vision
+              {bespokeEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Bring Your Own<br /><em className="font-light italic">Design</em> Team
-            </h2>
+            <h2
+              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
+              dangerouslySetInnerHTML={{ __html: bespokeTitle }}
+            />
             <GoldRule className="my-7" />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
-              While we offer access to internationally celebrated architects, homeowners are also free
-              to engage their own design teams — subject to certain architectural and building covenants
-              that protect the low-density, luxury character of the peninsula.
+              {bespokeBody}
             </p>
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
-              Whether you choose our recommended partners or bring your own vision, the result will be
-              a home uniquely tailored to you — set within one of the most beautiful landscapes in the
-              Caribbean.
+              {bespokeBody2}
             </p>
           </ScrollReveal>
           <ScrollReveal className="order-2">
             <img
-              src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c0?w=800&q=80"
+              src={bespokeImage}
               alt="Bespoke villa design"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />

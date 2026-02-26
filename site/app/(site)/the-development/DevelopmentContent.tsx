@@ -81,14 +81,48 @@ const developerHighlights = [
 /* ═══════════════════════════════════════════
    PAGE COMPONENT
 ═══════════════════════════════════════════ */
-export default function TheDevelopmentPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function TheDevelopmentPage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Pearns Point'
+  const heroTitle = cmsData?.heroTitle || 'The <em>Development</em>'
+
+  // Vision
+  const visionEyebrow = cmsData?.vision?.eyebrow || 'The Vision'
+  const visionTitle = cmsData?.vision?.title || 'A Long-Term Vision,<br><em class="italic font-light">Beautifully</em> Realised'
+  const visionBody = cmsData?.vision?.body || "Pearns Point marks the realisation of a long-term vision. Immersed in a bounty of nature, this exclusive development inhabits a beautiful peninsula on Antigua\u2019s west coast. Notable for its spectacular vistas across intimate white-sand beaches and turquoise waters to the islands of Montserrat, Redonda, and St Kitts and Nevis \u2014 Pearns Point is secluded yet conveniently close to the island\u2019s main attractions."
+  const visionMainImage = cmsData?.vision?.images?.[0] || 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80'
+  const visionFloatImage = cmsData?.vision?.floatImage || cmsData?.vision?.images?.[1] || 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&q=80'
+
+  // Project
+  const projectEyebrow = cmsData?.project?.eyebrow || 'The Project'
+  const projectTitle = cmsData?.project?.title || 'Your Perfect Plot,<br>Your <em class="italic font-light">Perfect</em> Home'
+  const projectBody = cmsData?.project?.body || "A spectacular choice of lots are available for sale on this remarkable peninsula. Subject to restrictive covenants that respect the low density, luxury vision for the peninsula, the Developer can also make available experienced design, planning and construction teams to build out your dream villa."
+
+  // Amenities
+  const amenitiesEyebrow = cmsData?.amenities?.eyebrow || "Owners' Facilities"
+  const amenitiesTitle = cmsData?.amenities?.title || 'A Community Built on<br><em class="italic font-light">Luxury</em> &amp; Lifestyle'
+
+  // Quote
+  const quoteText = cmsData?.quote?.text || "A luxurious sanctuary that respects the rich local inheritance and culture of Antigua — ecologically sensitive and financially exceptional."
+
+  // Developer
+  const devEyebrow = cmsData?.developer?.eyebrow || 'The Developer'
+  const devTitle = cmsData?.developer?.title || 'Orange <em class="italic font-light">Limited</em>'
+  const devBody = cmsData?.developer?.body || "Pearns Point is owned by luxury property developers Orange Limited, led by Dutch entrepreneur Albert Hartog and his partners. Together, they have been creating one of the most exclusive projects in the Caribbean \u2014 a luxurious sanctuary that respects the rich local inheritance and culture of Antigua, while protecting local ecosystems in a sustainable way."
+  const devImage = cmsData?.developer?.image || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80'
+  const devHighlights = cmsData?.developer?.highlights?.length ? cmsData.developer.highlights : developerHighlights
+
   return (
     <>
       {/* ─── PAGE HERO ─── */}
       <PageHero
-        eyebrow="Pearns Point"
-        title='The <em>Development</em>'
-        backgroundImage="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1920&q=85"
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        backgroundImage={heroImage}
       />
 
       {/* ═══════════════════════════════════════════
@@ -100,12 +134,12 @@ export default function TheDevelopmentPage() {
           <ScrollReveal>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80"
+                src={visionMainImage}
                 alt="Peninsula aerial view"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
               <img
-                src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&q=80"
+                src={visionFloatImage}
                 alt="White sand beach"
                 className="absolute -bottom-[30px] -right-[40px] w-1/2 aspect-square object-cover rounded-[4px] border-[5px] border-cream shadow-[0_16px_40px_rgba(0,0,0,0.1)] max-lg:hidden"
               />
@@ -118,16 +152,13 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              The Vision
+              {visionEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              A Long-Term Vision,
-              <br />
-              <em className="italic font-light">Beautifully</em> Realised
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: visionTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule />
             </motion.div>
@@ -135,12 +166,7 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
-              Pearns Point marks the realisation of a long-term vision. Immersed in a bounty
-              of nature, this exclusive development inhabits a beautiful peninsula on
-              Antigua&apos;s west coast. Notable for its spectacular vistas across intimate
-              white-sand beaches and turquoise waters to the islands of Montserrat, Redonda,
-              and St Kitts and Nevis — Pearns Point is secluded yet conveniently close to
-              the island&apos;s main attractions.
+              {visionBody}
             </motion.p>
           </StaggerReveal>
         </div>
@@ -157,16 +183,13 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              The Project
+              {projectEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              Your Perfect Plot,
-              <br />
-              Your <em className="italic font-light">Perfect</em> Home
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: projectTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule />
             </motion.div>
@@ -174,10 +197,7 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
-              A spectacular choice of lots are available for sale on this remarkable
-              peninsula. Subject to restrictive covenants that respect the low density, luxury
-              vision for the peninsula, the Developer can also make available experienced
-              design, planning and construction teams to build out your dream villa.
+              {projectBody}
             </motion.p>
             <motion.div
               variants={staggerItem}
@@ -220,16 +240,13 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Owners&apos; Facilities
+              {amenitiesEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              A Community Built on
-              <br />
-              <em className="italic font-light">Luxury</em> &amp; Lifestyle
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: amenitiesTitle }}
+            />
             <motion.p
               variants={staggerItem}
               className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
@@ -265,7 +282,7 @@ export default function TheDevelopmentPage() {
           QUOTE STRIP
       ═══════════════════════════════════════════ */}
       <QuoteStrip
-        text="A luxurious sanctuary that respects the rich local inheritance and culture of Antigua — ecologically sensitive and financially exceptional."
+        text={quoteText}
       />
 
       {/* ═══════════════════════════════════════════
@@ -276,7 +293,7 @@ export default function TheDevelopmentPage() {
           {/* Image */}
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80"
+              src={devImage}
               alt="Luxury development"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
@@ -288,14 +305,13 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              The Developer
+              {devEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              Orange <em className="italic font-light">Limited</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: devTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule />
             </motion.div>
@@ -303,11 +319,7 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
-              Pearns Point is owned by luxury property developers Orange Limited, led by
-              Dutch entrepreneur Albert Hartog and his partners. Together, they have been
-              creating one of the most exclusive projects in the Caribbean — a luxurious
-              sanctuary that respects the rich local inheritance and culture of Antigua, while
-              protecting local ecosystems in a sustainable way.
+              {devBody}
             </motion.p>
 
             {/* Developer Highlights */}
@@ -315,7 +327,7 @@ export default function TheDevelopmentPage() {
               variants={staggerItem}
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10"
             >
-              {developerHighlights.map((highlight) => (
+              {devHighlights.map((highlight: any) => (
                 <div
                   key={highlight.title}
                   className="pt-5 border-t-2 border-sand"

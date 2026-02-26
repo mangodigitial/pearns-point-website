@@ -99,15 +99,78 @@ const experiences = [
 
 /* ─── Page ─── */
 
-export default function TheAntiguaExperiencePage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function TheAntiguaExperiencePage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Island Life'
+  const heroTitle = cmsData?.heroTitle || 'The Antigua <em>Experience</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || 'A Caribbean island of extraordinary natural beauty, rich culture, and world-class amenities \u2014 where every day feels like a holiday.'
+
+  // Intro
+  const introEyebrow = cmsData?.intro?.eyebrow || 'Discover Antigua'
+  const introTitle = cmsData?.intro?.title || 'A Beach for<br>Every Day of <em class="font-light italic">the Year</em>'
+  const introBody = cmsData?.intro?.body || null  // if null, keep hardcoded paragraphs
+  const introImage = cmsData?.intro?.image || 'https://images.unsplash.com/photo-1509233725247-49e657c54213?w=800&q=80'
+  const introBadgeNumber = cmsData?.intro?.badgeNumber || '365'
+  const introBadgeLabel = cmsData?.intro?.badgeLabel || 'Beaches'
+
+  // Stats
+  const displayStats = cmsData?.stats?.length ? cmsData.stats.map((s: any) => ({
+    num: s.number || '',
+    suffix: s.suffix || '',
+    label: s.label || '',
+  })) : stats
+
+  // Lifestyle
+  const lifestyleEyebrow = cmsData?.lifestyle?.eyebrow || 'Island Lifestyle'
+  const lifestyleTitle = cmsData?.lifestyle?.title || 'More Than<br>a <em class="font-light italic">Destination</em>'
+  const lifestyleSubtitle = cmsData?.lifestyle?.subtitle || 'From world-class sailing regattas to sunset dining on the harbour, Antigua offers a lifestyle that blends Caribbean ease with international sophistication.'
+  const displayLifestyleCards = cmsData?.lifestyle?.cards?.length ? cmsData.lifestyle.cards : lifestyleCards
+
+  // Quote
+  const quoteText = cmsData?.quote?.text || 'Antigua is a place where the pace of life slows, the sunsets never disappoint, and the sea is always just a few steps away.'
+
+  // Getting Here
+  const ghEyebrow = cmsData?.gettingHere?.eyebrow || 'Connectivity'
+  const ghTitle = cmsData?.gettingHere?.title || 'Easy to Reach,<br>Hard to <em class="font-light italic">Leave</em>'
+  const ghBody = cmsData?.gettingHere?.body || null
+  const ghImage = cmsData?.gettingHere?.image || 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=800&q=80'
+  const displayFlights = cmsData?.gettingHere?.flights?.length ? cmsData.gettingHere.flights.map((f: any) => ({
+    city: f.city || '',
+    detail: f.duration || '',
+  })) : flightRoutes
+
+  // Climate
+  const climateEyebrow = cmsData?.climate?.eyebrow || 'Year-Round Sunshine'
+  const climateTitle = cmsData?.climate?.title || 'The Perfect<br><em class="font-light italic">Climate</em>'
+  const climateBody = cmsData?.climate?.body || null
+  const climateImage = cmsData?.climate?.image || 'https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80'
+  const displayMonths = cmsData?.climate?.months?.length ? cmsData.climate.months.map((m: any) => ({
+    name: m.name || '',
+    temp: m.temp || 0,
+  })) : climateMonths
+
+  // Experiences
+  const displayExperiences = cmsData?.experiences?.length ? cmsData.experiences.map((e: any) => ({
+    image: e.image || '',
+    alt: e.title || '',
+    title: e.title?.split(' & ')?.[0] || e.title || '',
+    titleItalic: e.title?.split(' & ')?.[1] || '',
+    text: e.description || '',
+    tags: e.tags || [],
+  })) : experiences
+
   return (
     <>
       {/* HERO */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1548574505-5e239809ee19?w=1920&q=85"
-        eyebrow="Island Life"
-        title='The Antigua <em>Experience</em>'
-        subtitle="A Caribbean island of extraordinary natural beauty, rich culture, and world-class amenities \u2014 where every day feels like a holiday."
+        backgroundImage={heroImage}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
       />
 
       {/* ═══ ISLAND INTRO ═══ */}
@@ -117,17 +180,17 @@ export default function TheAntiguaExperiencePage() {
           <ScrollReveal>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1509233725247-49e657c54213?w=800&q=80"
+                src={introImage}
                 alt="Antigua beach with palms"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
               {/* 365 badge */}
               <div className="absolute -bottom-6 -right-6 w-[130px] h-[130px] rounded-full bg-ocean flex flex-col items-center justify-center shadow-[0_12px_40px_rgba(26,122,138,0.3)] max-sm:w-[100px] max-sm:h-[100px] max-sm:-bottom-4 max-sm:-right-2">
                 <span className="font-display text-[2.2rem] font-light text-white leading-none max-sm:text-[1.6rem]">
-                  365
+                  {introBadgeNumber}
                 </span>
                 <span className="text-[0.5rem] font-semibold tracking-[0.2em] uppercase text-white/75 mt-1">
-                  Beaches
+                  {introBadgeLabel}
                 </span>
               </div>
             </div>
@@ -139,36 +202,44 @@ export default function TheAntiguaExperiencePage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Discover Antigua
+              {introEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              A Beach for<br />Every Day of{' '}
-              <em className="font-light italic">the Year</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: introTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule className="my-7" />
             </motion.div>
-            <motion.p
-              variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
-            >
-              Antigua is famed for its 365 beaches &mdash; one for every day of
-              the year. But beyond the powder-white sands and turquoise waters
-              lies a vibrant island of English Harbour history, world-class
-              sailing, exceptional dining, and a warm, welcoming culture.
-            </motion.p>
-            <motion.p
-              variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
-            >
-              With year-round sunshine, a stable economy, English-speaking
-              population, and excellent international connectivity, Antigua has
-              become one of the most desirable addresses in the Caribbean for
-              discerning investors and families alike.
-            </motion.p>
+            {introBody ? (
+              <motion.div
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                dangerouslySetInnerHTML={{ __html: introBody }}
+              />
+            ) : (
+              <>
+                <motion.p
+                  variants={staggerItem}
+                  className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                >
+                  Antigua is famed for its 365 beaches &mdash; one for every day of
+                  the year. But beyond the powder-white sands and turquoise waters
+                  lies a vibrant island of English Harbour history, world-class
+                  sailing, exceptional dining, and a warm, welcoming culture.
+                </motion.p>
+                <motion.p
+                  variants={staggerItem}
+                  className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
+                >
+                  With year-round sunshine, a stable economy, English-speaking
+                  population, and excellent international connectivity, Antigua has
+                  become one of the most desirable addresses in the Caribbean for
+                  discerning investors and families alike.
+                </motion.p>
+              </>
+            )}
           </StaggerReveal>
         </div>
       </section>
@@ -176,7 +247,7 @@ export default function TheAntiguaExperiencePage() {
       {/* ═══ STATS BAND ═══ */}
       <ScrollReveal>
         <section className="py-20 px-[60px] max-lg:px-7 bg-navy flex justify-center gap-20 flex-wrap max-sm:gap-7">
-          {stats.map((stat, i) => (
+          {displayStats.map((stat: any, i: number) => (
             <div key={i} className="text-center">
               <div className="font-display text-[clamp(2.4rem,4vw,3.6rem)] font-light text-white leading-none">
                 {stat.num}
@@ -200,27 +271,23 @@ export default function TheAntiguaExperiencePage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Island Lifestyle
+              {lifestyleEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              More Than<br />a{' '}
-              <em className="font-light italic">Destination</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: lifestyleTitle }}
+            />
             <motion.p
               variants={staggerItem}
               className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
             >
-              From world-class sailing regattas to sunset dining on the harbour,
-              Antigua offers a lifestyle that blends Caribbean ease with
-              international sophistication.
+              {lifestyleSubtitle}
             </motion.p>
           </StaggerReveal>
 
           <StaggerReveal className="grid grid-cols-2 gap-4 max-lg:grid-cols-1">
-            {lifestyleCards.map((card, i) => (
+            {displayLifestyleCards.map((card: any, i: number) => (
               <motion.div key={i} variants={staggerItem}>
                 <LifestyleCard
                   image={card.image}
@@ -235,7 +302,7 @@ export default function TheAntiguaExperiencePage() {
       </section>
 
       {/* ═══ QUOTE ═══ */}
-      <QuoteStrip text="Antigua is a place where the pace of life slows, the sunsets never disappoint, and the sea is always just a few steps away." />
+      <QuoteStrip text={quoteText} />
 
       {/* ═══ GETTING HERE ═══ */}
       <section className="py-[140px] px-[60px] max-lg:px-7 bg-white">
@@ -246,33 +313,39 @@ export default function TheAntiguaExperiencePage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Connectivity
+              {ghEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              Easy to Reach,<br />Hard to{' '}
-              <em className="font-light italic">Leave</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: ghTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule className="my-7" />
             </motion.div>
-            <motion.p
-              variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
-            >
-              V.C. Bird International Airport connects Antigua to major cities
-              across Europe, North America, and the Caribbean &mdash; with
-              direct flights from London, New York, Miami, Toronto, and beyond.
-            </motion.p>
+            {ghBody ? (
+              <motion.div
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                dangerouslySetInnerHTML={{ __html: ghBody }}
+              />
+            ) : (
+              <motion.p
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              >
+                V.C. Bird International Airport connects Antigua to major cities
+                across Europe, North America, and the Caribbean &mdash; with
+                direct flights from London, New York, Miami, Toronto, and beyond.
+              </motion.p>
+            )}
 
             {/* Flight routes */}
             <motion.div
               variants={staggerItem}
               className="flex flex-col gap-4 mt-8"
             >
-              {flightRoutes.map((route, i) => (
+              {displayFlights.map((route: any, i: number) => (
                 <FlightRouteCard key={i} {...route} />
               ))}
             </motion.div>
@@ -281,7 +354,7 @@ export default function TheAntiguaExperiencePage() {
           {/* Image */}
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=800&q=80"
+              src={ghImage}
               alt="Aerial view of island coastline"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
@@ -295,7 +368,7 @@ export default function TheAntiguaExperiencePage() {
           {/* Image */}
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80"
+              src={climateImage}
               alt="Caribbean sunset"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
@@ -307,34 +380,40 @@ export default function TheAntiguaExperiencePage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Year-Round Sunshine
+              {climateEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              The Perfect<br />
-              <em className="font-light italic">Climate</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: climateTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule className="my-7" />
             </motion.div>
-            <motion.p
-              variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
-            >
-              Antigua enjoys one of the sunniest, driest climates in the Eastern
-              Caribbean. Cooled by the north-east trade winds, temperatures
-              remain comfortable year-round &mdash; perfect for outdoor living
-              every single day.
-            </motion.p>
+            {climateBody ? (
+              <motion.div
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                dangerouslySetInnerHTML={{ __html: climateBody }}
+              />
+            ) : (
+              <motion.p
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              >
+                Antigua enjoys one of the sunniest, driest climates in the Eastern
+                Caribbean. Cooled by the north-east trade winds, temperatures
+                remain comfortable year-round &mdash; perfect for outdoor living
+                every single day.
+              </motion.p>
+            )}
 
             {/* 12-month grid */}
             <motion.div
               variants={staggerItem}
               className="grid grid-cols-4 gap-3 mt-9 max-sm:grid-cols-3"
             >
-              {climateMonths.map((m, i) => (
+              {displayMonths.map((m: any, i: number) => (
                 <div
                   key={i}
                   className="text-center py-4 px-2 bg-white rounded-[4px] border border-black/[0.04]"
@@ -380,7 +459,7 @@ export default function TheAntiguaExperiencePage() {
         </StaggerReveal>
 
         {/* Alternating rows */}
-        {experiences.map((exp, i) => {
+        {displayExperiences.map((exp: any, i: number) => {
           const isEven = i % 2 === 1
           return (
             <ScrollReveal
@@ -406,7 +485,7 @@ export default function TheAntiguaExperiencePage() {
                   {exp.text}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-5">
-                  {exp.tags.map((tag, t) => (
+                  {exp.tags.map((tag: string, t: number) => (
                     <span
                       key={t}
                       className="text-[0.58rem] font-medium tracking-[0.12em] uppercase py-1.5 px-4 bg-ocean/[0.06] text-ocean rounded-[2px] border border-ocean/[0.12]"

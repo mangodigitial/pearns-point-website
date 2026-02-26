@@ -141,7 +141,33 @@ const galleryImages = [
 
 const categories = ['Aerial', 'Beaches', 'Villas', 'Lifestyle', 'Landscape']
 
-export default function GalleryPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function GalleryPage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Pearns Point'
+  const heroTitle = cmsData?.heroTitle || 'The <em>Gallery</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || 'Explore the breathtaking beauty of Pearns Point — from aerial views of the peninsula to intimate glimpses of island life.'
+
+  // Gallery data
+  const displayCategories = cmsData?.categories?.length ? cmsData.categories : categories
+  const displayImages = cmsData?.images?.length ? cmsData.images.map((img: any) => ({
+    src: img.image || '',
+    srcLarge: img.image || '',
+    title: img.title || '',
+    category: img.category || '',
+    alt: img.title || '',
+  })) : galleryImages
+
+  // Video section
+  const videoEyebrow = cmsData?.videoSection?.eyebrow || 'Aerial Tour'
+  const videoTitle = cmsData?.videoSection?.title || 'See Pearns Point<br>From <em class="font-light italic">Above</em>'
+  const videoDesc = cmsData?.videoSection?.description || 'Experience the scale and beauty of the peninsula with our drone flyover — showcasing the seven beaches, tropical landscape, and breathtaking coastline.'
+  const videoThumbnail = cmsData?.videoSection?.thumbnailImage || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1200&q=80'
+  const videoYoutubeId = cmsData?.videoSection?.youtubeId || 'YOUTUBE_ID_HERE'
+
   const [activeCategory, setActiveCategory] = useState('All')
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
@@ -151,13 +177,13 @@ export default function GalleryPage() {
   const filtered = useMemo(
     () =>
       activeCategory === 'All'
-        ? galleryImages
-        : galleryImages.filter((img) => img.category === activeCategory),
-    [activeCategory]
+        ? displayImages
+        : displayImages.filter((img: any) => img.category === activeCategory),
+    [activeCategory, displayImages]
   )
 
   /* Lightbox images mapped for the LightboxModal component */
-  const lightboxImages = filtered.map((img) => ({
+  const lightboxImages = filtered.map((img: any) => ({
     src: img.srcLarge,
     title: img.title,
     category: img.category,
@@ -178,25 +204,25 @@ export default function GalleryPage() {
 
   /* Category counts for FilterPills */
   const counts: Record<string, number> = {}
-  categories.forEach((cat) => {
-    counts[cat] = galleryImages.filter((img) => img.category === cat).length
+  displayCategories.forEach((cat: string) => {
+    counts[cat] = displayImages.filter((img: any) => img.category === cat).length
   })
 
   return (
     <>
       {/* ── HERO ── */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85"
-        eyebrow="Pearns Point"
-        title='The <em>Gallery</em>'
-        subtitle="Explore the breathtaking beauty of Pearns Point — from aerial views of the peninsula to intimate glimpses of island life."
+        backgroundImage={heroImage}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
       />
 
       {/* ── FILTER CONTROLS ── */}
       <section className="pt-[80px] px-[60px] max-lg:px-7">
         <ScrollReveal className="max-w-content mx-auto flex items-center justify-between flex-wrap gap-5 mb-12">
           <FilterPills
-            categories={categories}
+            categories={displayCategories}
             activeCategory={activeCategory}
             onSelect={setActiveCategory}
             counts={counts}
@@ -211,7 +237,7 @@ export default function GalleryPage() {
       <section className="max-w-content mx-auto px-[60px] max-lg:px-7 pb-[140px]">
         <div className="columns-3 gap-4 max-lg:columns-2 max-sm:columns-1">
           <AnimatePresence mode="popLayout">
-            {filtered.map((img, idx) => (
+            {filtered.map((img: any, idx: number) => (
               <motion.div
                 key={img.src}
                 layout
@@ -246,16 +272,14 @@ export default function GalleryPage() {
       <section className="py-[120px] px-[60px] max-lg:px-7 max-lg:py-20 bg-white text-center">
         <ScrollReveal className="max-w-[800px] mx-auto">
           <p className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-            Aerial Tour
+            {videoEyebrow}
           </p>
-          <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-            See Pearns Point
-            <br />
-            From <em className="font-light italic">Above</em>
-          </h2>
+          <h2
+            className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
+            dangerouslySetInnerHTML={{ __html: videoTitle }}
+          />
           <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[520px] mx-auto">
-            Experience the scale and beauty of the peninsula with our drone flyover — showcasing the seven beaches,
-            tropical landscape, and breathtaking coastline.
+            {videoDesc}
           </p>
 
           {/* Video thumbnail */}
@@ -264,7 +288,7 @@ export default function GalleryPage() {
             onClick={() => setVideoOpen(true)}
           >
             <img
-              src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1200&q=80"
+              src={videoThumbnail}
               alt="Aerial video thumbnail"
               className="w-full block transition-transform duration-[1200ms] group-hover:scale-[1.06]"
               style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
@@ -298,7 +322,7 @@ export default function GalleryPage() {
 
       {/* ── VIDEO MODAL ── */}
       <VideoModal
-        youtubeId="YOUTUBE_ID_HERE"
+        youtubeId={videoYoutubeId}
         isOpen={videoOpen}
         onClose={() => setVideoOpen(false)}
       />

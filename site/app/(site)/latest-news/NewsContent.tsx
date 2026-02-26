@@ -126,37 +126,94 @@ const articles = [
   },
 ]
 
+/* ─── helpers ─── */
+
+function formatDate(dateStr: string): string {
+  try {
+    const d = new Date(dateStr)
+    return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+  } catch {
+    return dateStr
+  }
+}
+
+function mapCmsPost(post: Record<string, any>) {
+  return {
+    slug: post.slug?.current || post.slug || '',
+    title: post.title || '',
+    excerpt: post.excerpt || '',
+    category: post.category || '',
+    categoryLabel: post.category || '',
+    date: post.publishedAt ? formatDate(post.publishedAt) : '',
+    image: post.heroImage || '',
+  }
+}
+
 /* ─── page ─── */
 
-export default function LatestNewsPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+  cmsPosts?: any[] | null
+}
+
+export default function LatestNewsPage({ cmsData, cmsPosts }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Pearns Point'
+  const heroTitle = cmsData?.heroTitle || 'Latest <em>News</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || 'Updates from the development, island events, and insights into life at Pearns Point.'
+
+  // Use CMS posts if available, else fallback
+  const displayArticles = cmsPosts?.length
+    ? cmsPosts.map(mapCmsPost)
+    : articles
+
+  // Use CMS featured post if available
+  const displayFeatured = cmsData?.featuredPost
+    ? {
+        slug: cmsData.featuredPost.slug?.current || cmsData.featuredPost.slug || featuredArticle.slug,
+        title: cmsData.featuredPost.title || featuredArticle.title,
+        titleHtml: cmsData.featuredPost.title ? (
+          <>{cmsData.featuredPost.title}</>
+        ) : featuredArticle.titleHtml,
+        excerpt: cmsData.featuredPost.excerpt || featuredArticle.excerpt,
+        category: cmsData.featuredPost.category || featuredArticle.category,
+        date: cmsData.featuredPost.publishedAt
+          ? formatDate(cmsData.featuredPost.publishedAt)
+          : featuredArticle.date,
+        image: cmsData.featuredPost.heroImage || featuredArticle.image,
+      }
+    : featuredArticle
+
+  const displayCategories = cmsData?.categories?.length ? cmsData.categories : categories
+
   const [activeFilter, setActiveFilter] = useState('All')
 
   const filteredArticles =
     activeFilter === 'All'
-      ? articles
-      : articles.filter((a) => a.categoryLabel === activeFilter)
+      ? displayArticles
+      : displayArticles.filter((a) => a.categoryLabel === activeFilter)
 
   return (
     <>
       {/* ── Hero ── */}
       <PageHero
-        eyebrow="Pearns Point"
-        title='Latest <em>News</em>'
-        subtitle="Updates from the development, island events, and insights into life at Pearns Point."
-        backgroundImage="https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=1920&q=85"
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        backgroundImage={heroImage}
         heightClass="h-[55vh] min-h-[400px]"
       />
 
       {/* ── Featured Article ── */}
       <section className="pt-20 px-[60px] max-lg:px-7 max-w-content mx-auto">
         <ScrollReveal>
-          <Link href={`/news/${featuredArticle.slug}`} className="group">
+          <Link href={`/news/${displayFeatured.slug}`} className="group">
             <div className="grid grid-cols-[1.1fr_1fr] max-lg:grid-cols-1 rounded overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.06)] transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(0,0,0,0.09)]">
               {/* Image */}
               <div className="relative overflow-hidden">
                 <img
-                  src={featuredArticle.image}
-                  alt={featuredArticle.title}
+                  src={displayFeatured.image}
+                  alt={displayFeatured.title}
                   className="w-full h-full object-cover min-h-[400px] max-lg:min-h-[280px] transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.04]"
                 />
                 <span className="absolute top-6 left-6 px-4 py-1.5 bg-ocean text-[0.52rem] font-semibold tracking-[0.2em] uppercase text-white rounded-sm">
@@ -167,14 +224,14 @@ export default function LatestNewsPage() {
               {/* Body */}
               <div className="px-[52px] py-14 max-lg:px-8 max-lg:py-9 flex flex-col justify-center">
                 <div className="text-[0.6rem] font-medium tracking-[0.15em] uppercase text-prose-light mb-4">
-                  <span className="text-ocean">{featuredArticle.category}</span>{' '}
-                  &nbsp;&middot;&nbsp; {featuredArticle.date}
+                  <span className="text-ocean">{displayFeatured.category}</span>{' '}
+                  &nbsp;&middot;&nbsp; {displayFeatured.date}
                 </div>
                 <h2 className="font-display text-[clamp(1.5rem,2.5vw,2rem)] font-normal text-navy leading-[1.3] mb-4">
-                  {featuredArticle.titleHtml}
+                  {displayFeatured.titleHtml}
                 </h2>
                 <p className="text-[0.84rem] font-light leading-[1.8] text-prose-mid mb-7">
-                  {featuredArticle.excerpt}
+                  {displayFeatured.excerpt}
                 </p>
                 <span className="inline-flex items-center gap-2.5 text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-ocean transition-[gap] duration-300 group-hover:gap-4">
                   Read Article
@@ -195,7 +252,7 @@ export default function LatestNewsPage() {
       {/* ── Filter Bar ── */}
       <div className="pt-20 max-lg:pt-[60px] px-[60px] max-lg:px-7 max-w-content mx-auto flex items-center justify-between flex-wrap gap-4 border-b border-sand pb-6 mb-12">
         <FilterPills
-          categories={categories}
+          categories={displayCategories}
           activeCategory={activeFilter}
           onSelect={setActiveFilter}
         />

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { client, isSanityConfigured } from '@/lib/sanity'
+import { client, isSanityConfigured, fetchPage } from '@/lib/sanity'
 import { blogPostQuery, blogPostSlugsQuery } from '@/lib/queries'
 import BlogPostContent from './BlogPostContent'
 
@@ -26,17 +26,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  if (isSanityConfigured && client) {
-    try {
-      const post = await client.fetch(blogPostQuery, { slug })
-      if (post?.title) {
-        return {
-          title: `${post.title} — Pearns Point`,
-          description: post.excerpt || undefined,
-        }
-      }
-    } catch {
-      // Sanity fetch failed
+  const post = await fetchPage<Record<string, any>>(blogPostQuery, { slug })
+  if (post?.title) {
+    return {
+      title: `${post.title} — Pearns Point`,
+      description: post.excerpt || undefined,
     }
   }
   return {
@@ -87,13 +81,53 @@ const fallbackRelated = [
   },
 ]
 
+/* ─── helpers ─── */
+function formatDate(dateStr: string): string {
+  try {
+    const d = new Date(dateStr)
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+  } catch {
+    return dateStr
+  }
+}
+
+function mapCmsPost(cmsPost: Record<string, any>) {
+  return {
+    title: cmsPost.title || fallbackPost.title,
+    titleHtml: cmsPost.title || fallbackPost.titleHtml,
+    category: cmsPost.category || fallbackPost.category,
+    date: cmsPost.publishedAt ? formatDate(cmsPost.publishedAt) : fallbackPost.date,
+    readTime: cmsPost.readTime ? `${cmsPost.readTime} min read` : fallbackPost.readTime,
+    author: cmsPost.author?.name || fallbackPost.author,
+    heroImage: cmsPost.heroImage || fallbackPost.heroImage,
+    tags: cmsPost.tags || fallbackPost.tags,
+    body: cmsPost.body || null,
+  }
+}
+
+function mapRelated(posts: any[]) {
+  return posts.map((p: any) => ({
+    slug: p.slug?.current || p.slug || '',
+    title: p.title || '',
+    category: p.category || '',
+    date: p.publishedAt ? formatDate(p.publishedAt) : '',
+    image: p.heroImage || '',
+  }))
+}
+
 /* ─── Page (server component) ─── */
-export default async function BlogPostPage() {
-  // Once Sanity is configured, fetch real data here:
-  // const post = await client.fetch(blogPostQuery, { slug })
-  // For now, use fallback data
-  const post = fallbackPost
-  const relatedArticles = fallbackRelated
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const cmsPost = await fetchPage<Record<string, any>>(blogPostQuery, { slug })
+
+  const post = cmsPost ? mapCmsPost(cmsPost) : fallbackPost
+  const relatedArticles = cmsPost?.relatedPosts?.length
+    ? mapRelated(cmsPost.relatedPosts)
+    : fallbackRelated
 
   return <BlogPostContent post={post} relatedArticles={relatedArticles} />
 }

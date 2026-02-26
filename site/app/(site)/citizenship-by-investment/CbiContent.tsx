@@ -146,15 +146,70 @@ function CheckIcon() {
 
 /* ─── Page ─── */
 
-export default function CitizenshipByInvestmentPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Second Citizenship'
+  const heroTitle = cmsData?.heroTitle || 'Citizenship by <em>Investment</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || "Antigua & Barbuda\u2019s CBI programme offers one of the most respected and efficient routes to second citizenship through qualifying real estate investment."
+
+  // Intro
+  const introEyebrow = cmsData?.intro?.eyebrow || 'The Programme'
+  const introTitle = cmsData?.intro?.title || 'A Pathway to<br><em class="font-light italic">Global</em> Freedom'
+  const introImage = cmsData?.intro?.image || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80'
+
+  // Benefits
+  const benefitsEyebrow = cmsData?.benefits?.eyebrow || 'Key Benefits'
+  const benefitsTitle = cmsData?.benefits?.title || 'Why Antigua <em class="font-light italic">Citizenship?</em>'
+  const benefitsSubtitle = cmsData?.benefits?.subtitle || "Antigua\u2019s CBI programme is one of the longest-established and most respected in the Caribbean, offering a compelling combination of lifestyle, mobility, and financial advantages."
+  const displayBenefitCards = cmsData?.benefits?.cards?.length ? cmsData.benefits.cards.map((c: any) => ({
+    icon: c.iconSvg || '',
+    title: c.title || '',
+    description: c.description || '',
+  })) : benefitCards
+
+  // Passport
+  const passportEyebrow = cmsData?.passport?.eyebrow || 'Global Mobility'
+  const passportTitle = cmsData?.passport?.title || 'Your Passport to<br>the <em class="font-light italic">World</em>'
+  const passportBody = cmsData?.passport?.body || null
+  const passportImage = cmsData?.passport?.image || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80'
+  const displayPassportStats = cmsData?.passport?.stats?.length ? cmsData.passport.stats.map((s: any) => ({
+    num: s.value || '',
+    suffix: '',
+    label: s.label || '',
+  })) : passportStats
+
+  // Process
+  const displayProcess = cmsData?.process?.length ? cmsData.process.map((s: any) => ({
+    step: `Step ${String(s.stepNumber || 0).padStart(2, '0')}`,
+    title: s.title || '',
+    text: s.description || '',
+    duration: s.duration || null,
+  })) : timelineSteps
+
+  // Qualifies
+  const qualifiesEyebrow = cmsData?.qualifies?.eyebrow || 'Government Approved'
+  const qualifiesTitle = cmsData?.qualifies?.title || 'Pearns Point is a<br>CBI <em class="font-light italic text-lagoon">Qualifying</em> Development'
+  const qualifiesBody = cmsData?.qualifies?.body || null
+  const displayQualifiesFeatures = cmsData?.qualifies?.features?.length ? cmsData.qualifies.features : qualifiesFeatures
+
+  // Quote
+  const quoteText = cmsData?.quote?.text || 'Invest in an extraordinary Caribbean lifestyle \u2014 and gain the freedom of global citizenship for you and your family.'
+
+  // FAQ
+  const displayFaq = cmsData?.faq?.length ? cmsData.faq : faqItems
+
   return (
     <>
       {/* HERO */}
       <PageHero
-        backgroundImage="https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1920&q=85"
-        eyebrow="Second Citizenship"
-        title='Citizenship by <em>Investment</em>'
-        subtitle="Antigua & Barbuda\u2019s CBI programme offers one of the most respected and efficient routes to second citizenship through qualifying real estate investment."
+        backgroundImage={heroImage}
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
       />
 
       {/* ═══ CBI INTRO ═══ */}
@@ -164,7 +219,7 @@ export default function CitizenshipByInvestmentPage() {
           <ScrollReveal>
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80"
+                src={introImage}
                 alt="Antigua coastline"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
@@ -183,15 +238,13 @@ export default function CitizenshipByInvestmentPage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              The Programme
+              {introEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              A Pathway to<br />
-              <em className="font-light italic">Global</em> Freedom
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: introTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule className="my-7" />
             </motion.div>
@@ -225,27 +278,23 @@ export default function CitizenshipByInvestmentPage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Key Benefits
+              {benefitsEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              Why Antigua{' '}
-              <em className="font-light italic">Citizenship?</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: benefitsTitle }}
+            />
             <motion.p
               variants={staggerItem}
               className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
             >
-              Antigua&apos;s CBI programme is one of the longest-established and
-              most respected in the Caribbean, offering a compelling combination
-              of lifestyle, mobility, and financial advantages.
+              {benefitsSubtitle}
             </motion.p>
           </StaggerReveal>
 
           <StaggerReveal className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-sm:grid-cols-1">
-            {benefitCards.map((card, i) => (
+            {displayBenefitCards.map((card: any, i: number) => (
               <FeatureCard key={i} {...card} />
             ))}
           </StaggerReveal>
@@ -261,33 +310,39 @@ export default function CitizenshipByInvestmentPage() {
               variants={staggerItem}
               className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
             >
-              Global Mobility
+              {passportEyebrow}
             </motion.p>
             <motion.h2
               variants={staggerItem}
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-            >
-              Your Passport to<br />the{' '}
-              <em className="font-light italic">World</em>
-            </motion.h2>
+              dangerouslySetInnerHTML={{ __html: passportTitle }}
+            />
             <motion.div variants={staggerItem}>
               <GoldRule className="my-7" />
             </motion.div>
-            <motion.p
-              variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
-            >
-              An Antigua &amp; Barbuda passport is one of the strongest in the
-              Caribbean, offering extensive visa-free access to major business
-              and leisure destinations worldwide.
-            </motion.p>
+            {passportBody ? (
+              <motion.div
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                dangerouslySetInnerHTML={{ __html: passportBody }}
+              />
+            ) : (
+              <motion.p
+                variants={staggerItem}
+                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              >
+                An Antigua &amp; Barbuda passport is one of the strongest in the
+                Caribbean, offering extensive visa-free access to major business
+                and leisure destinations worldwide.
+              </motion.p>
+            )}
 
             {/* Stat boxes */}
             <motion.div
               variants={staggerItem}
               className="grid grid-cols-2 gap-5 mt-9"
             >
-              {passportStats.map((stat, i) => (
+              {displayPassportStats.map((stat: any, i: number) => (
                 <div
                   key={i}
                   className="text-center p-6 bg-white rounded-[4px] border border-black/[0.04]"
@@ -309,7 +364,7 @@ export default function CitizenshipByInvestmentPage() {
           {/* Image */}
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80"
+              src={passportImage}
               alt="Global travel"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
@@ -354,12 +409,12 @@ export default function CitizenshipByInvestmentPage() {
               }}
             />
 
-            {timelineSteps.map((step, i) => (
+            {displayProcess.map((step: any, i: number) => (
               <motion.div
                 key={i}
                 variants={staggerItem}
                 className={`relative pl-[88px] ${
-                  i < timelineSteps.length - 1 ? 'pb-14' : 'pb-0'
+                  i < displayProcess.length - 1 ? 'pb-14' : 'pb-0'
                 }`}
               >
                 {/* Dot */}
@@ -392,22 +447,28 @@ export default function CitizenshipByInvestmentPage() {
         <section className="py-[100px] px-[60px] max-lg:px-7 bg-navy text-center">
           <div className="max-w-[900px] mx-auto">
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-lagoon mb-4">
-              Government Approved
+              {qualifiesEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-white mb-5">
-              Pearns Point is a<br />CBI{' '}
-              <em className="font-light italic text-lagoon">Qualifying</em>{' '}
-              Development
-            </h2>
-            <p className="text-[0.88rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto">
-              Every plot at Pearns Point meets the minimum investment threshold
-              required under Antigua&apos;s Citizenship by Investment Programme
-              &mdash; combining exceptional real estate with a clear pathway to
-              second citizenship.
-            </p>
+            <h2
+              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-white mb-5"
+              dangerouslySetInnerHTML={{ __html: qualifiesTitle }}
+            />
+            {qualifiesBody ? (
+              <div
+                className="text-[0.88rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto"
+                dangerouslySetInnerHTML={{ __html: qualifiesBody }}
+              />
+            ) : (
+              <p className="text-[0.88rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto">
+                Every plot at Pearns Point meets the minimum investment threshold
+                required under Antigua&apos;s Citizenship by Investment Programme
+                &mdash; combining exceptional real estate with a clear pathway to
+                second citizenship.
+              </p>
+            )}
 
             <div className="flex justify-center gap-10 mt-12 flex-wrap max-sm:flex-col max-sm:items-center max-sm:gap-6 max-lg:gap-6">
-              {qualifiesFeatures.map((feat, i) => (
+              {displayQualifiesFeatures.map((feat: any, i: number) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-lagoon/[0.12] flex items-center justify-center flex-shrink-0">
                     <CheckIcon />
@@ -423,7 +484,7 @@ export default function CitizenshipByInvestmentPage() {
       </ScrollReveal>
 
       {/* ═══ QUOTE ═══ */}
-      <QuoteStrip text="Invest in an extraordinary Caribbean lifestyle \u2014 and gain the freedom of global citizenship for you and your family." />
+      <QuoteStrip text={quoteText} />
 
       {/* ═══ FAQ ═══ */}
       <section className="py-[140px] px-[60px] max-lg:px-7">
@@ -451,7 +512,7 @@ export default function CitizenshipByInvestmentPage() {
           </StaggerReveal>
 
           <ScrollReveal>
-            <FAQAccordion items={faqItems} />
+            <FAQAccordion items={displayFaq} />
           </ScrollReveal>
         </div>
       </section>

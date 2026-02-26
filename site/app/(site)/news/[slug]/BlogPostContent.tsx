@@ -1,10 +1,100 @@
 'use client'
 
 import Link from 'next/link'
+import { PortableText, type PortableTextComponents } from '@portabletext/react'
 import ScrollReveal from '@/components/global/ScrollReveal'
 import ShareBar from '@/components/blog/ShareBar'
 import AuthorBox from '@/components/blog/AuthorBox'
 import NewsletterForm from '@/components/interactive/NewsletterForm'
+
+/* ─── Portable Text custom components ─── */
+const portableTextComponents: PortableTextComponents = {
+  types: {
+    fullWidthImage: ({ value }: { value: any }) => (
+      <figure className="my-11 -mx-[60px] max-lg:mx-0 rounded overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+        <img
+          src={value.imageUrl || value.image}
+          alt={value.alt || ''}
+          className="w-full block"
+        />
+        {value.caption && (
+          <figcaption className="px-5 py-3.5 text-[0.68rem] font-light text-prose-light text-center bg-white">
+            {value.caption}
+          </figcaption>
+        )}
+      </figure>
+    ),
+    imagePair: ({ value }: { value: any }) => (
+      <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4 my-11">
+        {[value.imageLeft, value.imageRight].filter(Boolean).map((img: string, i: number) => (
+          <img
+            key={i}
+            src={img}
+            alt=""
+            className="w-full aspect-[3/2] object-cover rounded shadow-[0_12px_40px_rgba(0,0,0,0.06)]"
+          />
+        ))}
+      </div>
+    ),
+    divider: () => (
+      <div className="w-[50px] h-0.5 mx-auto my-12 bg-gradient-to-r from-gold-warm to-gold-champagne rounded-sm" />
+    ),
+  },
+  block: {
+    h2: ({ children }) => (
+      <h2 className="font-display text-[1.8rem] font-normal text-navy leading-[1.3] mt-12 mb-5">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="font-display text-[1.3rem] font-normal text-navy leading-[1.35] mt-9 mb-3.5">
+        {children}
+      </h3>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="my-10 py-8 px-9 border-l-[3px] border-ocean bg-white rounded-r">
+        <p className="font-display text-[1.15rem] font-light italic leading-[1.6] text-navy !mb-0">
+          {children}
+        </p>
+      </blockquote>
+    ),
+    normal: ({ children }) => (
+      <p className="text-[0.92rem] font-light leading-[2] text-prose-mid mb-6">
+        {children}
+      </p>
+    ),
+  },
+  marks: {
+    em: ({ children }) => <em className="font-light italic">{children}</em>,
+    strong: ({ children }) => <strong className="font-medium">{children}</strong>,
+    link: ({ value, children }) => (
+      <a
+        href={value?.href}
+        target={value?.href?.startsWith('http') ? '_blank' : undefined}
+        rel={value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+        className="text-ocean underline underline-offset-[3px] hover:text-ocean-deep transition-colors duration-300"
+      >
+        {children}
+      </a>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="ml-5 my-5 mb-7 text-[0.88rem] font-light leading-[2] text-prose-mid list-disc marker:text-ocean">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="ml-5 my-5 mb-7 text-[0.88rem] font-light leading-[2] text-prose-mid list-decimal marker:text-ocean">
+        {children}
+      </ol>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="mb-1.5">{children}</li>,
+    number: ({ children }) => <li className="mb-1.5">{children}</li>,
+  },
+}
 
 /* ─── types ─── */
 
@@ -25,6 +115,7 @@ interface BlogPostData {
   author: string
   heroImage: string
   tags: string[]
+  body?: any
 }
 
 interface BlogPostContentProps {
@@ -92,6 +183,11 @@ export default function BlogPostContent({ post, relatedArticles }: BlogPostConte
       {/* ── Article Body ── */}
       <ScrollReveal>
         <article className="max-w-[740px] mx-auto px-[60px] max-lg:px-7 pt-[60px] pb-20">
+          {post.body ? (
+            <div className="prose">
+              <PortableText value={post.body} components={portableTextComponents} />
+            </div>
+          ) : (
           <div className="prose">
             {/* Paragraph with Drop Cap */}
             <p className="text-[0.92rem] font-light leading-[2] text-prose-mid mb-6 first-letter:font-display first-letter:text-[3.6rem] first-letter:font-normal first-letter:text-navy first-letter:float-left first-letter:leading-[0.85] first-letter:mr-2.5 first-letter:mt-1.5">
@@ -195,6 +291,7 @@ export default function BlogPostContent({ post, relatedArticles }: BlogPostConte
               .
             </p>
           </div>
+          )}
         </article>
       </ScrollReveal>
 

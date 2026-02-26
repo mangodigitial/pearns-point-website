@@ -12,15 +12,35 @@ import OfficeCard from '@/components/cards/OfficeCard'
 
 /* ─── page ─── */
 
-export default function ContactPage() {
+interface Props {
+  cmsData?: Record<string, any> | null
+}
+
+export default function ContactPage({ cmsData }: Props) {
+  const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1476673160081-cf065607f449?w=1920&q=85'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Get in Touch'
+  const heroTitle = cmsData?.heroTitle || 'Contact <em>Us</em>'
+  const heroSubtitle = cmsData?.heroSubtitle || "Whether you\u2019re ready to invest or simply exploring your options, our team is here to help at every stage."
+
+  // Form intro
+  const formEyebrow = cmsData?.formIntro?.eyebrow || 'Enquiry Form'
+  const formTitle = cmsData?.formIntro?.title || 'Send Us a <em class="font-light italic">Message</em>'
+  const formBody = cmsData?.formIntro?.body || 'Complete the form below and a member of our team will be in touch to discuss your requirements.'
+
+  // Offices
+  const displayOffices = cmsData?.offices?.length ? cmsData.offices : [
+    { name: 'Antigua', address: "Pearns Point Sales Office\nFive Islands Village\nSt. John\u2019s, Antigua" },
+    { name: 'Orange Limited', address: "Developer Head Office\nSt. John\u2019s, Antigua & Barbuda" },
+  ]
+
   return (
     <>
       {/* ── Hero ── */}
       <PageHero
-        eyebrow="Get in Touch"
-        title='Contact <em>Us</em>'
-        subtitle="Whether you're ready to invest or simply exploring your options, our team is here to help at every stage."
-        backgroundImage="https://images.unsplash.com/photo-1476673160081-cf065607f449?w=1920&q=85"
+        eyebrow={heroEyebrow}
+        title={heroTitle}
+        subtitle={heroSubtitle}
+        backgroundImage={heroImage}
         heightClass="h-[55vh] min-h-[400px]"
       />
 
@@ -57,14 +77,15 @@ export default function ContactPage() {
         <ScrollReveal>
           <div>
             <p className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              Enquiry Form
+              {formEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-navy mb-5">
-              Send Us a <em className="font-light italic">Message</em>
-            </h2>
+            <h2
+              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-navy mb-5"
+              dangerouslySetInnerHTML={{ __html: formTitle }}
+            />
             <GoldRule />
             <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-7 mb-9">
-              Complete the form below and a member of our team will be in touch to discuss your requirements.
+              {formBody}
             </p>
             <ContactForm />
           </div>
@@ -146,14 +167,13 @@ export default function ContactPage() {
               Our Offices
             </h4>
             <div className="flex flex-col gap-4">
-              <OfficeCard
-                title="Antigua"
-                lines={['Pearns Point Sales Office', 'Five Islands Village', "St. John\u2019s, Antigua"]}
-              />
-              <OfficeCard
-                title="Orange Limited"
-                lines={['Developer Head Office', "St. John\u2019s, Antigua & Barbuda"]}
-              />
+              {displayOffices.map((office: any) => (
+                <OfficeCard
+                  key={office.name}
+                  title={office.name}
+                  lines={office.address.split('\n')}
+                />
+              ))}
             </div>
           </motion.div>
 
