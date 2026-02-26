@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- TEMPLATE: Replace title with actual post title -->
+<title>Three New Villa Designs Unveiled for Pearns Point – Pearns Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #ffffff; --cream: #faf8f4; --sand-light: #f5f0e8; --sand: #e8dfd2; --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a; --deep-gold: #97794a; --champagne: #d4c5a9;
+    --ocean: #1a7a8a; --ocean-deep: #0d5f6e; --ocean-light: #2ba5b5; --lagoon: #48b5c4;
+    --navy: #1a2f3a; --charcoal: #2c3e42;
+    --text-dark: #2a2a28; --text-mid: #5a5a55; --text-light: #8a8a82;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s var(--ease); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 60px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; transition: color 0.4s; }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s; }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-cta { padding: 10px 28px !important; border: 1.5px solid rgba(255,255,255,0.6) !important; transition: all 0.4s var(--ease) !important; }
+  .nav-cta:hover { background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important; }
+  nav.scrolled .nav-cta { border-color: var(--ocean) !important; color: var(--ocean) !important; }
+  nav.scrolled .nav-cta:hover { background: var(--ocean) !important; color: var(--white) !important; }
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span { display: block; width: 26px; height: 1.5px; background: var(--white); margin: 6px 0; }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* ARTICLE HERO */
+  .article-hero { height: 60vh; min-height: 450px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  /* TEMPLATE: Replace background-image URL */
+  .article-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=85') center/cover no-repeat; }
+  .article-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,47,58,0.15) 0%, rgba(26,47,58,0.05) 40%, rgba(250,248,244,0.7) 80%, rgba(250,248,244,1) 100%); }
+  .article-hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 900px; }
+  .article-back {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.58rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ocean);
+    text-decoration: none; margin-bottom: 20px;
+    transition: gap 0.3s var(--ease);
+  }
+  .article-back:hover { gap: 12px; }
+  .article-back svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; fill: none; }
+  .article-hero-cat {
+    display: inline-block; padding: 5px 14px; margin-bottom: 16px;
+    background: var(--ocean); font-size: 0.48rem; font-weight: 600;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--white);
+    border-radius: 2px;
+  }
+  .article-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 400; line-height: 1.2; color: var(--navy);
+  }
+  .article-hero-title em { font-style: italic; font-weight: 300; }
+  .article-hero-meta {
+    margin-top: 20px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .article-hero-meta span {
+    font-size: 0.68rem; font-weight: 400; color: var(--text-light);
+    letter-spacing: 0.05em;
+  }
+  .article-hero-meta .meta-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--sand-dark); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ═══════════════════════════════════════════
+     ARTICLE BODY
+  ═══════════════════════════════════════════ */
+  .article-body {
+    max-width: 740px; margin: 0 auto;
+    padding: 60px 60px 80px;
+  }
+
+  /* PROSE STYLES */
+  .prose p {
+    font-size: 0.92rem; font-weight: 300; line-height: 2;
+    color: var(--text-mid); margin-bottom: 24px;
+  }
+  .prose p:first-of-type::first-letter {
+    font-family: var(--font-display); font-size: 3.6rem;
+    font-weight: 400; color: var(--navy);
+    float: left; line-height: 0.85;
+    margin-right: 10px; margin-top: 6px;
+  }
+  .prose h2 {
+    font-family: var(--font-display); font-size: 1.8rem;
+    font-weight: 400; color: var(--navy); line-height: 1.3;
+    margin: 48px 0 20px;
+  }
+  .prose h2 em { font-style: italic; font-weight: 300; }
+  .prose h3 {
+    font-family: var(--font-display); font-size: 1.3rem;
+    font-weight: 400; color: var(--navy); line-height: 1.35;
+    margin: 36px 0 14px;
+  }
+  .prose blockquote {
+    margin: 40px 0;
+    padding: 32px 36px;
+    border-left: 3px solid var(--ocean);
+    background: var(--white);
+    border-radius: 0 4px 4px 0;
+  }
+  .prose blockquote p {
+    font-family: var(--font-display); font-size: 1.15rem;
+    font-weight: 300; font-style: italic; line-height: 1.6;
+    color: var(--navy); margin-bottom: 0;
+  }
+  .prose blockquote p::first-letter { font-size: inherit; float: none; margin: 0; }
+  .prose blockquote cite {
+    display: block; margin-top: 12px;
+    font-family: var(--font-body); font-size: 0.68rem;
+    font-style: normal; font-weight: 500;
+    letter-spacing: 0.1em; color: var(--text-light);
+  }
+  .prose a { color: var(--ocean); text-decoration: underline; text-underline-offset: 3px; transition: color 0.3s; }
+  .prose a:hover { color: var(--ocean-deep); }
+  .prose strong { font-weight: 500; color: var(--text-dark); }
+  .prose ul, .prose ol {
+    margin: 20px 0 28px 20px;
+    font-size: 0.88rem; font-weight: 300; line-height: 2; color: var(--text-mid);
+  }
+  .prose li { margin-bottom: 6px; }
+  .prose li::marker { color: var(--ocean); }
+
+  /* INLINE IMAGES */
+  .prose-img {
+    margin: 44px -60px;
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+  }
+  .prose-img img { width: 100%; display: block; }
+  .prose-img figcaption {
+    padding: 14px 20px;
+    font-size: 0.68rem; font-weight: 300; color: var(--text-light);
+    text-align: center; background: var(--white);
+  }
+  .prose-img-pair {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin: 44px 0;
+  }
+  .prose-img-pair img {
+    width: 100%; aspect-ratio: 3/2; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06);
+  }
+
+  /* DIVIDER */
+  .prose-divider {
+    width: 50px; height: 2px; margin: 48px auto;
+    background: linear-gradient(90deg, var(--warm-gold), var(--champagne));
+    border-radius: 1px;
+  }
+
+  /* ═══════════════════════════════════════════
+     TAGS & SHARE
+  ═══════════════════════════════════════════ */
+  .article-footer {
+    max-width: 740px; margin: 0 auto;
+    padding: 0 60px 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+    border-top: 1px solid var(--sand); padding-top: 32px;
+  }
+  .article-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .article-tag {
+    font-size: 0.55rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 6px 16px;
+    background: rgba(26,122,138,0.06); color: var(--ocean);
+    border-radius: 2px; border: 1px solid rgba(26,122,138,0.12);
+    text-decoration: none; transition: all 0.3s;
+  }
+  .article-tag:hover { background: var(--ocean); color: var(--white); border-color: var(--ocean); }
+  .share-links { display: flex; align-items: center; gap: 12px; }
+  .share-label {
+    font-size: 0.55rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-light);
+  }
+  .share-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--white); border: 1px solid var(--sand);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.3s var(--ease);
+    text-decoration: none;
+  }
+  .share-btn:hover { background: var(--ocean); border-color: var(--ocean); }
+  .share-btn svg { width: 14px; height: 14px; fill: var(--text-mid); transition: fill 0.3s; }
+  .share-btn:hover svg { fill: var(--white); }
+
+  /* ═══════════════════════════════════════════
+     AUTHOR BOX
+  ═══════════════════════════════════════════ */
+  .author-box {
+    max-width: 740px; margin: 0 auto;
+    padding: 0 60px 80px;
+  }
+  .author-box-inner {
+    display: flex; align-items: center; gap: 24px;
+    padding: 32px 36px; background: var(--white);
+    border-radius: 4px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  .author-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--sand-light);
+    flex-shrink: 0; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .author-avatar svg { width: 28px; height: 28px; stroke: var(--sand-dark); stroke-width: 1.2; fill: none; }
+  .author-info h4 {
+    font-family: var(--font-display); font-size: 1.05rem;
+    font-weight: 400; color: var(--navy); margin-bottom: 4px;
+  }
+  .author-info p {
+    font-size: 0.76rem; font-weight: 300; color: var(--text-mid); line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════
+     RELATED ARTICLES
+  ═══════════════════════════════════════════ */
+  .related {
+    padding: 100px 60px 120px;
+    background: var(--white);
+  }
+  .related-inner { max-width: 1400px; margin: 0 auto; }
+  .related-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 48px;
+  }
+  .related-header h2 {
+    font-family: var(--font-display); font-size: 1.6rem;
+    font-weight: 400; color: var(--navy);
+  }
+  .related-header h2 em { font-style: italic; font-weight: 300; }
+  .related-header a {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ocean); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: gap 0.3s;
+  }
+  .related-header a:hover { gap: 12px; }
+  .related-header a svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; fill: none; }
+  .related-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+  .related-card {
+    background: var(--cream); border-radius: 4px; overflow: hidden;
+    transition: all 0.5s var(--ease); cursor: pointer;
+  }
+  .related-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.08); }
+  .related-card-img { position: relative; overflow: hidden; aspect-ratio: 16/10; }
+  .related-card-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1s var(--ease);
+  }
+  .related-card:hover .related-card-img img { transform: scale(1.05); }
+  .related-card-img span {
+    position: absolute; top: 14px; left: 14px;
+    padding: 4px 12px; background: rgba(26,47,58,0.8); backdrop-filter: blur(8px);
+    font-size: 0.46rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--white); border-radius: 2px;
+  }
+  .related-card-body { padding: 24px 24px 28px; }
+  .related-card-body .rc-date {
+    font-size: 0.58rem; font-weight: 400; color: var(--text-light); margin-bottom: 10px;
+  }
+  .related-card-body h3 {
+    font-family: var(--font-display); font-size: 1.08rem;
+    font-weight: 400; color: var(--navy); line-height: 1.35;
+    transition: color 0.3s;
+  }
+  .related-card:hover .related-card-body h3 { color: var(--ocean); }
+
+  /* ═══════════════════════════════════════════
+     NEWSLETTER
+  ═══════════════════════════════════════════ */
+  .newsletter {
+    padding: 100px 60px;
+    background: var(--navy); text-align: center;
+  }
+  .newsletter-inner { max-width: 600px; margin: 0 auto; }
+  .newsletter .n-eyebrow {
+    font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em;
+    text-transform: uppercase; color: var(--lagoon); margin-bottom: 16px;
+  }
+  .newsletter h2 {
+    font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 400; color: var(--white); margin-bottom: 12px;
+  }
+  .newsletter h2 em { font-style: italic; color: var(--lagoon); }
+  .newsletter p {
+    font-size: 0.84rem; font-weight: 300; color: rgba(255,255,255,0.55);
+    margin-bottom: 36px;
+  }
+  .newsletter-form {
+    display: flex; max-width: 480px; margin: 0 auto;
+    border-radius: 3px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+  .newsletter-input {
+    flex: 1; padding: 16px 24px;
+    font-family: var(--font-body); font-size: 0.82rem; font-weight: 300;
+    border: none; outline: none; background: var(--white); color: var(--text-dark);
+  }
+  .newsletter-input::placeholder { color: var(--text-light); }
+  .newsletter-btn {
+    padding: 16px 32px;
+    font-family: var(--font-body); font-size: 0.58rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--white); background: var(--ocean);
+    border: none; cursor: pointer; transition: background 0.3s;
+  }
+  .newsletter-btn:hover { background: var(--ocean-deep); }
+
+  /* FOOTER */
+  .footer { padding: 80px 60px 48px; background: var(--cream); border-top: 1px solid var(--sand); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 60px; }
+  .footer-brand-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; display: block; margin-bottom: 16px; }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ocean); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 0.8rem; font-weight: 300; color: var(--text-mid); text-decoration: none; margin-bottom: 12px; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line { font-size: 0.8rem; font-weight: 300; color: var(--text-mid); margin-bottom: 12px; }
+  .footer-contact-line a { display: inline; margin: 0; color: var(--navy); font-weight: 400; text-decoration: none; }
+  .footer-bottom { max-width: 1400px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.65rem; font-weight: 300; color: var(--text-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; } nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; } .mobile-toggle { display: block; }
+    .article-hero-content { padding: 0 28px 60px; }
+    .article-body, .article-footer, .author-box { padding-left: 28px; padding-right: 28px; }
+    .prose-img { margin-left: 0; margin-right: 0; }
+    .related { padding: 80px 28px 100px; }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+    .newsletter { padding: 80px 28px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .related-grid { grid-template-columns: 1fr; }
+    .article-footer { flex-direction: column; align-items: flex-start; }
+    .author-box-inner { flex-direction: column; text-align: center; }
+    .newsletter-form { flex-direction: column; }
+    .prose-img-pair { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .related-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="pearns-point.html" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="the-development.html">The Development</a></li>
+    <li><a href="lots-site-plan.html">Lots & Site Plan</a></li>
+    <li><a href="the-villas.html">The Villas</a></li>
+    <li><a href="the-antigua-experience.html">Antigua</a></li>
+    <li><a href="#" class="nav-cta">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- ARTICLE HERO -->
+<section class="article-hero">
+  <div class="article-hero-bg"></div>
+  <div class="article-hero-overlay"></div>
+  <div class="article-hero-content">
+    <a href="latest-news.html" class="article-back">
+      <svg viewBox="0 0 24 24"><polyline points="15,4 7,12 15,20"/></svg>
+      Back to News
+    </a>
+    <!-- TEMPLATE: Replace category -->
+    <span class="article-hero-cat">Development</span>
+    <!-- TEMPLATE: Replace title -->
+    <h1 class="article-hero-title">Three New Villa Designs <em>Unveiled</em> for Pearns Point</h1>
+    <div class="article-hero-meta">
+      <!-- TEMPLATE: Replace date, read time -->
+      <span>February 12, 2026</span>
+      <span class="meta-dot"></span>
+      <span>5 min read</span>
+      <span class="meta-dot"></span>
+      <span>Pearns Point Team</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<article class="article-body reveal">
+  <div class="prose">
+    <!-- TEMPLATE: Replace all article content below -->
+
+    <p>We are delighted to unveil three distinctive architectural visions for the Pearns Point Plot & Plan programme — Caribbean Chic, Naturally Modern, and Caribbean Connected. Each has been created by internationally renowned architects with an intimate understanding of the peninsula and its extraordinary natural setting.</p>
+
+    <p>The three designs represent different expressions of Caribbean luxury living, but all share a common philosophy: horizontal architecture that maximises the breathtaking views, seamless indoor/outdoor flow, and a deep respect for the natural landscape that makes Pearns Point so exceptional.</p>
+
+    <h2>Caribbean <em>Chic</em></h2>
+
+    <p>The first of our three designs draws on timeless Caribbean elegance, reimagined for contemporary living. Natural stone, graceful proportions, and expansive covered terraces create a home that feels both grand and perfectly at ease within its tropical surroundings. With open-plan living spaces, panoramic terraces, and an infinity pool that appears to dissolve into the ocean, Caribbean Chic offers a refined approach to island life.</p>
+
+    <!-- TEMPLATE: Full-width image -->
+    <figure class="prose-img">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Caribbean Chic villa exterior">
+      <figcaption>Caribbean Chic — timeless elegance meets tropical warmth</figcaption>
+    </figure>
+
+    <h2>Naturally <em>Modern</em></h2>
+
+    <p>Our second design embraces clean contemporary lines and the power of minimal forms. Floor-to-ceiling glass, horizontal planes, and natural timber create a seamless connection between the interior spaces and the Caribbean landscape beyond. Every room is designed to frame the view, while the trade winds are harnessed for natural ventilation — reducing energy consumption and keeping the home cool year-round.</p>
+
+    <blockquote>
+      <p>Our approach has always been to let the landscape lead. The architecture should frame the extraordinary natural beauty of this peninsula — not compete with it.</p>
+      <cite>— KSR Architects</cite>
+    </blockquote>
+
+    <h2>Caribbean <em>Connected</em></h2>
+
+    <p>The third vision celebrates the relationship between architecture and nature in the most direct way possible. A series of interconnected pavilions, covered walkways, and open courtyards weave through the tropical landscape — blurring the boundaries between home and paradise. This design is ideal for those who want to live immersed in the landscape, with the sound of the sea and the rustle of palms as a constant companion.</p>
+
+    <!-- TEMPLATE: Image pair -->
+    <div class="prose-img-pair">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Modern villa interior">
+      <img src="https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=600&q=80" alt="Connected pavilion design">
+    </div>
+
+    <h3>What all three designs share</h3>
+
+    <p>While each design offers a distinct aesthetic, every villa at Pearns Point shares a set of core principles that ensure durability, sustainability, and an exceptional standard of living:</p>
+
+    <ul>
+      <li>Minimum 5,000 sq ft of living space across generous open-plan layouts</li>
+      <li>Private infinity pool with panoramic ocean or landscape views</li>
+      <li>Natural ventilation designed around Antigua's prevailing trade winds</li>
+      <li>Locally sourced materials including natural stone and tropical hardwoods</li>
+      <li>Full turnkey delivery including furnishing, landscaping, and utilities</li>
+      <li>CBI-qualifying investment with pricing from US $6,000,000</li>
+    </ul>
+
+    <div class="prose-divider"></div>
+
+    <p>The Plot & Plan programme offers a fully managed route to owning a home at Pearns Point — from selecting your plot and design through to construction, furnishing, and handover. To explore the three designs in detail or discuss your requirements, please <a href="contact-us.html">get in touch with our team</a>.</p>
+  </div>
+</article>
+
+<!-- TAGS & SHARE -->
+<div class="article-footer reveal">
+  <div class="article-tags">
+    <!-- TEMPLATE: Replace tags -->
+    <a href="#" class="article-tag">Villas</a>
+    <a href="#" class="article-tag">Architecture</a>
+    <a href="#" class="article-tag">Plot & Plan</a>
+  </div>
+  <div class="share-links">
+    <span class="share-label">Share</span>
+    <a href="#" class="share-btn" title="Share on Facebook">
+      <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+    </a>
+    <a href="#" class="share-btn" title="Share on Twitter">
+      <svg viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+    </a>
+    <a href="#" class="share-btn" title="Share on LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
+    </a>
+    <a href="#" class="share-btn" title="Copy link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- AUTHOR BOX -->
+<div class="author-box reveal">
+  <div class="author-box-inner">
+    <div class="author-avatar">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0114 0v2"/></svg>
+    </div>
+    <div class="author-info">
+      <!-- TEMPLATE: Replace author info -->
+      <h4>Pearns Point Team</h4>
+      <p>Updates from the development team at Pearns Point, bringing you the latest news on architecture, construction progress, and island life at Antigua's foremost luxury real estate development.</p>
+    </div>
+  </div>
+</div>
+
+<!-- RELATED ARTICLES -->
+<section class="related">
+  <div class="related-inner">
+    <div class="related-header reveal">
+      <h2>More <em>Articles</em></h2>
+      <a href="latest-news.html">View All News <svg viewBox="0 0 24 24"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14,6 20,12 14,18"/></svg></a>
+    </div>
+    <div class="related-grid reveal">
+      <!-- TEMPLATE: Replace related articles -->
+      <div class="related-card">
+        <div class="related-card-img">
+          <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80" alt="Construction progress" loading="lazy">
+          <span>Development</span>
+        </div>
+        <div class="related-card-body">
+          <div class="rc-date">January 2026</div>
+          <h3>Infrastructure Phase One Reaches Completion</h3>
+        </div>
+      </div>
+      <div class="related-card">
+        <div class="related-card-img">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="KSR Architects" loading="lazy">
+          <span>Development</span>
+        </div>
+        <div class="related-card-body">
+          <div class="rc-date">October 2025</div>
+          <h3>In Conversation: KSR Architects on Designing for the Tropics</h3>
+        </div>
+      </div>
+      <div class="related-card">
+        <div class="related-card-img">
+          <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600&q=80" alt="Conservation" loading="lazy">
+          <span>Development</span>
+        </div>
+        <div class="related-card-body">
+          <div class="rc-date">August 2025</div>
+          <h3>Conservation at Pearns Point: Protecting 70% of the Peninsula</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="newsletter-inner reveal">
+    <p class="n-eyebrow">Stay Informed</p>
+    <h2>Subscribe to <em>Updates</em></h2>
+    <p>Development news, lifestyle features, and market insights delivered to your inbox.</p>
+    <form class="newsletter-form" onsubmit="event.preventDefault();">
+      <input type="email" class="newsletter-input" placeholder="Your email address" required>
+      <button type="submit" class="newsletter-btn">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="pearns-point.html" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Development</a>
+      <a href="#">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#">The Antigua Experience</a>
+      <a href="#">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">Antigua: <a href="tel:+12687364028">+1 268-736-4028</a></div>
+      <div class="footer-contact-line">Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

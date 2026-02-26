@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lots & Site Plan – Pearns Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #ffffff; --cream: #faf8f4; --sand-light: #f5f0e8; --sand: #e8dfd2; --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a; --deep-gold: #97794a; --champagne: #d4c5a9;
+    --ocean: #1a7a8a; --ocean-deep: #0d5f6e; --ocean-light: #2ba5b5; --lagoon: #48b5c4;
+    --navy: #1a2f3a; --charcoal: #2c3e42;
+    --text-dark: #2a2a28; --text-mid: #5a5a55; --text-light: #8a8a82;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s var(--ease); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 60px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; transition: color 0.4s; }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s; }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-links a.active { color: var(--white); }
+  nav.scrolled .nav-links a.active { color: var(--ocean); }
+  .nav-cta { padding: 10px 28px !important; border: 1.5px solid rgba(255,255,255,0.6) !important; transition: all 0.4s var(--ease) !important; }
+  .nav-cta:hover { background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important; }
+  nav.scrolled .nav-cta { border-color: var(--ocean) !important; color: var(--ocean) !important; }
+  nav.scrolled .nav-cta:hover { background: var(--ocean) !important; color: var(--white) !important; }
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span { display: block; width: 26px; height: 1.5px; background: var(--white); margin: 6px 0; }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* PAGE HERO */
+  .page-hero { height: 65vh; min-height: 480px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85') center 60%/cover no-repeat; }
+  .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,47,58,0.25) 0%, rgba(26,47,58,0.1) 50%, rgba(250,248,244,0.6) 80%, rgba(250,248,244,1) 100%); }
+  .page-hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 900px; }
+  .page-hero-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 12px; }
+  .page-hero-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; color: var(--navy); }
+  .page-hero-title em { font-style: italic; font-weight: 300; }
+  .page-hero-sub { font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--text-mid); max-width: 540px; margin-top: 16px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .stagger > * { opacity: 0; transform: translateY(25px); }
+  .stagger.visible > *:nth-child(1) { animation: fadeUp 0.8s 0.05s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(2) { animation: fadeUp 0.8s 0.18s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(3) { animation: fadeUp 0.8s 0.3s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(4) { animation: fadeUp 0.8s 0.42s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(5) { animation: fadeUp 0.8s 0.54s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(6) { animation: fadeUp 0.8s 0.66s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(7) { animation: fadeUp 0.8s 0.78s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(8) { animation: fadeUp 0.8s 0.9s var(--ease) forwards; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* COMMON */
+  .section-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.2; color: var(--navy); margin-bottom: 20px; }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-text { font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--text-mid); max-width: 560px; }
+  .gold-rule { width: 50px; height: 2px; background: linear-gradient(90deg, var(--warm-gold), var(--champagne)); margin: 28px 0; border-radius: 1px; }
+
+  /* ═══════════════════════════════════════════
+     SITE MAP SECTION
+  ═══════════════════════════════════════════ */
+  .site-map-section {
+    padding: 100px 60px 80px;
+    max-width: 1400px; margin: 0 auto;
+    text-align: center;
+  }
+  .site-map-section .section-text { max-width: 600px; margin: 0 auto 48px; }
+  .map-container {
+    position: relative;
+    background: var(--white);
+    border-radius: 6px;
+    padding: 32px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+  .map-container img {
+    width: 100%; height: auto; border-radius: 4px;
+  }
+  .map-note {
+    font-size: 0.65rem; font-weight: 300; color: var(--text-light);
+    font-style: italic; margin-top: 16px;
+  }
+
+  /* ═══════════════════════════════════════════
+     LOT AREA QUICK NAV
+  ═══════════════════════════════════════════ */
+  .lot-nav {
+    padding: 0 60px 80px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .lot-nav-inner {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: center;
+    padding: 32px;
+    background: var(--white);
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  .lot-nav-btn {
+    font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-mid); background: transparent;
+    border: 1.5px solid var(--sand); padding: 10px 22px;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.3s var(--ease);
+    border-radius: 2px;
+  }
+  .lot-nav-btn:hover, .lot-nav-btn.active {
+    background: var(--ocean); color: var(--white);
+    border-color: var(--ocean);
+  }
+
+  /* ═══════════════════════════════════════════
+     LOT AREAS — alternating layout
+  ═══════════════════════════════════════════ */
+  .lot-areas { padding: 0 0 60px; }
+
+  .lot-area {
+    padding: 100px 60px;
+    max-width: 1400px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .lot-area:nth-child(even) .lot-area-content { order: 2; }
+  .lot-area:nth-child(even) .lot-area-gallery { order: 1; }
+
+  .lot-area-content {}
+  .lot-area-name {
+    font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 400; color: var(--navy); margin-bottom: 8px; line-height: 1.2;
+  }
+  .lot-area-name em { font-style: italic; font-weight: 300; }
+  .lot-area-lots {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--ocean); margin-bottom: 20px;
+  }
+  .lot-area-desc {
+    font-size: 0.85rem; font-weight: 300; line-height: 1.85;
+    color: var(--text-mid); margin-bottom: 28px;
+  }
+  .lot-area-features {
+    display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 28px;
+  }
+  .lot-feature {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.7rem; font-weight: 400; color: var(--text-mid);
+  }
+  .lot-feature-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ocean);
+    flex-shrink: 0;
+  }
+  .lot-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-lot {
+    display: inline-block; font-family: var(--font-body);
+    font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ocean); background: transparent;
+    text-decoration: none; padding: 12px 32px;
+    border: 1.5px solid var(--ocean);
+    transition: all 0.4s var(--ease);
+    cursor: pointer;
+  }
+  .btn-lot:hover { background: var(--ocean); color: var(--white); }
+  .btn-video {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body);
+    font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--navy); background: var(--sand-light);
+    text-decoration: none; padding: 12px 28px;
+    border: 1.5px solid var(--sand);
+    transition: all 0.4s var(--ease);
+    cursor: pointer;
+  }
+  .btn-video:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .btn-video:hover svg { stroke: var(--white); }
+  .btn-video svg { width: 14px; height: 14px; stroke: var(--navy); transition: stroke 0.3s; }
+
+  /* LOT NUMBER PILLS — reserved for future use */
+
+  /* VIDEO MODAL */
+  .video-modal {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(10,15,18,0.9);
+    backdrop-filter: blur(12px);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.4s var(--ease), visibility 0.4s;
+  }
+  .video-modal.open { opacity: 1; visibility: visible; }
+  .video-modal-inner {
+    position: relative; width: 90%; max-width: 900px;
+    aspect-ratio: 16/9; background: #000; border-radius: 4px;
+    overflow: hidden;
+    transform: scale(0.95); transition: transform 0.4s var(--ease);
+  }
+  .video-modal.open .video-modal-inner { transform: scale(1); }
+  .video-modal-inner iframe {
+    width: 100%; height: 100%; border: none;
+  }
+  .video-modal-close {
+    position: absolute; top: -48px; right: 0;
+    font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6); background: none;
+    border: none; cursor: pointer; padding: 8px 0;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.3s;
+  }
+  .video-modal-close:hover { color: var(--white); }
+  .video-modal-close svg { width: 18px; height: 18px; }
+
+  /* Gallery grid within each lot area */
+  .lot-area-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+  }
+  .lot-area-gallery img {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: 4px;
+    transition: transform 0.8s var(--ease);
+  }
+  .lot-area-gallery img:hover { transform: scale(1.03); }
+  .lot-area-gallery .gallery-hero {
+    grid-column: span 2;
+    aspect-ratio: 2/1;
+  }
+  .lot-area-gallery .gallery-thumb {
+    aspect-ratio: 1;
+  }
+
+  /* Divider between lot areas */
+  .lot-divider {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 60px;
+  }
+  .lot-divider-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sand), transparent);
+  }
+
+  /* ═══════════════════════════════════════════
+     AVAILABILITY BANNER
+  ═══════════════════════════════════════════ */
+  .availability {
+    padding: 80px 60px;
+    background: var(--navy);
+    text-align: center;
+  }
+  .availability-inner {
+    max-width: 700px; margin: 0 auto;
+  }
+  .availability h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400; color: var(--white);
+    margin-bottom: 8px;
+  }
+  .availability h2 em { font-style: italic; font-weight: 300; }
+  .availability p {
+    font-size: 0.85rem; font-weight: 300; color: rgba(255,255,255,0.55);
+    margin-bottom: 32px; line-height: 1.7;
+  }
+  .availability .stat-row {
+    display: flex; justify-content: center; gap: 60px;
+    margin-bottom: 40px;
+  }
+  .avail-stat-num {
+    font-family: var(--font-display); font-size: 3rem;
+    font-weight: 400; color: var(--lagoon); line-height: 1;
+  }
+  .avail-stat-label {
+    font-size: 0.58rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 6px;
+  }
+  .btn-light {
+    display: inline-block; font-family: var(--font-body);
+    font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--navy); background: var(--white);
+    text-decoration: none; padding: 16px 48px;
+    transition: all 0.4s var(--ease);
+  }
+  .btn-light:hover { background: var(--lagoon); color: var(--white); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,0,0,0.2); }
+
+  /* FOOTER */
+  .footer { padding: 80px 60px 48px; background: var(--cream); border-top: 1px solid var(--sand); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 60px; }
+  .footer-brand-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; display: block; margin-bottom: 16px; }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ocean); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 0.8rem; font-weight: 300; color: var(--text-mid); text-decoration: none; margin-bottom: 12px; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line { font-size: 0.8rem; font-weight: 300; color: var(--text-mid); margin-bottom: 12px; }
+  .footer-contact-line a { display: inline; margin: 0; color: var(--navy); font-weight: 400; text-decoration: none; }
+  .footer-bottom { max-width: 1400px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.65rem; font-weight: 300; color: var(--text-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; }
+    nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+    .lot-area { grid-template-columns: 1fr; gap: 48px; padding: 80px 28px; }
+    .lot-area:nth-child(even) .lot-area-content { order: 1; }
+    .lot-area:nth-child(even) .lot-area-gallery { order: 2; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .page-hero-content { padding: 0 28px 60px; }
+    .site-map-section, .lot-nav, .lot-divider { padding-left: 28px !important; padding-right: 28px !important; }
+    .availability { padding: 60px 28px; }
+  }
+  @media (max-width: 640px) {
+    .lot-area-gallery { grid-template-columns: 1fr; }
+    .lot-area-gallery .gallery-hero { grid-column: auto; aspect-ratio: 3/2; }
+    .lot-area-features { flex-direction: column; gap: 12px; }
+    .availability .stat-row { flex-direction: column; gap: 24px; }
+    .lot-nav-inner { gap: 8px; }
+    .lot-nav-btn { padding: 8px 16px; font-size: 0.55rem; }
+    .lot-buttons { flex-direction: column; }
+    .lot-buttons .btn-lot, .lot-buttons .btn-video { width: 100%; text-align: center; justify-content: center; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="pearns-point.html" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="the-development.html">The Development</a></li>
+    <li><a href="#" class="active">Lots & Site Plan</a></li>
+    <li><a href="#">The Villas</a></li>
+    <li><a href="#">Antigua</a></li>
+    <li><a href="#" class="nav-cta">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Explore the Peninsula</p>
+    <h1 class="page-hero-title">Lots & <em>Site Plan</em></h1>
+    <p class="page-hero-sub">Discover the exciting opportunities available across eight distinct areas of the Pearns Point peninsula — each with its own character, views, and unique appeal.</p>
+  </div>
+</section>
+
+<!-- SITE MAP -->
+<section class="site-map-section reveal">
+  <p class="section-eyebrow">Interactive Site Plan</p>
+  <h2 class="section-title">Explore the <em>Peninsula</em></h2>
+  <p class="section-text">Select an area below to explore available lots, views, and features. Each zone of the peninsula has been thoughtfully planned to maximise privacy, natural beauty, and ocean access.</p>
+  <div class="map-container">
+    <!-- In production this would be the actual Pearns Point map image or interactive SVG -->
+    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1200&q=80" alt="Pearns Point Site Plan — aerial view of peninsula">
+    <p class="map-note">Map is for illustrative purposes only and is not to scale.</p>
+  </div>
+</section>
+
+<!-- LOT AREA QUICK NAV -->
+<div class="lot-nav reveal">
+  <div class="lot-nav-inner">
+    <a href="#oceans-edge" class="lot-nav-btn">Oceans Edge</a>
+    <a href="#five-islands-point" class="lot-nav-btn">Five Islands Point</a>
+    <a href="#pearns-bay" class="lot-nav-btn">Pearns Bay</a>
+    <a href="#secret-bay" class="lot-nav-btn">Secret Bay</a>
+    <a href="#five-islands-bay" class="lot-nav-btn">Five Islands Bay</a>
+    <a href="#pearns-beach" class="lot-nav-btn">Pearns Beach</a>
+    <a href="#five-islands-view" class="lot-nav-btn">Five Islands View</a>
+    <a href="#the-look-out" class="lot-nav-btn">The Look Out</a>
+  </div>
+</div>
+
+<!-- LOT AREAS -->
+<div class="lot-areas">
+
+  <!-- 1. OCEANS EDGE -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="oceans-edge">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 1–21</p>
+      <h2 class="lot-area-name">Oceans <em>Edge</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">Situated directly above beautiful turquoise waters with breathtaking sunset views for large parts of the year, these lots are conveniently close to the main Pearns Point beach. Although entirely private, owners will still be within easy walking distance from the amenities of the luxury hotel on site. Lots 9, 10 and 18–20 enjoy a secluded white sand beach with easy swimming.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Sunset views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Direct water location</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>⅔ acre lots</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Near hotel amenities</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Oceans Edge aerial" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=400&q=80" alt="Beach view" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=400&q=80" alt="Turquoise water" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 2. FIVE ISLANDS POINT -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="five-islands-point">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 24 & 25</p>
+      <h2 class="lot-area-name">Five Islands <em>Point</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">Set on their own point, these lots face out to the iconic Five Islands and the endless turquoise Caribbean Sea. Being at the western point of the property, the sunset views are mesmerising and quiet privacy is guaranteed. Lot 25 is one of the few remaining lots with direct beach access.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Private point position</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Five Islands views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Direct beach access</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Best sunset position</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80" alt="Five Islands Point view" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80" alt="Sunset view" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=400&q=80" alt="Coastline" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 3. PEARNS BAY -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="pearns-bay">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lot 28</p>
+      <h2 class="lot-area-name">Pearns <em>Bay</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">An exceptional lot with beach access to a gorgeous powder white soft sand beach with excellent snorkelling. The views out to the unpopulated far green shore are enhanced by panoramic ocean views. The lot rises gently back to the road making for easy access and elevated views that include the iconic Five Islands.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Beach access</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Snorkelling</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Panoramic views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Gentle elevation</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=800&q=80" alt="Pearns Bay coastline" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=400&q=80" alt="Bay view" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?w=400&q=80" alt="Water view" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 4. SECRET BAY -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="secret-bay">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 38 & 39</p>
+      <h2 class="lot-area-name">Secret <em>Bay</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">Some of the last beachfront lots available — this exquisite bay has a beautiful and secluded stretch of white sand with turquoise waters straight in front. The elevated incline down to the beach allows for complete privacy and safety from any seasonal wave activity whilst ensuring a panoramic view amid the gentle sounds of lapping waves.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Beachfront</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Secluded white sand</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Elevated privacy</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Last remaining</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=800&q=80" alt="Secret Bay beach" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" alt="Secluded beach" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=400&q=80" alt="Bay aerial" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 5. FIVE ISLANDS BAY -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="five-islands-bay">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 41–43, 59, 63–71</p>
+      <h2 class="lot-area-name">Five Islands <em>Bay</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">These more elevated ocean view lots are generously sized to allow for residences with multiple views and also benefit from the cooling north-easterly winds across Antigua. In good proximity to the property entrance, they are within easy reach of the main Pearns Point beach. Lots 38–40 enjoy access to a stunning white sand beach set in an intimate cove.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Elevated position</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Generous lot sizes</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Cooling breezes</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Intimate cove access</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80" alt="Five Islands Bay panorama" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80" alt="Ocean view" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=400&q=80" alt="Elevated view" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 6. PEARNS BEACH -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="pearns-beach">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 44–53</p>
+      <h2 class="lot-area-name">Pearns <em>Beach</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">Looking out to Montserrat on a clear day, these lots are all about an abundance of colour — with views over the white Pearns Point Beach and out to the famous turquoise waters of Antigua, all amid a backdrop of the Antiguan mountain range to the south.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Montserrat views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Beach views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Mountain backdrop</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Turquoise waters</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80" alt="Pearns Beach" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?w=400&q=80" alt="Beach panorama" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=400&q=80" alt="Coastal view" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 7. FIVE ISLANDS VIEW -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="five-islands-view">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 54–59</p>
+      <h2 class="lot-area-name">Five Islands <em>View</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">Offering perhaps the best combination of ocean and Five Islands views, these higher elevation lots also enjoy an almost year-round breeze and a peaceful serenity. Lot sizes are larger here, affording more uses of the property and different design options for your dream home.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Best combined views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Higher elevation</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Larger lot sizes</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Year-round breeze</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80" alt="Five Islands View" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" alt="Elevated panorama" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=400&q=80" alt="Island view" class="gallery-thumb">
+    </div>
+  </section>
+
+  <!-- 8. THE LOOK OUT -->
+  <div class="lot-divider"><div class="lot-divider-line"></div></div>
+  <section class="lot-area reveal" id="the-look-out">
+    <div class="lot-area-content">
+      <p class="lot-area-lots">Lots 60–61</p>
+      <h2 class="lot-area-name">The Look <em>Out</em></h2>
+      <div class="gold-rule"></div>
+      <p class="lot-area-desc">The highest points on the property — the 360-degree views here are outstanding. Cooling breezes and a view over most of the north-west coast of Antigua will keep you spellbound. These are truly the crown jewels of the peninsula.</p>
+      <div class="lot-area-features">
+        <span class="lot-feature"><span class="lot-feature-dot"></span>360° views</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Highest elevation</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Cooling breezes</span>
+        <span class="lot-feature"><span class="lot-feature-dot"></span>Crown jewel lots</span>
+      </div>
+      <div class="lot-buttons">
+        <a href="#" class="btn-lot">Enquire About This Area</a>
+        <button class="btn-video" onclick="openVideo('YOUTUBE_ID_HERE')">
+          <svg viewBox="0 0 14 14" fill="none" stroke-width="1.5"><polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none"/></svg>
+          Drone Video
+        </button>
+      </div>
+    </div>
+    <div class="lot-area-gallery">
+      <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80" alt="The Look Out panorama" class="gallery-hero">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&q=80" alt="360 view" class="gallery-thumb">
+      <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=400&q=80" alt="Coastline from height" class="gallery-thumb">
+    </div>
+  </section>
+
+</div>
+
+<!-- AVAILABILITY BANNER -->
+<section class="availability">
+  <div class="availability-inner reveal stagger">
+    <h2>Begin Your Journey to<br><em>Pearns Point</em></h2>
+    <p>With limited plots remaining, now is the time to secure your place on the Caribbean's most exclusive peninsula.</p>
+    <div class="stat-row">
+      <div>
+        <div class="avail-stat-num">49</div>
+        <div class="avail-stat-label">Total Plots</div>
+      </div>
+      <div>
+        <div class="avail-stat-num">8</div>
+        <div class="avail-stat-label">Distinct Areas</div>
+      </div>
+      <div>
+        <div class="avail-stat-num">137</div>
+        <div class="avail-stat-label">Acres</div>
+      </div>
+    </div>
+    <a href="#" class="btn-light">Request Availability & Pricing</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="pearns-point.html" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Development</a>
+      <a href="#">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#">The Antigua Experience</a>
+      <a href="#">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">Antigua: <a href="tel:+12687364028">+1 268-736-4028</a></div>
+      <div class="footer-contact-line">Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" onclick="closeVideo()">
+      <span>Close</span>
+      <svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="2" y1="2" x2="16" y2="16"/><line x1="16" y1="2" x2="2" y2="16"/>
+      </svg>
+    </button>
+    <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  // Highlight active lot nav button on scroll
+  const lotSections = document.querySelectorAll('.lot-area[id]');
+  const lotBtns = document.querySelectorAll('.lot-nav-btn');
+  const lotObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        lotBtns.forEach(b => b.classList.remove('active'));
+        const btn = document.querySelector(`.lot-nav-btn[href="#${e.target.id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  lotSections.forEach(s => lotObserver.observe(s));
+
+  // Video modal
+  const modal = document.getElementById('videoModal');
+  const frame = document.getElementById('videoFrame');
+  function openVideo(youtubeId) {
+    frame.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    modal.classList.remove('open');
+    frame.src = '';
+    document.body.style.overflow = '';
+  }
+  // Close on backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeVideo();
+  });
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeVideo();
+  });
+</script>
+</body>
+</html>

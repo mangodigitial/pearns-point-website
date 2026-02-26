@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citizenship by Investment – Pearns Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #ffffff; --cream: #faf8f4; --sand-light: #f5f0e8; --sand: #e8dfd2; --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a; --deep-gold: #97794a; --champagne: #d4c5a9;
+    --ocean: #1a7a8a; --ocean-deep: #0d5f6e; --ocean-light: #2ba5b5; --lagoon: #48b5c4;
+    --navy: #1a2f3a; --charcoal: #2c3e42;
+    --text-dark: #2a2a28; --text-mid: #5a5a55; --text-light: #8a8a82;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s var(--ease); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 60px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; transition: color 0.4s; }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s; }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-links a.active { color: var(--white); }
+  nav.scrolled .nav-links a.active { color: var(--ocean); }
+  .nav-cta { padding: 10px 28px !important; border: 1.5px solid rgba(255,255,255,0.6) !important; transition: all 0.4s var(--ease) !important; }
+  .nav-cta:hover { background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important; }
+  nav.scrolled .nav-cta { border-color: var(--ocean) !important; color: var(--ocean) !important; }
+  nav.scrolled .nav-cta:hover { background: var(--ocean) !important; color: var(--white) !important; }
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span { display: block; width: 26px; height: 1.5px; background: var(--white); margin: 6px 0; }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* PAGE HERO */
+  .page-hero { height: 65vh; min-height: 480px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1920&q=85') center 50%/cover no-repeat; }
+  .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,47,58,0.3) 0%, rgba(26,47,58,0.15) 50%, rgba(250,248,244,0.6) 80%, rgba(250,248,244,1) 100%); }
+  .page-hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 900px; }
+  .page-hero-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 12px; }
+  .page-hero-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; color: var(--navy); }
+  .page-hero-title em { font-style: italic; font-weight: 300; }
+  .page-hero-sub { font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--text-mid); max-width: 560px; margin-top: 16px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .stagger > * { opacity: 0; transform: translateY(25px); }
+  .stagger.visible > *:nth-child(1) { animation: fadeUp 0.8s 0.05s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(2) { animation: fadeUp 0.8s 0.18s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(3) { animation: fadeUp 0.8s 0.3s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(4) { animation: fadeUp 0.8s 0.42s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(5) { animation: fadeUp 0.8s 0.54s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(6) { animation: fadeUp 0.8s 0.66s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(7) { animation: fadeUp 0.8s 0.78s var(--ease) forwards; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* COMMON */
+  .section-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.2; color: var(--navy); margin-bottom: 20px; }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-text { font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--text-mid); max-width: 560px; }
+  .gold-rule { width: 50px; height: 2px; background: linear-gradient(90deg, var(--warm-gold), var(--champagne)); margin: 28px 0; border-radius: 1px; }
+
+  /* ═══════════════════════════════════════════
+     CBI INTRO — 2 COL
+  ═══════════════════════════════════════════ */
+  .cbi-intro {
+    padding: 100px 60px 140px;
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .cbi-intro-img {
+    width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .cbi-intro-visual { position: relative; }
+  .cbi-badge {
+    position: absolute; top: -20px; right: -20px;
+    padding: 14px 24px; background: var(--ocean);
+    border-radius: 3px;
+    box-shadow: 0 12px 40px rgba(26,122,138,0.3);
+  }
+  .cbi-badge span {
+    font-size: 0.55rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--white);
+  }
+
+  /* ═══════════════════════════════════════════
+     BENEFITS GRID
+  ═══════════════════════════════════════════ */
+  .benefits {
+    padding: 140px 60px;
+    background: var(--white);
+  }
+  .benefits-inner { max-width: 1400px; margin: 0 auto; }
+  .benefits-header { text-align: center; margin-bottom: 72px; }
+  .benefits-header .section-text { max-width: 620px; margin: 0 auto; }
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+  }
+  .benefit-card {
+    padding: 44px 36px;
+    background: var(--cream); border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: all 0.5s var(--ease);
+    position: relative; overflow: hidden;
+  }
+  .benefit-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--warm-gold), var(--champagne));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+  .benefit-card:hover::before { transform: scaleX(1); }
+  .benefit-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+  .benefit-icon {
+    width: 44px; height: 44px; margin-bottom: 20px; color: var(--warm-gold);
+  }
+  .benefit-card h3 {
+    font-family: var(--font-display); font-size: 1.2rem;
+    font-weight: 400; color: var(--navy); margin-bottom: 10px;
+  }
+  .benefit-card p {
+    font-size: 0.78rem; font-weight: 300; line-height: 1.75; color: var(--text-mid);
+  }
+
+  /* ═══════════════════════════════════════════
+     PASSPORT HIGHLIGHTS
+  ═══════════════════════════════════════════ */
+  .passport {
+    padding: 140px 60px;
+  }
+  .passport-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .passport-img {
+    width: 100%; aspect-ratio: 3/2; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .passport-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 36px;
+  }
+  .passport-stat {
+    padding: 24px;
+    background: var(--white); border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.04);
+    text-align: center;
+  }
+  .passport-stat-num {
+    font-family: var(--font-display); font-size: 2rem;
+    font-weight: 300; color: var(--ocean); line-height: 1;
+  }
+  .passport-stat-num span { font-size: 0.5em; }
+  .passport-stat-label {
+    font-size: 0.55rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-light); margin-top: 8px;
+  }
+
+  /* ═══════════════════════════════════════════
+     PROCESS TIMELINE
+  ═══════════════════════════════════════════ */
+  .process {
+    padding: 140px 60px;
+    background: var(--white);
+  }
+  .process-inner { max-width: 1400px; margin: 0 auto; }
+  .process-header { text-align: center; margin-bottom: 80px; }
+  .process-header .section-text { max-width: 620px; margin: 0 auto; }
+  .timeline {
+    max-width: 800px; margin: 0 auto;
+    position: relative;
+  }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 32px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--ocean), var(--lagoon));
+  }
+  .timeline-step {
+    position: relative; padding-left: 88px; padding-bottom: 56px;
+  }
+  .timeline-step:last-child { padding-bottom: 0; }
+  .timeline-dot {
+    position: absolute; left: 20px; top: 4px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--white); border: 2px solid var(--ocean);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+  }
+  .timeline-dot-inner {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--ocean);
+  }
+  .timeline-step-num {
+    font-size: 0.55rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ocean); margin-bottom: 8px;
+  }
+  .timeline-step h3 {
+    font-family: var(--font-display); font-size: 1.3rem;
+    font-weight: 400; color: var(--navy); margin-bottom: 8px;
+  }
+  .timeline-step p {
+    font-size: 0.82rem; font-weight: 300; line-height: 1.8;
+    color: var(--text-mid); max-width: 520px;
+  }
+  .timeline-step .step-duration {
+    display: inline-block; margin-top: 12px;
+    font-size: 0.58rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 5px 14px;
+    background: rgba(26,122,138,0.06); color: var(--ocean);
+    border-radius: 2px; border: 1px solid rgba(26,122,138,0.12);
+  }
+
+  /* ═══════════════════════════════════════════
+     PEARNS POINT QUALIFIES
+  ═══════════════════════════════════════════ */
+  .qualifies {
+    padding: 100px 60px;
+    background: var(--navy);
+    text-align: center;
+  }
+  .qualifies-inner { max-width: 900px; margin: 0 auto; }
+  .qualifies .section-eyebrow { color: var(--lagoon); }
+  .qualifies .section-title { color: var(--white); }
+  .qualifies .section-title em { color: var(--lagoon); }
+  .qualifies .section-text { color: rgba(255,255,255,0.65); max-width: 640px; margin: 0 auto; }
+  .qualifies-features {
+    display: flex; justify-content: center; gap: 40px; margin-top: 48px; flex-wrap: wrap;
+  }
+  .qualifies-feat {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .qualifies-feat-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(72,181,196,0.12);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .qualifies-feat-icon svg { width: 18px; height: 18px; stroke: var(--lagoon); fill: none; stroke-width: 1.5; }
+  .qualifies-feat span {
+    font-size: 0.78rem; font-weight: 400; color: var(--white);
+  }
+
+  /* ═══════════════════════════════════════════
+     FAQ ACCORDION
+  ═══════════════════════════════════════════ */
+  .faq {
+    padding: 140px 60px;
+  }
+  .faq-inner { max-width: 800px; margin: 0 auto; }
+  .faq-header { text-align: center; margin-bottom: 64px; }
+  .faq-header .section-text { max-width: 560px; margin: 0 auto; }
+  .faq-item {
+    border-bottom: 1px solid var(--sand);
+  }
+  .faq-question {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 0; background: none; border: none; cursor: pointer;
+    text-align: left;
+  }
+  .faq-question h3 {
+    font-family: var(--font-display); font-size: 1.1rem;
+    font-weight: 400; color: var(--navy);
+    transition: color 0.3s;
+  }
+  .faq-question:hover h3 { color: var(--ocean); }
+  .faq-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.4s var(--ease);
+  }
+  .faq-icon svg { width: 16px; height: 16px; stroke: var(--text-light); stroke-width: 1.5; fill: none; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-item.open .faq-icon svg { stroke: var(--ocean); }
+  .faq-answer {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s var(--ease), padding 0.5s var(--ease);
+  }
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+  }
+  .faq-answer p {
+    font-size: 0.84rem; font-weight: 300; line-height: 1.85;
+    color: var(--text-mid); padding-bottom: 28px;
+  }
+
+  /* ═══════════════════════════════════════════
+     QUOTE STRIP
+  ═══════════════════════════════════════════ */
+  .quote-strip {
+    padding: 100px 60px;
+    background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean) 50%, var(--lagoon) 100%);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .quote-strip::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .quote-strip blockquote {
+    position: relative; z-index: 2;
+    font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 300; font-style: italic; color: var(--white);
+    line-height: 1.45; max-width: 800px; margin: 0 auto;
+  }
+
+  /* ═══════════════════════════════════════════
+     CTA
+  ═══════════════════════════════════════════ */
+  .cta-band {
+    padding: 80px 60px; text-align: center; background: var(--sand-light);
+  }
+  .cta-band h2 {
+    font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400; color: var(--navy); margin-bottom: 12px;
+  }
+  .cta-band h2 em { font-style: italic; font-weight: 300; }
+  .cta-band p { font-size: 0.85rem; font-weight: 300; color: var(--text-mid); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--white); background: var(--ocean);
+    text-decoration: none; padding: 16px 48px; transition: all 0.4s var(--ease);
+  }
+  .btn-primary:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(26,122,138,0.25); }
+  .btn-outline {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--ocean); background: transparent;
+    text-decoration: none; padding: 16px 48px; border: 1.5px solid var(--ocean);
+    transition: all 0.4s var(--ease);
+  }
+  .btn-outline:hover { background: var(--ocean); color: var(--white); }
+
+  /* FOOTER */
+  .footer { padding: 80px 60px 48px; background: var(--cream); border-top: 1px solid var(--sand); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 60px; }
+  .footer-brand-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; display: block; margin-bottom: 16px; }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ocean); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 0.8rem; font-weight: 300; color: var(--text-mid); text-decoration: none; margin-bottom: 12px; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line { font-size: 0.8rem; font-weight: 300; color: var(--text-mid); margin-bottom: 12px; }
+  .footer-contact-line a { display: inline; margin: 0; color: var(--navy); font-weight: 400; text-decoration: none; }
+  .footer-bottom { max-width: 1400px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.65rem; font-weight: 300; color: var(--text-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; } nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; } .mobile-toggle { display: block; }
+    .cbi-intro, .passport-inner { grid-template-columns: 1fr; gap: 48px; }
+    .benefits-grid { grid-template-columns: 1fr 1fr; }
+    .qualifies-features { gap: 24px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .page-hero-content { padding: 0 28px 60px; }
+    section, .cbi-intro, .benefits, .passport, .process, .qualifies, .faq, .cta-band, .quote-strip { padding-left: 28px !important; padding-right: 28px !important; }
+  }
+  @media (max-width: 640px) {
+    .benefits-grid { grid-template-columns: 1fr; }
+    .passport-stats { grid-template-columns: 1fr 1fr; }
+    .qualifies-features { flex-direction: column; align-items: center; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .cbi-badge { top: -12px; right: -8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="pearns-point.html" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="the-development.html">The Development</a></li>
+    <li><a href="lots-site-plan.html">Lots & Site Plan</a></li>
+    <li><a href="the-villas.html">The Villas</a></li>
+    <li><a href="the-antigua-experience.html">Antigua</a></li>
+    <li><a href="#" class="nav-cta">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Second Citizenship</p>
+    <h1 class="page-hero-title">Citizenship by <em>Investment</em></h1>
+    <p class="page-hero-sub">Antigua & Barbuda's CBI programme offers one of the most respected and efficient routes to second citizenship through qualifying real estate investment.</p>
+  </div>
+</section>
+
+<!-- CBI INTRO -->
+<section class="cbi-intro">
+  <div class="cbi-intro-visual reveal">
+    <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80" alt="Antigua coastline" class="cbi-intro-img">
+    <div class="cbi-badge"><span>CBI Approved</span></div>
+  </div>
+  <div class="reveal stagger">
+    <p class="section-eyebrow">The Programme</p>
+    <h2 class="section-title">A Pathway to<br><em>Global</em> Freedom</h2>
+    <div class="gold-rule"></div>
+    <p class="section-text">Antigua & Barbuda's Citizenship by Investment Programme, established in 2013, enables individuals and families to obtain full citizenship through a qualifying investment in government-approved real estate.</p>
+    <p class="section-text" style="margin-top: 16px;">As a government-approved development, Pearns Point offers one of the Caribbean's most prestigious CBI-qualifying investments — combining an exceptional lifestyle asset with the security and freedom of second citizenship.</p>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="benefits-inner">
+    <div class="benefits-header reveal stagger">
+      <p class="section-eyebrow">Key Benefits</p>
+      <h2 class="section-title">Why Antigua <em>Citizenship?</em></h2>
+      <p class="section-text">Antigua's CBI programme is one of the longest-established and most respected in the Caribbean, offering a compelling combination of lifestyle, mobility, and financial advantages.</p>
+    </div>
+    <div class="benefits-grid reveal stagger">
+      <div class="benefit-card">
+        <svg class="benefit-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="22" cy="22" r="16"/><path d="M14 22l4 4 10-10"/>
+        </svg>
+        <h3>Visa-Free Travel</h3>
+        <p>Antigua citizenship grants visa-free or visa-on-arrival access to over 150 countries and territories, including the UK, EU Schengen Zone, Hong Kong, and Singapore.</p>
+      </div>
+      <div class="benefit-card">
+        <svg class="benefit-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="6" y="12" width="32" height="22" rx="2"/><path d="M6 20h32"/><circle cx="15" cy="27" r="3"/>
+        </svg>
+        <h3>Tax Advantages</h3>
+        <p>No income tax, capital gains tax, inheritance tax, or wealth tax. Antigua offers one of the most favourable tax environments in the Caribbean for individuals and families.</p>
+      </div>
+      <div class="benefit-card">
+        <svg class="benefit-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M22 6v32M14 14l8-8 8 8"/><circle cx="22" cy="34" r="4"/>
+        </svg>
+        <h3>Fast Processing</h3>
+        <p>Applications are typically processed within 3–6 months, with citizenship granted to the principal applicant, spouse, dependent children, and eligible family members.</p>
+      </div>
+      <div class="benefit-card">
+        <svg class="benefit-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M22 4C18 12 12 18 4 22C12 26 18 32 22 40C26 32 32 26 40 22C32 18 26 12 22 4Z"/>
+        </svg>
+        <h3>Dual Citizenship</h3>
+        <p>Antigua & Barbuda permits dual citizenship with no restrictions. There is no requirement to renounce your existing nationality or residency.</p>
+      </div>
+      <div class="benefit-card">
+        <svg class="benefit-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="8" y="6" width="28" height="32" rx="2"/><path d="M16 14h12M16 20h12M16 26h8"/>
+        </svg>
+        <h3>Minimal Residency</h3>
+        <p>No minimum residency requirement before or after obtaining citizenship. The programme requires just five days of residence within the first five years.</p>
+      </div>
+      <div class="benefit-card">
+        <svg class="benefit-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+          <circle cx="16" cy="16" r="8"/><circle cx="28" cy="28" r="8"/><path d="M22 22l-4-4M22 22l4 4"/>
+        </svg>
+        <h3>Family Inclusion</h3>
+        <p>Include your spouse, dependent children under 30, parents and grandparents over 55, and siblings under 18 on a single application.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PASSPORT HIGHLIGHTS -->
+<section class="passport">
+  <div class="passport-inner">
+    <div class="reveal stagger">
+      <p class="section-eyebrow">Global Mobility</p>
+      <h2 class="section-title">Your Passport to<br>the <em>World</em></h2>
+      <div class="gold-rule"></div>
+      <p class="section-text">An Antigua & Barbuda passport is one of the strongest in the Caribbean, offering extensive visa-free access to major business and leisure destinations worldwide.</p>
+      <div class="passport-stats">
+        <div class="passport-stat">
+          <div class="passport-stat-num">150<span>+</span></div>
+          <div class="passport-stat-label">Countries Visa-Free</div>
+        </div>
+        <div class="passport-stat">
+          <div class="passport-stat-num">EU</div>
+          <div class="passport-stat-label">Schengen Access</div>
+        </div>
+        <div class="passport-stat">
+          <div class="passport-stat-num">UK</div>
+          <div class="passport-stat-label">6 Month Visa-Free</div>
+        </div>
+        <div class="passport-stat">
+          <div class="passport-stat-num">HK</div>
+          <div class="passport-stat-label">& Singapore Access</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80" alt="Global travel" class="passport-img">
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="process-inner">
+    <div class="process-header reveal stagger">
+      <p class="section-eyebrow">The Process</p>
+      <h2 class="section-title">How It <em>Works</em></h2>
+      <p class="section-text">From initial consultation to receiving your passport, the CBI process is straightforward and fully managed by our experienced team and legal partners.</p>
+    </div>
+    <div class="timeline reveal stagger">
+      <div class="timeline-step">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-step-num">Step 01</div>
+        <h3>Initial Consultation</h3>
+        <p>Speak with our team to understand the programme, investment options, and how Pearns Point qualifies. We'll assess your eligibility and outline the full process.</p>
+        <span class="step-duration">Week 1–2</span>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-step-num">Step 02</div>
+        <h3>Select Your Investment</h3>
+        <p>Choose your plot at Pearns Point and confirm your investment. Our legal partners will prepare and submit your citizenship application alongside all required documentation.</p>
+        <span class="step-duration">Week 2–4</span>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-step-num">Step 03</div>
+        <h3>Due Diligence</h3>
+        <p>The Citizenship by Investment Unit conducts thorough background checks and due diligence on all applicants. This is a rigorous process that ensures the programme's integrity.</p>
+        <span class="step-duration">Month 2–4</span>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-step-num">Step 04</div>
+        <h3>Approval & Citizenship</h3>
+        <p>Upon approval, you receive your Certificate of Citizenship and can apply for your Antigua & Barbuda passport — granting visa-free access to 150+ countries.</p>
+        <span class="step-duration">Month 4–6</span>
+      </div>
+      <div class="timeline-step">
+        <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+        <div class="timeline-step-num">Step 05</div>
+        <h3>Begin Your New Life</h3>
+        <p>With citizenship secured, enjoy the freedom of global mobility, tax advantages, and your exceptional new home at Pearns Point — where your investment becomes a lifestyle.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PEARNS POINT QUALIFIES -->
+<section class="qualifies reveal">
+  <div class="qualifies-inner">
+    <p class="section-eyebrow">Government Approved</p>
+    <h2 class="section-title">Pearns Point is a<br>CBI <em>Qualifying</em> Development</h2>
+    <p class="section-text">Every plot at Pearns Point meets the minimum investment threshold required under Antigua's Citizenship by Investment Programme — combining exceptional real estate with a clear pathway to second citizenship.</p>
+    <div class="qualifies-features">
+      <div class="qualifies-feat">
+        <div class="qualifies-feat-icon">
+          <svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg>
+        </div>
+        <span>Government approved</span>
+      </div>
+      <div class="qualifies-feat">
+        <div class="qualifies-feat-icon">
+          <svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg>
+        </div>
+        <span>All plots qualify</span>
+      </div>
+      <div class="qualifies-feat">
+        <div class="qualifies-feat-icon">
+          <svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg>
+        </div>
+        <span>Family included</span>
+      </div>
+      <div class="qualifies-feat">
+        <div class="qualifies-feat-icon">
+          <svg viewBox="0 0 24 24"><polyline points="4,12 9,17 20,6"/></svg>
+        </div>
+        <span>Legal support provided</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-strip">
+  <blockquote class="reveal">"Invest in an extraordinary Caribbean lifestyle — and gain the freedom of global citizenship for you and your family."</blockquote>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="faq-inner">
+    <div class="faq-header reveal stagger">
+      <p class="section-eyebrow">Common Questions</p>
+      <h2 class="section-title">Frequently <em>Asked</em></h2>
+      <p class="section-text">Everything you need to know about citizenship by investment through Pearns Point.</p>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <h3>What is the minimum investment required?</h3>
+        <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-answer">
+        <p>The minimum real estate investment under Antigua's CBI programme is US $200,000 in a government-approved project. All plots at Pearns Point exceed this threshold, ensuring automatic qualification for the programme.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <h3>How long does the process take?</h3>
+        <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-answer">
+        <p>From application submission to citizenship approval, the typical timeline is 3–6 months. This includes the due diligence process, background checks, and final approval by the Citizenship by Investment Unit.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <h3>Can I include my family?</h3>
+        <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-answer">
+        <p>Yes. A single application can include your spouse, dependent children under 30, parents and grandparents over 55, and unmarried siblings under 18. Additional government fees apply per dependent.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <h3>Do I need to live in Antigua?</h3>
+        <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-answer">
+        <p>There is no residency requirement prior to or immediately after obtaining citizenship. The programme requires a minimum of just five days' residence in Antigua within the first five years of citizenship.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <h3>Can I sell the property after obtaining citizenship?</h3>
+        <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-answer">
+        <p>The real estate investment must be held for a minimum of five years following citizenship approval. After this period, the property may be sold while retaining your citizenship. The subsequent buyer may also qualify for CBI.</p>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <h3>Will I need to renounce my existing citizenship?</h3>
+        <div class="faq-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+      </button>
+      <div class="faq-answer">
+        <p>No. Antigua & Barbuda permits full dual citizenship. There is no requirement to renounce your current nationality, and your existing passport remains unaffected by the process.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="reveal stagger">
+    <h2>Start Your Citizenship<br><em>Journey</em></h2>
+    <p>Our experienced team and legal partners will guide you through every step of the CBI process.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn-primary">Speak to Our Team</a>
+      <a href="#" class="btn-outline">Download CBI Guide</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="pearns-point.html" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Development</a>
+      <a href="#">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#">The Antigua Experience</a>
+      <a href="#">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">Antigua: <a href="tel:+12687364028">+1 268-736-4028</a></div>
+      <div class="footer-contact-line">Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // NAV
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+  // REVEAL
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // FAQ ACCORDION
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Development – Pearns Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #ffffff; --cream: #faf8f4; --sand-light: #f5f0e8; --sand: #e8dfd2; --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a; --deep-gold: #97794a; --champagne: #d4c5a9;
+    --ocean: #1a7a8a; --ocean-deep: #0d5f6e; --ocean-light: #2ba5b5; --lagoon: #48b5c4;
+    --navy: #1a2f3a; --charcoal: #2c3e42;
+    --text-dark: #2a2a28; --text-mid: #5a5a55; --text-light: #8a8a82;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s var(--ease); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 60px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; transition: color 0.4s; }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s; }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-links a.active { color: var(--white); }
+  nav.scrolled .nav-links a.active { color: var(--ocean); }
+  .nav-cta { padding: 10px 28px !important; border: 1.5px solid rgba(255,255,255,0.6) !important; transition: all 0.4s var(--ease) !important; }
+  .nav-cta:hover { background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important; }
+  nav.scrolled .nav-cta { border-color: var(--ocean) !important; color: var(--ocean) !important; }
+  nav.scrolled .nav-cta:hover { background: var(--ocean) !important; color: var(--white) !important; }
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span { display: block; width: 26px; height: 1.5px; background: var(--white); margin: 6px 0; transition: all 0.3s; }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* PAGE HERO */
+  .page-hero { height: 65vh; min-height: 480px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1920&q=85') center 40%/cover no-repeat; }
+  .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,47,58,0.2) 0%, rgba(26,47,58,0.1) 50%, rgba(250,248,244,0.6) 80%, rgba(250,248,244,1) 100%); }
+  .page-hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 800px; }
+  .page-hero-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 12px; }
+  .page-hero-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; color: var(--navy); }
+  .page-hero-title em { font-style: italic; font-weight: 300; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .stagger > * { opacity: 0; transform: translateY(25px); }
+  .stagger.visible > *:nth-child(1) { animation: fadeUp 0.8s 0.05s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(2) { animation: fadeUp 0.8s 0.18s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(3) { animation: fadeUp 0.8s 0.3s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(4) { animation: fadeUp 0.8s 0.42s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(5) { animation: fadeUp 0.8s 0.54s var(--ease) forwards; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* COMMON */
+  .section-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.2; color: var(--navy); margin-bottom: 20px; }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-text { font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--text-mid); max-width: 560px; }
+  .gold-rule { width: 50px; height: 2px; background: linear-gradient(90deg, var(--warm-gold), var(--champagne)); margin: 28px 0; border-radius: 1px; }
+
+  /* ═══════════════════════════════════════════
+     THE VISION
+  ═══════════════════════════════════════════ */
+  .vision {
+    padding: 100px 60px 140px;
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .vision-images { position: relative; }
+  .vision-img-main {
+    width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .vision-img-float {
+    position: absolute; bottom: -30px; right: -40px; width: 50%; aspect-ratio: 1;
+    object-fit: cover; border-radius: 4px; border: 5px solid var(--cream);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+  }
+
+  /* ═══════════════════════════════════════════
+     THE PROJECT — full-width image + text
+  ═══════════════════════════════════════════ */
+  .project {
+    background: var(--white);
+    padding: 140px 60px;
+  }
+  .project-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .project-content { order: 1; }
+  .project-visual { order: 2; position: relative; }
+  .project-img {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .lot-types {
+    display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap;
+  }
+  .lot-badge {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ocean); background: var(--sky-pale, #e0f2f8); padding: 10px 20px;
+    border-radius: 2px; border: 1px solid rgba(26,122,138,0.15);
+  }
+
+  /* ═══════════════════════════════════════════
+     COMMUNITY — AMENITIES
+  ═══════════════════════════════════════════ */
+  .community {
+    padding: 140px 60px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .community-header { text-align: center; margin-bottom: 72px; }
+  .community-header .section-text { max-width: 620px; margin: 0 auto; }
+  .amenities-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+  }
+  .amenity-card {
+    text-align: center; padding: 44px 28px;
+    background: var(--white); border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.5s var(--ease);
+  }
+  .amenity-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+  }
+  .amenity-icon {
+    width: 52px; height: 52px; margin: 0 auto 20px;
+    color: var(--ocean);
+  }
+  .amenity-card h3 {
+    font-family: var(--font-display); font-size: 1.15rem; font-weight: 400;
+    color: var(--navy); margin-bottom: 8px;
+  }
+  .amenity-card p {
+    font-size: 0.75rem; font-weight: 300; line-height: 1.65;
+    color: var(--text-light);
+  }
+
+  /* ═══════════════════════════════════════════
+     QUOTE STRIP
+  ═══════════════════════════════════════════ */
+  .quote-strip {
+    padding: 100px 60px;
+    background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean) 50%, var(--lagoon) 100%);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .quote-strip::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .quote-strip blockquote {
+    position: relative; z-index: 2;
+    font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 300; font-style: italic; color: var(--white);
+    line-height: 1.45; max-width: 800px; margin: 0 auto;
+  }
+
+  /* ═══════════════════════════════════════════
+     THE DEVELOPER
+  ═══════════════════════════════════════════ */
+  .developer-section {
+    padding: 140px 60px;
+    background: var(--white);
+  }
+  .developer-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .developer-img {
+    width: 100%; aspect-ratio: 3/2; object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .developer-highlights {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px;
+  }
+  .dev-highlight {
+    padding: 20px 0; border-top: 2px solid var(--sand);
+  }
+  .dev-highlight h4 {
+    font-family: var(--font-display); font-size: 1.1rem; font-weight: 400;
+    color: var(--ocean); margin-bottom: 4px;
+  }
+  .dev-highlight p {
+    font-size: 0.72rem; font-weight: 300; color: var(--text-light); line-height: 1.5;
+  }
+
+  /* ═══════════════════════════════════════════
+     CTA BAND
+  ═══════════════════════════════════════════ */
+  .cta-band {
+    padding: 80px 60px; text-align: center;
+    background: var(--sand-light);
+  }
+  .cta-band h2 {
+    font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400; color: var(--navy); margin-bottom: 12px;
+  }
+  .cta-band h2 em { font-style: italic; font-weight: 300; }
+  .cta-band p { font-size: 0.85rem; font-weight: 300; color: var(--text-mid); margin-bottom: 32px; }
+  .btn-primary {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--white); background: var(--ocean);
+    text-decoration: none; padding: 16px 48px; transition: all 0.4s var(--ease);
+  }
+  .btn-primary:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(26,122,138,0.25); }
+  .btn-outline {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--ocean); background: transparent;
+    text-decoration: none; padding: 16px 48px; border: 1.5px solid var(--ocean); margin-left: 12px;
+    transition: all 0.4s var(--ease);
+  }
+  .btn-outline:hover { background: var(--ocean); color: var(--white); }
+
+  /* FOOTER */
+  .footer { padding: 80px 60px 48px; background: var(--cream); border-top: 1px solid var(--sand); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 60px; }
+  .footer-brand-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; display: block; margin-bottom: 16px; }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ocean); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 0.8rem; font-weight: 300; color: var(--text-mid); text-decoration: none; margin-bottom: 12px; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line { font-size: 0.8rem; font-weight: 300; color: var(--text-mid); margin-bottom: 12px; }
+  .footer-contact-line a { display: inline; margin: 0; color: var(--navy); font-weight: 400; }
+  .footer-bottom { max-width: 1400px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.65rem; font-weight: 300; color: var(--text-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; }
+    nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+    .vision, .project-inner, .developer-inner { grid-template-columns: 1fr; gap: 60px; }
+    .vision-img-float { display: none; }
+    .amenities-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .page-hero-content { padding: 0 28px 60px; }
+    section, .vision, .project, .community, .developer-section, .cta-band { padding-left: 28px !important; padding-right: 28px !important; }
+  }
+  @media (max-width: 640px) {
+    .amenities-grid { grid-template-columns: 1fr; }
+    .developer-highlights { grid-template-columns: 1fr; }
+    .lot-types { flex-direction: column; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .btn-outline { margin-left: 0; margin-top: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="pearns-point.html" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">The Development</a></li>
+    <li><a href="#">The Lifestyle</a></li>
+    <li><a href="#">The Villas</a></li>
+    <li><a href="#">Antigua</a></li>
+    <li><a href="#" class="nav-cta">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Pearns Point</p>
+    <h1 class="page-hero-title">The <em>Development</em></h1>
+  </div>
+</section>
+
+<!-- THE VISION -->
+<section class="vision">
+  <div class="vision-images reveal">
+    <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&q=80" alt="Peninsula aerial view" class="vision-img-main">
+    <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=500&q=80" alt="White sand beach" class="vision-img-float">
+  </div>
+  <div class="reveal stagger">
+    <p class="section-eyebrow">The Vision</p>
+    <h2 class="section-title">A Long-Term Vision,<br><em>Beautifully</em> Realised</h2>
+    <div class="gold-rule"></div>
+    <p class="section-text">Pearns Point marks the realisation of a long-term vision. Immersed in a bounty of nature, this exclusive development inhabits a beautiful peninsula on Antigua's west coast. Notable for its spectacular vistas across intimate white-sand beaches and turquoise waters to the islands of Montserrat, Redonda, and St Kitts and Nevis — Pearns Point is secluded yet conveniently close to the island's main attractions.</p>
+  </div>
+</section>
+
+<!-- THE PROJECT -->
+<section class="project">
+  <div class="project-inner">
+    <div class="project-content reveal stagger">
+      <p class="section-eyebrow">The Project</p>
+      <h2 class="section-title">Your Perfect Plot,<br>Your <em>Perfect</em> Home</h2>
+      <div class="gold-rule"></div>
+      <p class="section-text">A spectacular choice of lots are available for sale on this remarkable peninsula. Subject to restrictive covenants that respect the low density, luxury vision for the peninsula, the Developer can also make available experienced design, planning and construction teams to build out your dream villa.</p>
+      <div class="lot-types">
+        <span class="lot-badge">Beach Front</span>
+        <span class="lot-badge">Ocean Front</span>
+        <span class="lot-badge">Ocean View</span>
+      </div>
+    </div>
+    <div class="project-visual reveal">
+      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Luxury villa design" class="project-img">
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community">
+  <div class="community-header reveal stagger">
+    <p class="section-eyebrow">Owners' Facilities</p>
+    <h2 class="section-title">A Community Built on<br><em>Luxury</em> & Lifestyle</h2>
+    <p class="section-text">Pearns Point owners will enjoy access to an exciting range of amenities on the main beach and public areas — ensuring a sense of sociability and community as and when the mood suits.</p>
+  </div>
+  <div class="amenities-grid reveal stagger">
+    <div class="amenity-card">
+      <svg class="amenity-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M10 42 L26 10 L42 42 Z"/><line x1="16" y1="30" x2="36" y2="30"/>
+      </svg>
+      <h3>Beach Bar & Restaurant</h3>
+      <p>Dine oceanside with Caribbean-inspired cuisine and international fine dining.</p>
+    </div>
+    <div class="amenity-card">
+      <svg class="amenity-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.2">
+        <ellipse cx="26" cy="30" rx="18" ry="10"/><path d="M8 30 V20 C8 12 44 12 44 20 V30"/>
+      </svg>
+      <h3>Swimming Pool</h3>
+      <p>An infinity-edge pool overlooking the Caribbean Sea and surrounding islands.</p>
+    </div>
+    <div class="amenity-card">
+      <svg class="amenity-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="10" y="10" width="32" height="32" rx="2"/><line x1="10" y1="26" x2="42" y2="26"/><line x1="26" y1="10" x2="26" y2="42"/>
+      </svg>
+      <h3>Tennis Courts</h3>
+      <p>Championship-standard courts set amongst the tropical landscape.</p>
+    </div>
+    <div class="amenity-card">
+      <svg class="amenity-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="26" cy="26" r="16"/><path d="M20 26 Q26 18 32 26 Q26 34 20 26"/>
+      </svg>
+      <h3>Fitness Centre</h3>
+      <p>State-of-the-art wellness and fitness facilities for residents.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-strip">
+  <blockquote class="reveal">"A luxurious sanctuary that respects the rich local inheritance and culture of Antigua — ecologically sensitive and financially exceptional."</blockquote>
+</section>
+
+<!-- THE DEVELOPER -->
+<section class="developer-section">
+  <div class="developer-inner">
+    <div class="reveal">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80" alt="Luxury development" class="developer-img">
+    </div>
+    <div class="reveal stagger">
+      <p class="section-eyebrow">The Developer</p>
+      <h2 class="section-title">Orange <em>Limited</em></h2>
+      <div class="gold-rule"></div>
+      <p class="section-text">Pearns Point is owned by luxury property developers Orange Limited, led by Dutch entrepreneur Albert Hartog and his partners. Together, they have been creating one of the most exclusive projects in the Caribbean — a luxurious sanctuary that respects the rich local inheritance and culture of Antigua, while protecting local ecosystems in a sustainable way.</p>
+      <div class="developer-highlights">
+        <div class="dev-highlight">
+          <h4>Conservation</h4>
+          <p>Sponsor of major wildlife projects in South Africa</p>
+        </div>
+        <div class="dev-highlight">
+          <h4>Sustainable</h4>
+          <p>Ecologically sensitive development practices</p>
+        </div>
+        <div class="dev-highlight">
+          <h4>Experienced</h4>
+          <p>Proven track record in luxury real estate</p>
+        </div>
+        <div class="dev-highlight">
+          <h4>Community</h4>
+          <p>Active sponsors of local Antiguan charities</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="reveal stagger">
+    <h2>Ready to Explore<br><em>Pearns Point?</em></h2>
+    <p>Discover the lots available and begin your journey to the Caribbean's most exclusive address.</p>
+    <div>
+      <a href="#" class="btn-primary">View Lots & Site Plan</a>
+      <a href="#" class="btn-outline">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Development</a>
+      <a href="#">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#">The Antigua Experience</a>
+      <a href="#">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">Antigua: <a href="tel:+12687364028">+1 268-736-4028</a></div>
+      <div class="footer-contact-line">Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth' }); });
+  });
+</script>
+</body>
+</html>

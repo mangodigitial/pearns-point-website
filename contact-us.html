@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us – Pearns Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #ffffff; --cream: #faf8f4; --sand-light: #f5f0e8; --sand: #e8dfd2; --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a; --deep-gold: #97794a; --champagne: #d4c5a9;
+    --ocean: #1a7a8a; --ocean-deep: #0d5f6e; --ocean-light: #2ba5b5; --lagoon: #48b5c4;
+    --navy: #1a2f3a; --charcoal: #2c3e42;
+    --text-dark: #2a2a28; --text-mid: #5a5a55; --text-light: #8a8a82;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s var(--ease); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 60px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; transition: color 0.4s; }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s; }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-links a.active { color: var(--white); }
+  nav.scrolled .nav-links a.active { color: var(--ocean); }
+  .nav-cta { padding: 10px 28px !important; border: 1.5px solid rgba(255,255,255,0.6) !important; transition: all 0.4s var(--ease) !important; }
+  .nav-cta:hover { background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important; }
+  nav.scrolled .nav-cta { border-color: var(--ocean) !important; color: var(--ocean) !important; }
+  nav.scrolled .nav-cta:hover { background: var(--ocean) !important; color: var(--white) !important; }
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span { display: block; width: 26px; height: 1.5px; background: var(--white); margin: 6px 0; }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* PAGE HERO */
+  .page-hero { height: 55vh; min-height: 400px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1476673160081-cf065607f449?w=1920&q=85') center 70%/cover no-repeat; }
+  .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,47,58,0.25) 0%, rgba(26,47,58,0.1) 50%, rgba(250,248,244,0.65) 80%, rgba(250,248,244,1) 100%); }
+  .page-hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 900px; }
+  .page-hero-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 12px; }
+  .page-hero-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; color: var(--navy); }
+  .page-hero-title em { font-style: italic; font-weight: 300; }
+  .page-hero-sub { font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--text-mid); max-width: 560px; margin-top: 16px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .stagger > * { opacity: 0; transform: translateY(25px); }
+  .stagger.visible > *:nth-child(1) { animation: fadeUp 0.8s 0.05s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(2) { animation: fadeUp 0.8s 0.18s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(3) { animation: fadeUp 0.8s 0.3s var(--ease) forwards; }
+  .stagger.visible > *:nth-child(4) { animation: fadeUp 0.8s 0.42s var(--ease) forwards; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* COMMON */
+  .section-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.2; color: var(--navy); margin-bottom: 20px; }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-text { font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--text-mid); max-width: 560px; }
+  .gold-rule { width: 50px; height: 2px; background: linear-gradient(90deg, var(--warm-gold), var(--champagne)); margin: 28px 0; border-radius: 1px; }
+
+  /* ═══════════════════════════════════════════
+     CONTACT CARDS
+  ═══════════════════════════════════════════ */
+  .contact-cards {
+    padding: 80px 60px 0;
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .contact-card {
+    background: var(--white); border-radius: 4px; padding: 40px 36px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    transition: all 0.5s var(--ease);
+    position: relative; overflow: hidden;
+  }
+  .contact-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ocean), var(--lagoon));
+    transform: scaleX(0); transform-origin: center;
+    transition: transform 0.5s var(--ease);
+  }
+  .contact-card:hover::before { transform: scaleX(1); }
+  .contact-card:hover { transform: translateY(-4px); box-shadow: 0 16px 44px rgba(0,0,0,0.07); }
+  .contact-card-icon {
+    width: 52px; height: 52px; margin: 0 auto 20px;
+    background: rgba(26,122,138,0.06); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .contact-card-icon svg { width: 22px; height: 22px; stroke: var(--ocean); stroke-width: 1.3; fill: none; }
+  .contact-card h3 {
+    font-family: var(--font-display); font-size: 1.15rem;
+    font-weight: 400; color: var(--navy); margin-bottom: 8px;
+  }
+  .contact-card p {
+    font-size: 0.78rem; font-weight: 300; line-height: 1.7; color: var(--text-mid);
+    margin-bottom: 16px;
+  }
+  .contact-card a {
+    font-size: 0.82rem; font-weight: 500; color: var(--ocean);
+    text-decoration: none; transition: color 0.3s;
+  }
+  .contact-card a:hover { color: var(--ocean-deep); }
+  .contact-card .card-detail {
+    font-size: 0.72rem; font-weight: 300; color: var(--text-light); margin-top: 4px;
+  }
+
+  /* ═══════════════════════════════════════════
+     MAIN CONTACT SECTION — FORM + INFO
+  ═══════════════════════════════════════════ */
+  .contact-main {
+    padding: 100px 60px 140px;
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.2fr 1fr;
+    gap: 100px; align-items: start;
+  }
+
+  /* FORM */
+  .contact-form-wrap {}
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .form-group { display: flex; flex-direction: column; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label {
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-mid); margin-bottom: 8px;
+  }
+  .form-input, .form-select, .form-textarea {
+    font-family: var(--font-body); font-size: 0.84rem; font-weight: 300;
+    padding: 14px 18px;
+    border: 1.5px solid var(--sand);
+    border-radius: 3px; background: var(--white);
+    color: var(--text-dark);
+    transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--ocean);
+    box-shadow: 0 0 0 3px rgba(26,122,138,0.08);
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--sand-dark); }
+  .form-select {
+    appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238a8a82' stroke-width='1.2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+  .form-select option { font-weight: 300; }
+  .form-textarea { resize: vertical; min-height: 140px; line-height: 1.7; }
+  .form-checkbox-row {
+    display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; margin-bottom: 28px;
+  }
+  .form-checkbox {
+    width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+    accent-color: var(--ocean); cursor: pointer;
+  }
+  .form-checkbox-label {
+    font-size: 0.72rem; font-weight: 300; color: var(--text-mid); line-height: 1.6;
+  }
+  .form-checkbox-label a { color: var(--ocean); text-decoration: none; }
+  .btn-submit {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--white); background: var(--ocean);
+    border: none; padding: 18px 56px; cursor: pointer;
+    transition: all 0.4s var(--ease);
+  }
+  .btn-submit:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(26,122,138,0.25); }
+
+  /* INFO SIDEBAR */
+  .contact-info {}
+  .info-block { margin-bottom: 44px; }
+  .info-block h4 {
+    font-size: 0.58rem; font-weight: 600; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--ocean); margin-bottom: 16px;
+  }
+  .info-line {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 14px;
+  }
+  .info-line-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: rgba(26,122,138,0.06); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .info-line-icon svg { width: 16px; height: 16px; stroke: var(--ocean); stroke-width: 1.3; fill: none; }
+  .info-line-text {
+    font-size: 0.84rem; font-weight: 300; color: var(--text-mid); line-height: 1.5;
+  }
+  .info-line-text a {
+    color: var(--navy); font-weight: 400; text-decoration: none;
+    transition: color 0.3s;
+  }
+  .info-line-text a:hover { color: var(--ocean); }
+  .info-line-text .label {
+    display: block; font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light);
+    margin-bottom: 2px;
+  }
+
+  /* OFFICE CARDS */
+  .office-cards { display: flex; flex-direction: column; gap: 16px; }
+  .office-card {
+    padding: 24px 28px; background: var(--white);
+    border-radius: 4px; border-left: 3px solid var(--ocean);
+  }
+  .office-card h5 {
+    font-family: var(--font-display); font-size: 1.05rem;
+    font-weight: 400; color: var(--navy); margin-bottom: 6px;
+  }
+  .office-card p {
+    font-size: 0.78rem; font-weight: 300; color: var(--text-mid); line-height: 1.7;
+  }
+
+  /* ═══════════════════════════════════════════
+     MAP SECTION
+  ═══════════════════════════════════════════ */
+  .map-section {
+    position: relative; height: 450px;
+    background: var(--sand-light);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .map-placeholder {
+    text-align: center;
+  }
+  .map-placeholder-icon {
+    width: 60px; height: 60px; margin: 0 auto 16px;
+    background: rgba(26,122,138,0.08); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-placeholder-icon svg { width: 26px; height: 26px; stroke: var(--ocean); stroke-width: 1.2; fill: none; }
+  .map-placeholder h3 {
+    font-family: var(--font-display); font-size: 1.3rem;
+    font-weight: 400; color: var(--navy); margin-bottom: 6px;
+  }
+  .map-placeholder p {
+    font-size: 0.78rem; font-weight: 300; color: var(--text-mid);
+  }
+  .map-placeholder p a { color: var(--ocean); text-decoration: none; }
+
+  /* FOOTER */
+  .footer { padding: 80px 60px 48px; background: var(--cream); border-top: 1px solid var(--sand); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 60px; }
+  .footer-brand-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; display: block; margin-bottom: 16px; }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ocean); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 0.8rem; font-weight: 300; color: var(--text-mid); text-decoration: none; margin-bottom: 12px; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line { font-size: 0.8rem; font-weight: 300; color: var(--text-mid); margin-bottom: 12px; }
+  .footer-contact-line a { display: inline; margin: 0; color: var(--navy); font-weight: 400; text-decoration: none; }
+  .footer-bottom { max-width: 1400px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.65rem; font-weight: 300; color: var(--text-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; } nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; } .mobile-toggle { display: block; }
+    .contact-cards { grid-template-columns: 1fr; padding: 60px 28px 0; gap: 16px; }
+    .contact-main { grid-template-columns: 1fr; gap: 60px; padding: 80px 28px 100px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .page-hero-content { padding: 0 28px 60px; }
+  }
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="pearns-point.html" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="the-development.html">The Development</a></li>
+    <li><a href="lots-site-plan.html">Lots & Site Plan</a></li>
+    <li><a href="the-villas.html">The Villas</a></li>
+    <li><a href="the-antigua-experience.html">Antigua</a></li>
+    <li><a href="#" class="nav-cta active">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Get in Touch</p>
+    <h1 class="page-hero-title">Contact <em>Us</em></h1>
+    <p class="page-hero-sub">Whether you're ready to invest or simply exploring your options, our team is here to help at every stage.</p>
+  </div>
+</section>
+
+<!-- CONTACT CARDS -->
+<section class="contact-cards reveal stagger">
+  <div class="contact-card">
+    <div class="contact-card-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    </div>
+    <h3>Call Us</h3>
+    <p>Speak directly with our sales team</p>
+    <a href="tel:+12687364028">+1 268-736-4028</a>
+    <div class="card-detail">Antigua Office</div>
+  </div>
+  <div class="contact-card">
+    <div class="contact-card-icon">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <h3>Email Us</h3>
+    <p>We respond within 24 hours</p>
+    <a href="mailto:info@orangelimited.com">info@orangelimited.com</a>
+    <div class="card-detail">General & Sales Enquiries</div>
+  </div>
+  <div class="contact-card">
+    <div class="contact-card-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    </div>
+    <h3>Visit Us</h3>
+    <p>Tour the peninsula in person</p>
+    <a href="#">Book a Site Visit</a>
+    <div class="card-detail">Pearns Point, Five Islands, Antigua</div>
+  </div>
+</section>
+
+<!-- CONTACT MAIN -->
+<section class="contact-main">
+
+  <!-- FORM -->
+  <div class="contact-form-wrap reveal">
+    <p class="section-eyebrow">Enquiry Form</p>
+    <h2 class="section-title">Send Us a <em>Message</em></h2>
+    <div class="gold-rule"></div>
+    <p class="section-text" style="margin-bottom: 36px;">Complete the form below and a member of our team will be in touch to discuss your requirements.</p>
+
+    <form onsubmit="event.preventDefault();">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name *</label>
+          <input type="text" class="form-input" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name *</label>
+          <input type="text" class="form-input" placeholder="Smith" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email Address *</label>
+          <input type="email" class="form-input" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" placeholder="+1 234 567 8900">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Country of Residence</label>
+          <input type="text" class="form-input" placeholder="United Kingdom">
+        </div>
+        <div class="form-group">
+          <label class="form-label">I'm Interested In</label>
+          <select class="form-select">
+            <option value="" disabled selected>Select an option</option>
+            <option>Purchasing a Plot</option>
+            <option>Plot & Plan Programme</option>
+            <option>Citizenship by Investment</option>
+            <option>Visiting the Site</option>
+            <option>General Enquiry</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full">
+          <label class="form-label">Your Message</label>
+          <textarea class="form-textarea" placeholder="Tell us about your requirements, preferred lot areas, or any questions you may have..."></textarea>
+        </div>
+      </div>
+      <div class="form-checkbox-row">
+        <input type="checkbox" class="form-checkbox" id="consent" required>
+        <label for="consent" class="form-checkbox-label">I consent to Pearns Point storing my details and contacting me regarding my enquiry. View our <a href="#">Privacy Policy</a>.</label>
+      </div>
+      <button type="submit" class="btn-submit">Send Enquiry</button>
+    </form>
+  </div>
+
+  <!-- INFO SIDEBAR -->
+  <div class="contact-info reveal stagger">
+    <div class="info-block">
+      <h4>Direct Lines</h4>
+      <div class="info-line">
+        <div class="info-line-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="info-line-text">
+          <span class="label">Antigua Office</span>
+          <a href="tel:+12687364028">+1 268-736-4028</a>
+        </div>
+      </div>
+      <div class="info-line">
+        <div class="info-line-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="info-line-text">
+          <span class="label">Sales Direct</span>
+          <a href="tel:+12687202225">+1 268-720-2225</a>
+        </div>
+      </div>
+      <div class="info-line">
+        <div class="info-line-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="info-line-text">
+          <span class="label">Email</span>
+          <a href="mailto:info@orangelimited.com">info@orangelimited.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <h4>Our Offices</h4>
+      <div class="office-cards">
+        <div class="office-card">
+          <h5>Antigua</h5>
+          <p>Pearns Point Sales Office<br>Five Islands Village<br>St. John's, Antigua</p>
+        </div>
+        <div class="office-card">
+          <h5>Orange Limited</h5>
+          <p>Developer Head Office<br>St. John's, Antigua & Barbuda</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <h4>Office Hours</h4>
+      <div class="info-line">
+        <div class="info-line-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <div class="info-line-text">
+          <span class="label">Monday – Friday</span>
+          9:00 AM – 5:00 PM (AST)
+        </div>
+      </div>
+      <div class="info-line">
+        <div class="info-line-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <div class="info-line-text">
+          <span class="label">Saturday</span>
+          By appointment only
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <div class="map-placeholder">
+    <div class="map-placeholder-icon">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    </div>
+    <h3>Pearns Point, Antigua</h3>
+    <p>Five Islands, St. John's, Antigua & Barbuda &nbsp;·&nbsp; <a href="https://maps.google.com/?q=17.0868,-61.8727" target="_blank">Open in Google Maps</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="pearns-point.html" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Development</a>
+      <a href="#">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#">The Antigua Experience</a>
+      <a href="#">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">Antigua: <a href="tel:+12687364028">+1 268-736-4028</a></div>
+      <div class="footer-contact-line">Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

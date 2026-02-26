@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(cd \"C:/Users/matty/Dropbox/5. Pearns Point/1, New Website\" && npx create-next-app@14 site --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --use-npm --no-turbopack 2>&1)",
+      "Bash(true:*)",
+      "Bash(cd \"C:/Users/matty/Dropbox/5. Pearns Point/1, New Website/site\" && npm install sanity next-sanity @sanity/image-url @sanity/vision framer-motion @portabletext/react 2>&1)",
+      "Bash(cd \"C:/Users/matty/Dropbox/5. Pearns Point/1, New Website/site\" && npm install \"sanity@^3\" \"next-sanity@^7\" \"@sanity/image-url@^1\" \"@sanity/vision@^3\" \"framer-motion@^11\" \"@portabletext/react@^3\" 2>&1)",
+      "Bash(cd:*)",
+      "Bash(tail:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(cd \"C:\\\\Users\\\\matty\\\\Dropbox\\\\5. Pearns Point\\\\1, New Website\\\\site\" && npx next build 2>&1)",
+      "Bash(cd \"C:\\\\Users\\\\matty\\\\Dropbox\\\\5. Pearns Point\\\\1, New Website\\\\site\" && npx next dev 2>&1)"
+    ]
+  }
+}

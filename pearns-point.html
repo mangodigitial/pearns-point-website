@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pearns Point – Shared by Few, Rivalled by None</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #ffffff;
+    --cream: #faf8f4;
+    --sand-light: #f5f0e8;
+    --sand: #e8dfd2;
+    --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a;
+    --deep-gold: #97794a;
+    --champagne: #d4c5a9;
+    --ocean: #1a7a8a;
+    --ocean-deep: #0d5f6e;
+    --ocean-light: #2ba5b5;
+    --sky: #87ceeb;
+    --sky-pale: #e0f2f8;
+    --lagoon: #48b5c4;
+    --navy: #1a2f3a;
+    --charcoal: #2c3e42;
+    --text-dark: #2a2a28;
+    --text-mid: #5a5a55;
+    --text-light: #8a8a82;
+
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    
+    --ease-luxury: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══════════════════════════════════════════
+     LOADER
+  ═══════════════════════════════════════════ */
+  .loader {
+    position: fixed; inset: 0;
+    background: var(--white);
+    z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    transition: opacity 0.8s var(--ease-luxury), visibility 0.8s;
+  }
+  .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .loader-line {
+    width: 100px; height: 2px;
+    background: var(--sand);
+    position: relative; overflow: hidden; border-radius: 2px;
+  }
+  .loader-line::after {
+    content: ''; position: absolute; left: 0; top: 0; height: 100%;
+    width: 0; background: var(--ocean); border-radius: 2px;
+    animation: loadLine 1.8s var(--ease-luxury) forwards;
+  }
+  @keyframes loadLine { to { width: 100%; } }
+  .loader-text {
+    font-family: var(--font-display); font-size: 0.7rem;
+    letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--ocean); margin-top: 20px;
+    opacity: 0; animation: fadeUp 0.8s 0.3s var(--ease-luxury) forwards;
+  }
+
+  /* ═══════════════════════════════════════════
+     NAVIGATION
+  ═══════════════════════════════════════════ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.5s var(--ease-luxury);
+  }
+  nav.scrolled {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    padding: 16px 60px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+  }
+  .nav-logo {
+    font-family: var(--font-display); font-size: 1.5rem;
+    font-weight: 400; color: var(--white);
+    letter-spacing: 0.08em; text-decoration: none;
+    transition: color 0.4s;
+  }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links {
+    display: flex; gap: 32px; list-style: none; align-items: center;
+  }
+  .nav-links a {
+    font-family: var(--font-body); font-size: 0.67rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.85); text-decoration: none;
+    transition: color 0.3s;
+  }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-cta {
+    padding: 10px 28px !important;
+    border: 1.5px solid rgba(255,255,255,0.6) !important;
+    transition: all 0.4s var(--ease-luxury) !important;
+    border-radius: 0;
+  }
+  .nav-cta:hover {
+    background: var(--white) !important;
+    color: var(--navy) !important;
+    border-color: var(--white) !important;
+  }
+  nav.scrolled .nav-cta {
+    border-color: var(--ocean) !important;
+    color: var(--ocean) !important;
+  }
+  nav.scrolled .nav-cta:hover {
+    background: var(--ocean) !important;
+    color: var(--white) !important;
+  }
+
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span {
+    display: block; width: 26px; height: 1.5px;
+    background: var(--white); margin: 6px 0;
+    transition: all 0.3s;
+  }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* ═══════════════════════════════════════════
+     HERO
+  ═══════════════════════════════════════════ */
+  .hero {
+    height: 100vh; min-height: 700px;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg,
+        rgba(26,122,138,0.15) 0%,
+        rgba(0,0,0,0) 35%,
+        rgba(0,0,0,0) 60%,
+        rgba(250,248,244,0.4) 85%,
+        rgba(250,248,244,1) 100%),
+      url('https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85') center 30%/cover no-repeat;
+    transform: scale(1.05);
+    animation: heroZoom 18s var(--ease-luxury) forwards;
+  }
+  @keyframes heroZoom { to { transform: scale(1); } }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; max-width: 850px; padding: 0 40px;
+    margin-top: -60px;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-body); font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--white);
+    text-shadow: 0 1px 8px rgba(0,0,0,0.15);
+    margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 1s 2s var(--ease-luxury) forwards;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+    font-weight: 400; line-height: 1.1;
+    color: var(--white);
+    text-shadow: 0 2px 20px rgba(0,0,0,0.12);
+    margin-bottom: 24px;
+    opacity: 0; animation: fadeUp 1.2s 2.3s var(--ease-luxury) forwards;
+  }
+  .hero-title em { font-style: italic; font-weight: 300; }
+  .hero-subtitle {
+    font-family: var(--font-body); font-size: 0.88rem; font-weight: 300;
+    letter-spacing: 0.04em; line-height: 1.8;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    max-width: 540px; margin: 0 auto 44px;
+    opacity: 0; animation: fadeUp 1s 2.6s var(--ease-luxury) forwards;
+  }
+  .hero-ctas {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 1s 2.9s var(--ease-luxury) forwards;
+  }
+  .btn-hero-primary {
+    display: inline-block; font-family: var(--font-body);
+    font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--navy); background: var(--white);
+    text-decoration: none; padding: 16px 44px;
+    transition: all 0.4s var(--ease-luxury);
+  }
+  .btn-hero-primary:hover {
+    background: var(--ocean);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+  }
+  .btn-hero-outline {
+    display: inline-block; font-family: var(--font-body);
+    font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--white); background: transparent;
+    text-decoration: none; padding: 16px 44px;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    transition: all 0.4s var(--ease-luxury);
+  }
+  .btn-hero-outline:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: var(--white);
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: 100px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    opacity: 0; animation: fadeUp 1s 3.2s var(--ease-luxury) forwards;
+  }
+  .hero-scroll span {
+    font-size: 0.5rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+    animation: scrollPulse 2.5s infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; } 50% { opacity: 1; }
+  }
+
+  /* ═══════════════════════════════════════════
+     REVEAL ANIMATION
+  ═══════════════════════════════════════════ */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.9s var(--ease-luxury), transform 0.9s var(--ease-luxury);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .stagger > * { opacity: 0; transform: translateY(25px); }
+  .stagger.visible > *:nth-child(1) { animation: fadeUp 0.8s 0.05s var(--ease-luxury) forwards; }
+  .stagger.visible > *:nth-child(2) { animation: fadeUp 0.8s 0.18s var(--ease-luxury) forwards; }
+  .stagger.visible > *:nth-child(3) { animation: fadeUp 0.8s 0.3s var(--ease-luxury) forwards; }
+  .stagger.visible > *:nth-child(4) { animation: fadeUp 0.8s 0.42s var(--ease-luxury) forwards; }
+  .stagger.visible > *:nth-child(5) { animation: fadeUp 0.8s 0.54s var(--ease-luxury) forwards; }
+  .stagger.visible > *:nth-child(6) { animation: fadeUp 0.8s 0.66s var(--ease-luxury) forwards; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════════════
+     SECTION COMMON
+  ═══════════════════════════════════════════ */
+  .section-eyebrow {
+    font-family: var(--font-body); font-size: 0.58rem; font-weight: 600;
+    letter-spacing: 0.45em; text-transform: uppercase;
+    color: var(--ocean); margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400; line-height: 1.2;
+    color: var(--navy); margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-text {
+    font-size: 0.88rem; font-weight: 300; line-height: 1.85;
+    color: var(--text-mid); max-width: 520px;
+  }
+  .gold-rule {
+    width: 50px; height: 2px;
+    background: linear-gradient(90deg, var(--warm-gold), var(--champagne));
+    margin: 28px 0; border-radius: 1px;
+  }
+
+  /* ═══════════════════════════════════════════
+     INTRO
+  ═══════════════════════════════════════════ */
+  .intro {
+    padding: 140px 60px;
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .intro-visual { position: relative; }
+  .intro-img-main {
+    width: 100%; aspect-ratio: 4/5;
+    object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .intro-img-float {
+    position: absolute; bottom: -30px; right: -40px;
+    width: 50%; aspect-ratio: 1;
+    object-fit: cover; border-radius: 4px;
+    border: 5px solid var(--cream);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+  }
+  .intro-stats {
+    display: flex; gap: 40px; margin-top: 48px;
+    padding-top: 36px;
+    border-top: 1px solid var(--sand);
+  }
+  .stat-number {
+    font-family: var(--font-display); font-size: 2.6rem;
+    font-weight: 400; color: var(--ocean);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-light); margin-top: 6px;
+  }
+
+  /* ═══════════════════════════════════════════
+     LIFESTYLE RIBBON
+  ═══════════════════════════════════════════ */
+  .lifestyle {
+    padding: 0 0 0 0;
+    background: var(--white);
+    overflow: hidden;
+  }
+  .lifestyle-header {
+    text-align: center;
+    padding: 120px 60px 64px;
+  }
+  .lifestyle-header .section-text {
+    max-width: 580px; margin: 0 auto;
+  }
+  .lifestyle-scroll {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .lifestyle-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+  }
+  .lifestyle-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1.2s var(--ease-luxury);
+  }
+  .lifestyle-card:hover img { transform: scale(1.06); }
+  .lifestyle-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,47,58,0.75) 0%, rgba(26,47,58,0.1) 50%, rgba(0,0,0,0) 100%);
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px 32px;
+    transition: background 0.5s;
+  }
+  .lifestyle-card:hover .lifestyle-card-overlay {
+    background: linear-gradient(to top, rgba(26,47,58,0.85) 0%, rgba(26,47,58,0.2) 55%, rgba(0,0,0,0) 100%);
+  }
+  .lifestyle-card-overlay h3 {
+    font-family: var(--font-display); font-size: 1.4rem;
+    font-weight: 400; color: var(--white);
+    margin-bottom: 6px;
+  }
+  .lifestyle-card-overlay p {
+    font-size: 0.72rem; font-weight: 300;
+    color: rgba(255,255,255,0.7); line-height: 1.6;
+    max-width: 260px;
+    transform: translateY(8px); opacity: 0;
+    transition: all 0.5s var(--ease-luxury);
+  }
+  .lifestyle-card:hover .lifestyle-card-overlay p {
+    transform: translateY(0); opacity: 1;
+  }
+  .lifestyle-tag {
+    position: absolute; top: 24px; left: 24px;
+    font-size: 0.52rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--white); background: rgba(26,122,138,0.8);
+    padding: 6px 14px; backdrop-filter: blur(8px);
+    border-radius: 2px;
+  }
+
+  /* ═══════════════════════════════════════════
+     FULL-WIDTH QUOTE
+  ═══════════════════════════════════════════ */
+  .quote-section {
+    padding: 100px 60px;
+    background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean) 50%, var(--lagoon) 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.5;
+  }
+  .quote-inner {
+    position: relative; z-index: 2;
+    max-width: 800px; margin: 0 auto;
+  }
+  .quote-inner blockquote {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300; font-style: italic;
+    color: var(--white); line-height: 1.45;
+    margin-bottom: 28px;
+  }
+  .quote-inner cite {
+    font-family: var(--font-body); font-style: normal;
+    font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ═══════════════════════════════════════════
+     FEATURES
+  ═══════════════════════════════════════════ */
+  .features {
+    padding: 140px 60px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .features-header {
+    text-align: center; margin-bottom: 80px;
+  }
+  .features-header .section-text {
+    max-width: 600px; margin: 0 auto;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .feature-card {
+    padding: 48px 40px;
+    background: var(--white);
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.5s var(--ease-luxury);
+    position: relative;
+    overflow: hidden;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ocean), var(--lagoon));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s var(--ease-luxury);
+  }
+  .feature-card:hover::before { transform: scaleX(1); }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+  }
+  .feature-icon {
+    width: 44px; height: 44px; margin-bottom: 24px;
+    color: var(--ocean);
+  }
+  .feature-card h3 {
+    font-family: var(--font-display); font-size: 1.35rem;
+    font-weight: 400; color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .feature-card p {
+    font-size: 0.8rem; font-weight: 300;
+    line-height: 1.75; color: var(--text-mid);
+  }
+
+  /* ═══════════════════════════════════════════
+     VILLAS
+  ═══════════════════════════════════════════ */
+  .villas {
+    padding: 0 60px 140px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .villas-header {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: end;
+    margin-bottom: 64px;
+  }
+  .villas-header .section-text { margin: 0; }
+  .villas-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    height: 700px;
+  }
+  .villa-card {
+    position: relative; overflow: hidden;
+    border-radius: 4px; cursor: pointer;
+  }
+  .villa-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 1s var(--ease-luxury);
+  }
+  .villa-card:hover img { transform: scale(1.04); }
+  .villa-card-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 36px;
+    background: linear-gradient(to top, rgba(26,47,58,0.8) 0%, transparent 100%);
+  }
+  .villa-card-info h3 {
+    font-family: var(--font-display); font-size: 1.35rem;
+    font-weight: 400; color: var(--white);
+  }
+  .villa-card-info span {
+    font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .villa-card--hero { grid-row: span 2; }
+
+  /* ═══════════════════════════════════════════
+     ANTIGUA
+  ═══════════════════════════════════════════ */
+  .antigua {
+    padding: 140px 60px;
+    background: var(--white);
+  }
+  .antigua-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .antigua-img-wrap { position: relative; }
+  .antigua-img {
+    width: 100%; aspect-ratio: 4/5;
+    object-fit: cover; border-radius: 4px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.08);
+  }
+  .antigua-badge {
+    position: absolute; top: -24px; right: -24px;
+    width: 130px; height: 130px; border-radius: 50%;
+    background: var(--ocean);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; box-shadow: 0 8px 24px rgba(26,122,138,0.3);
+  }
+  .antigua-badge-inner strong {
+    display: block; font-family: var(--font-display);
+    font-size: 2rem; font-weight: 400; color: var(--white);
+    line-height: 1;
+  }
+  .antigua-badge-inner span {
+    font-size: 0.6rem; font-weight: 400;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.7);
+  }
+  .antigua-details {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 28px; margin-top: 44px;
+  }
+  .antigua-detail {
+    padding: 20px 0;
+    border-top: 2px solid var(--sand);
+  }
+  .antigua-detail h4 {
+    font-family: var(--font-display); font-size: 1.3rem;
+    font-weight: 400; color: var(--ocean);
+    margin-bottom: 4px;
+  }
+  .antigua-detail p {
+    font-size: 0.72rem; font-weight: 300;
+    color: var(--text-light); line-height: 1.5;
+  }
+
+  /* ═══════════════════════════════════════════
+     CBI
+  ═══════════════════════════════════════════ */
+  .cbi {
+    padding: 100px 60px;
+    background:
+      linear-gradient(135deg, rgba(250,248,244,0.95), rgba(255,255,255,0.92)),
+      url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=60') center/cover;
+    text-align: center;
+    position: relative;
+  }
+  .cbi-inner {
+    max-width: 700px; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+  .cbi .section-text { max-width: 600px; margin: 0 auto 44px; }
+  .cbi-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block; font-family: var(--font-body);
+    font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--white); background: var(--ocean);
+    text-decoration: none; padding: 16px 48px;
+    transition: all 0.4s var(--ease-luxury);
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: var(--ocean-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(26,122,138,0.25);
+  }
+  .btn-outline {
+    display: inline-block; font-family: var(--font-body);
+    font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--ocean); background: transparent;
+    text-decoration: none; padding: 16px 48px;
+    border: 1.5px solid var(--ocean);
+    transition: all 0.4s var(--ease-luxury);
+  }
+  .btn-outline:hover {
+    background: var(--ocean); color: var(--white);
+  }
+
+  /* ═══════════════════════════════════════════
+     DEVELOPER STRIP
+  ═══════════════════════════════════════════ */
+  .developer {
+    padding: 80px 60px;
+    background: var(--navy);
+    text-align: center;
+  }
+  .developer-inner {
+    max-width: 1000px; margin: 0 auto;
+    display: flex; align-items: center;
+    justify-content: center; gap: 60px;
+    flex-wrap: wrap;
+  }
+  .developer p {
+    font-family: var(--font-body); font-size: 0.62rem;
+    font-weight: 400; letter-spacing: 0.25em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+  }
+  .developer-logos {
+    display: flex; gap: 48px; align-items: center;
+  }
+  .developer-logo {
+    font-family: var(--font-display); font-size: 1.1rem;
+    font-weight: 400; color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em;
+    padding: 0 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ═══════════════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════════════ */
+  .footer {
+    padding: 80px 60px 48px;
+    background: var(--cream);
+    border-top: 1px solid var(--sand);
+  }
+  .footer-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    gap: 60px;
+  }
+  .footer-brand-logo {
+    font-family: var(--font-display); font-size: 1.3rem;
+    font-weight: 400; color: var(--navy);
+    text-decoration: none; display: block;
+    margin-bottom: 16px;
+  }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p {
+    font-size: 0.78rem; font-weight: 300;
+    color: var(--text-light); line-height: 1.7;
+    max-width: 300px;
+  }
+  .footer-col h4 {
+    font-size: 0.58rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--ocean); margin-bottom: 20px;
+  }
+  .footer-col a {
+    display: block; font-size: 0.8rem; font-weight: 300;
+    color: var(--text-mid); text-decoration: none;
+    margin-bottom: 12px; transition: color 0.3s;
+  }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line {
+    font-size: 0.8rem; font-weight: 300;
+    color: var(--text-mid); margin-bottom: 12px;
+  }
+  .footer-contact-line a {
+    display: inline; margin: 0;
+    color: var(--navy); font-weight: 400;
+  }
+  .footer-bottom {
+    max-width: 1400px; margin: 48px auto 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--sand);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p {
+    font-size: 0.65rem; font-weight: 300;
+    color: var(--text-light);
+  }
+  .footer-bottom-links { display: flex; gap: 24px; }
+  .footer-bottom-links a {
+    font-size: 0.65rem; font-weight: 300;
+    color: var(--text-light); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-bottom-links a:hover { color: var(--ocean); }
+
+  /* ═══════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; }
+    nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+    .intro { grid-template-columns: 1fr; gap: 60px; padding: 100px 28px; }
+    .intro-img-float { display: none; }
+    .lifestyle-scroll { grid-template-columns: repeat(2, 1fr); }
+    .lifestyle-card { aspect-ratio: 1; }
+    .features-grid { grid-template-columns: 1fr; }
+    .villas-header { grid-template-columns: 1fr; }
+    .villas-grid { grid-template-columns: 1fr; height: auto; }
+    .villa-card--hero { grid-row: auto; min-height: 400px; }
+    .villa-card { min-height: 320px; }
+    .antigua-inner { grid-template-columns: 1fr; gap: 60px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    section, .features, .villas, .antigua, .cbi, .developer, .lifestyle-header {
+      padding-left: 28px !important; padding-right: 28px !important;
+    }
+  }
+  @media (max-width: 640px) {
+    .hero-content { padding: 0 20px; }
+    .hero-ctas { flex-direction: column; align-items: center; }
+    .intro-stats { flex-direction: column; gap: 20px; }
+    .lifestyle-scroll { grid-template-columns: 1fr; }
+    .lifestyle-card { aspect-ratio: 4/3; }
+    .antigua-details { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .developer-inner { flex-direction: column; gap: 24px; }
+    .developer-logos { flex-wrap: wrap; justify-content: center; gap: 24px; }
+    .cbi-buttons { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+  <div class="loader-line"></div>
+  <div class="loader-text">Pearns Point</div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="#development">The Development</a></li>
+    <li><a href="#lifestyle">The Lifestyle</a></li>
+    <li><a href="#villas">The Villas</a></li>
+    <li><a href="#antigua">Antigua</a></li>
+    <li><a href="#contact" class="nav-cta">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle" id="mobileToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Antigua's Exclusive Western Peninsula</p>
+    <h1 class="hero-title">Shared by Few,<br>Rivalled by <em>None</em></h1>
+    <p class="hero-subtitle">Discover the Caribbean's most prestigious address — where seven pristine beaches, endless sunshine, and an extraordinary lifestyle await the discerning few.</p>
+    <div class="hero-ctas">
+      <a href="#development" class="btn-hero-primary">Explore the Peninsula</a>
+      <a href="#lifestyle" class="btn-hero-outline">Discover the Lifestyle</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro" id="development">
+  <div class="intro-visual reveal">
+    <img src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80" alt="Caribbean waterfront" class="intro-img-main">
+    <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=500&q=80" alt="White sand beach" class="intro-img-float">
+  </div>
+  <div class="intro-content reveal stagger">
+    <p class="section-eyebrow">The Development</p>
+    <h2 class="section-title">A Peninsula of<br><em>Extraordinary</em> Beauty</h2>
+    <div class="gold-rule"></div>
+    <p class="section-text">Stretching along Antigua's celebrated western coast, Pearns Point is a rare and unspoilt peninsula offering spectacular ocean views, seven white sand beaches, and an unmatched sense of privacy. Every detail has been considered to respect and enhance the island's natural beauty.</p>
+    <div class="intro-stats">
+      <div class="stat-item">
+        <div class="stat-number">49</div>
+        <div class="stat-label">Exclusive Plots</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Private Beaches</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">360°</div>
+        <div class="stat-label">Ocean Views</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIFESTYLE -->
+<section class="lifestyle" id="lifestyle">
+  <div class="lifestyle-header reveal stagger">
+    <p class="section-eyebrow">The Lifestyle</p>
+    <h2 class="section-title">More Than a Home.<br>A Way of <em>Living.</em></h2>
+    <p class="section-text">Pearns Point is an invitation to an extraordinary life — where turquoise waters, world-class dining, and unhurried luxury define every single day.</p>
+  </div>
+  <div class="lifestyle-scroll reveal">
+    <div class="lifestyle-card">
+      <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=700&q=80" alt="Luxury yacht Caribbean">
+      <div class="lifestyle-card-overlay">
+        <h3>Yacht & Sail</h3>
+        <p>Set sail from your doorstep into the sapphire waters of the Antiguan coastline and surrounding islands.</p>
+      </div>
+      <div class="lifestyle-tag">On the Water</div>
+    </div>
+    <div class="lifestyle-card">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Fine dining">
+      <div class="lifestyle-card-overlay">
+        <h3>World-Class Dining</h3>
+        <p>From beachfront seafood grills to Michelin-calibre kitchens — Antigua's culinary scene is flourishing.</p>
+      </div>
+      <div class="lifestyle-tag">Culinary</div>
+    </div>
+    <div class="lifestyle-card">
+      <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=700&q=80" alt="Caribbean beach">
+      <div class="lifestyle-card-overlay">
+        <h3>Seven Beaches</h3>
+        <p>Seven private white sand beaches line the peninsula — each offering a different shade of paradise.</p>
+      </div>
+      <div class="lifestyle-tag">Beaches</div>
+    </div>
+    <div class="lifestyle-card">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&q=80" alt="Sunset cocktails">
+      <div class="lifestyle-card-overlay">
+        <h3>Sunsets & Serenity</h3>
+        <p>Antigua's western coast is renowned for the most breathtaking sunsets in the entire Caribbean.</p>
+      </div>
+      <div class="lifestyle-tag">Evenings</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section class="quote-section">
+  <div class="quote-inner reveal">
+    <blockquote>"An investment in Pearns Point is an investment in an unparalleled way of life — where every sunrise brings possibility and every sunset is a masterpiece."</blockquote>
+    <cite>Pearns Point, Antigua & Barbuda</cite>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-header reveal stagger">
+    <p class="section-eyebrow">Why Pearns Point</p>
+    <h2 class="section-title">Crafted with <em>Purpose</em><br>& Precision</h2>
+    <p class="section-text">Every element of Pearns Point has been carefully considered — from the preservation of native ecosystems to the freedom of bespoke architectural design.</p>
+  </div>
+  <div class="features-grid reveal stagger">
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M22 4C18 12 12 18 4 22C12 26 18 32 22 40C26 32 32 26 40 22C32 18 26 12 22 4Z"/>
+        <circle cx="22" cy="22" r="4"/>
+      </svg>
+      <h3>Respecting Nature</h3>
+      <p>The development honours the island's native fauna and flora, utilising natural resources and blending them seamlessly into the untouched landscape of the peninsula.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M4 36 Q12 8 22 20 Q32 32 40 8"/><circle cx="22" cy="20" r="3"/>
+      </svg>
+      <h3>A Serene Paradise</h3>
+      <p>Seven white sand beaches along Antigua's western coast make Pearns Point a place of outstanding natural beauty, tranquility, and complete seclusion.</p>
+    </div>
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="6" y="12" width="32" height="24" rx="1"/>
+        <path d="M6 12 L22 4 L38 12"/><line x1="22" y1="12" x2="22" y2="36"/>
+        <line x1="14" y1="20" x2="14" y2="28"/><line x1="30" y1="20" x2="30" y2="28"/>
+      </svg>
+      <h3>Bespoke Design</h3>
+      <p>Build your dream home with total creative freedom, or collaborate with our award-winning architects at KSR to craft a residence that is uniquely yours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VILLAS -->
+<section class="villas" id="villas">
+  <div class="villas-header reveal">
+    <div>
+      <p class="section-eyebrow">Residences</p>
+      <h2 class="section-title">Homes Designed for<br><em>Exceptional</em> Living</h2>
+    </div>
+    <p class="section-text">With only 49 plots available, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from hillside or coastline positions.</p>
+  </div>
+  <div class="villas-grid reveal">
+    <div class="villa-card villa-card--hero">
+      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=80" alt="Modern luxury villa">
+      <div class="villa-card-info">
+        <span>Premium Collection</span>
+        <h3>Hillside Estates</h3>
+      </div>
+    </div>
+    <div class="villa-card">
+      <img src="https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=700&q=80" alt="Beachfront villa">
+      <div class="villa-card-info">
+        <span>Waterfront</span>
+        <h3>Beachfront Retreats</h3>
+      </div>
+    </div>
+    <div class="villa-card">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80" alt="Custom architecture">
+      <div class="villa-card-info">
+        <span>Architecture</span>
+        <h3>Bespoke Design with KSR</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANTIGUA -->
+<section class="antigua" id="antigua">
+  <div class="antigua-inner">
+    <div class="antigua-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1548574505-5e239809ee19?w=800&q=80" alt="Antigua harbour" class="antigua-img">
+      <div class="antigua-badge">
+        <div class="antigua-badge-inner">
+          <strong>365</strong>
+          <span>beaches</span>
+        </div>
+      </div>
+    </div>
+    <div class="antigua-content reveal stagger">
+      <p class="section-eyebrow">The Island</p>
+      <h2 class="section-title">Antigua, Jewel of<br>the <em>Caribbean</em></h2>
+      <div class="gold-rule"></div>
+      <p class="section-text">A hidden jewel of pure tranquility and immense beauty. Antigua offers exceptional cuisine, world-class sailing, a vibrant culture, and a growing economy backed by a politically stable government — making it an ideal destination for lifestyle and investment alike.</p>
+      <div class="antigua-details">
+        <div class="antigua-detail">
+          <h4>4 Hours</h4>
+          <p>Direct from New York</p>
+        </div>
+        <div class="antigua-detail">
+          <h4>8 Hours</h4>
+          <p>Direct from Europe</p>
+        </div>
+        <div class="antigua-detail">
+          <h4>365 Beaches</h4>
+          <p>One for every day</p>
+        </div>
+        <div class="antigua-detail">
+          <h4>Stable</h4>
+          <p>Growing economy & government</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CBI -->
+<section class="cbi" id="citizenship">
+  <div class="cbi-inner reveal stagger">
+    <p class="section-eyebrow">Citizenship by Investment</p>
+    <h2 class="section-title">Your Passport to a<br><em>New Horizon</em></h2>
+    <p class="section-text">Antigua & Barbuda's Citizenship by Investment Programme offers a distinguished pathway to second citizenship — with visa-free access to over 150 countries including the UK, EU Schengen zone, and more.</p>
+    <div class="cbi-buttons">
+      <a href="#contact" class="btn-primary">Learn About CBI</a>
+      <a href="#contact" class="btn-outline">Speak to an Advisor</a>
+    </div>
+  </div>
+</section>
+
+<!-- DEVELOPER -->
+<section class="developer">
+  <div class="developer-inner">
+    <p>Developed by</p>
+    <div class="developer-logos">
+      <span class="developer-logo">Orange Limited</span>
+      <span class="developer-logo">KSR Architects</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#development">The Development</a>
+      <a href="#villas">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#antigua">The Antigua Experience</a>
+      <a href="#citizenship">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">
+        Antigua: <a href="tel:+12687364028">+1 268-736-4028</a>
+      </div>
+      <div class="footer-contact-line">
+        Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms & Conditions</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('loader').classList.add('hidden'), 1800);
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>

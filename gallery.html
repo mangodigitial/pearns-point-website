@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery – Pearns Point</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Raleway:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --white: #ffffff; --cream: #faf8f4; --sand-light: #f5f0e8; --sand: #e8dfd2; --sand-dark: #c4b49a;
+    --warm-gold: #b69a6a; --deep-gold: #97794a; --champagne: #d4c5a9;
+    --ocean: #1a7a8a; --ocean-deep: #0d5f6e; --ocean-light: #2ba5b5; --lagoon: #48b5c4;
+    --navy: #1a2f3a; --charcoal: #2c3e42;
+    --text-dark: #2a2a28; --text-mid: #5a5a55; --text-light: #8a8a82;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Raleway', 'Helvetica Neue', sans-serif;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--text-dark); -webkit-font-smoothing: antialiased; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 60px; display: flex; align-items: center; justify-content: space-between; transition: all 0.5s var(--ease); }
+  nav.scrolled { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 16px 60px; box-shadow: 0 1px 0 rgba(0,0,0,0.05); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; color: var(--white); letter-spacing: 0.08em; text-decoration: none; transition: color 0.4s; }
+  .nav-logo em { font-style: italic; font-weight: 300; }
+  nav.scrolled .nav-logo { color: var(--navy); }
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.67rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.3s; }
+  nav.scrolled .nav-links a { color: var(--text-mid); }
+  .nav-links a:hover { color: var(--ocean-light); }
+  nav.scrolled .nav-links a:hover { color: var(--ocean); }
+  .nav-links a.active { color: var(--white); }
+  nav.scrolled .nav-links a.active { color: var(--ocean); }
+  .nav-cta { padding: 10px 28px !important; border: 1.5px solid rgba(255,255,255,0.6) !important; transition: all 0.4s var(--ease) !important; }
+  .nav-cta:hover { background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important; }
+  nav.scrolled .nav-cta { border-color: var(--ocean) !important; color: var(--ocean) !important; }
+  nav.scrolled .nav-cta:hover { background: var(--ocean) !important; color: var(--white) !important; }
+  .mobile-toggle { display: none; cursor: pointer; }
+  .mobile-toggle span { display: block; width: 26px; height: 1.5px; background: var(--white); margin: 6px 0; }
+  nav.scrolled .mobile-toggle span { background: var(--navy); }
+
+  /* PAGE HERO */
+  .page-hero { height: 65vh; min-height: 480px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+  .page-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85') center 30%/cover no-repeat; }
+  .page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,47,58,0.25) 0%, rgba(26,47,58,0.1) 50%, rgba(250,248,244,0.6) 80%, rgba(250,248,244,1) 100%); }
+  .page-hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 900px; }
+  .page-hero-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 12px; }
+  .page-hero-title { font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; color: var(--navy); }
+  .page-hero-title em { font-style: italic; font-weight: 300; }
+  .page-hero-sub { font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--text-mid); max-width: 560px; margin-top: 16px; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* COMMON */
+  .section-eyebrow { font-family: var(--font-body); font-size: 0.58rem; font-weight: 600; letter-spacing: 0.45em; text-transform: uppercase; color: var(--ocean); margin-bottom: 16px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.2; color: var(--navy); margin-bottom: 20px; }
+  .section-title em { font-style: italic; font-weight: 300; }
+  .section-text { font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--text-mid); max-width: 560px; }
+
+  /* ═══════════════════════════════════════════
+     FILTER BAR
+  ═══════════════════════════════════════════ */
+  .gallery-controls {
+    padding: 0 60px;
+    max-width: 1400px; margin: 0 auto 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .filter-pills {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-pill {
+    font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 10px 24px; border: 1.5px solid var(--sand);
+    background: transparent; color: var(--text-mid);
+    cursor: pointer; transition: all 0.35s var(--ease);
+    border-radius: 2px;
+  }
+  .filter-pill:hover { border-color: var(--ocean); color: var(--ocean); }
+  .filter-pill.active {
+    background: var(--ocean); border-color: var(--ocean); color: var(--white);
+  }
+  .gallery-count {
+    font-size: 0.72rem; font-weight: 300; color: var(--text-light);
+  }
+
+  /* ═══════════════════════════════════════════
+     MASONRY GALLERY
+  ═══════════════════════════════════════════ */
+  .gallery-masonry {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 60px 140px;
+    columns: 3; column-gap: 16px;
+  }
+  .gallery-item {
+    break-inside: avoid;
+    margin-bottom: 16px;
+    border-radius: 4px; overflow: hidden;
+    position: relative; cursor: pointer;
+    opacity: 1; transform: scale(1);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  .gallery-item.hidden {
+    opacity: 0; transform: scale(0.92);
+    position: absolute; visibility: hidden; height: 0; margin: 0; overflow: hidden;
+  }
+  .gallery-item img {
+    width: 100%; display: block;
+    transition: transform 1.2s var(--ease);
+  }
+  .gallery-item:hover img { transform: scale(1.04); }
+  .gallery-item-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(26,47,58,0.6) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.5s var(--ease);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 28px;
+  }
+  .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+  .gallery-item-overlay h4 {
+    font-family: var(--font-display); font-size: 1.1rem;
+    font-weight: 400; color: var(--white); margin-bottom: 4px;
+  }
+  .gallery-item-overlay span {
+    font-size: 0.6rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.7);
+  }
+
+  /* ═══════════════════════════════════════════
+     LIGHTBOX
+  ═══════════════════════════════════════════ */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(26,47,58,0.95);
+    backdrop-filter: blur(24px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox-img {
+    max-width: 85vw; max-height: 85vh;
+    object-fit: contain; border-radius: 4px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+    transform: scale(0.92); transition: transform 0.5s var(--ease);
+  }
+  .lightbox.open .lightbox-img { transform: scale(1); }
+  .lightbox-caption {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    text-align: center;
+  }
+  .lightbox-caption h4 {
+    font-family: var(--font-display); font-size: 1.2rem;
+    font-weight: 400; color: var(--white); margin-bottom: 4px;
+  }
+  .lightbox-caption span {
+    font-size: 0.6rem; font-weight: 500; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55);
+  }
+  .lightbox-close {
+    position: absolute; top: 32px; right: 40px;
+    width: 44px; height: 44px; background: none; border: none;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .lightbox-close svg { width: 24px; height: 24px; stroke: rgba(255,255,255,0.7); stroke-width: 1.5; transition: stroke 0.3s; }
+  .lightbox-close:hover svg { stroke: var(--white); }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 52px; height: 52px; border-radius: 50%;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s var(--ease);
+  }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
+  .lightbox-nav svg { width: 18px; height: 18px; stroke: rgba(255,255,255,0.8); stroke-width: 1.5; fill: none; }
+  .lightbox-prev { left: 32px; }
+  .lightbox-next { right: 32px; }
+  .lightbox-counter {
+    position: absolute; top: 40px; left: 50%; transform: translateX(-50%);
+    font-size: 0.65rem; font-weight: 400; letter-spacing: 0.2em; color: rgba(255,255,255,0.4);
+  }
+
+  /* ═══════════════════════════════════════════
+     VIDEO CTA
+  ═══════════════════════════════════════════ */
+  .video-cta {
+    padding: 120px 60px;
+    background: var(--white); text-align: center;
+  }
+  .video-cta-inner {
+    max-width: 800px; margin: 0 auto;
+  }
+  .video-thumb-wrap {
+    position: relative; margin-top: 48px;
+    border-radius: 4px; overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.1);
+  }
+  .video-thumb-wrap img {
+    width: 100%; display: block;
+    transition: transform 1s var(--ease);
+  }
+  .video-thumb-wrap:hover img { transform: scale(1.03); }
+  .video-play-btn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,255,255,0.92); border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    transition: all 0.4s var(--ease);
+  }
+  .video-play-btn:hover { transform: translate(-50%, -50%) scale(1.1); background: var(--white); }
+  .video-play-btn svg { width: 28px; height: 28px; fill: var(--ocean); margin-left: 3px; }
+
+  /* VIDEO MODAL */
+  .video-modal {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(26,47,58,0.95); backdrop-filter: blur(24px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease);
+  }
+  .video-modal.open { opacity: 1; pointer-events: auto; }
+  .video-modal-inner {
+    width: 80vw; max-width: 960px; aspect-ratio: 16/9;
+    position: relative;
+  }
+  .video-modal-inner iframe {
+    width: 100%; height: 100%; border: none; border-radius: 4px;
+  }
+  .video-modal-close {
+    position: absolute; top: -48px; right: 0;
+    background: none; border: none; cursor: pointer;
+  }
+  .video-modal-close svg { width: 24px; height: 24px; stroke: rgba(255,255,255,0.7); stroke-width: 1.5; }
+  .video-modal-close:hover svg { stroke: var(--white); }
+
+  /* ═══════════════════════════════════════════
+     CTA
+  ═══════════════════════════════════════════ */
+  .cta-band {
+    padding: 80px 60px; text-align: center; background: var(--sand-light);
+  }
+  .cta-band h2 {
+    font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 400; color: var(--navy); margin-bottom: 12px;
+  }
+  .cta-band h2 em { font-style: italic; font-weight: 300; }
+  .cta-band p { font-size: 0.85rem; font-weight: 300; color: var(--text-mid); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; }
+  .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--white); background: var(--ocean);
+    text-decoration: none; padding: 16px 48px; transition: all 0.4s var(--ease);
+  }
+  .btn-primary:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(26,122,138,0.25); }
+  .btn-outline {
+    display: inline-block; font-family: var(--font-body); font-size: 0.62rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--ocean); background: transparent;
+    text-decoration: none; padding: 16px 48px; border: 1.5px solid var(--ocean);
+    transition: all 0.4s var(--ease);
+  }
+  .btn-outline:hover { background: var(--ocean); color: var(--white); }
+
+  /* FOOTER */
+  .footer { padding: 80px 60px 48px; background: var(--cream); border-top: 1px solid var(--sand); }
+  .footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 60px; }
+  .footer-brand-logo { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; display: block; margin-bottom: 16px; }
+  .footer-brand-logo em { font-style: italic; font-weight: 300; }
+  .footer-brand p { font-size: 0.78rem; font-weight: 300; color: var(--text-light); line-height: 1.7; max-width: 300px; }
+  .footer-col h4 { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ocean); margin-bottom: 20px; }
+  .footer-col a { display: block; font-size: 0.8rem; font-weight: 300; color: var(--text-mid); text-decoration: none; margin-bottom: 12px; transition: color 0.3s; }
+  .footer-col a:hover { color: var(--ocean); }
+  .footer-contact-line { font-size: 0.8rem; font-weight: 300; color: var(--text-mid); margin-bottom: 12px; }
+  .footer-contact-line a { display: inline; margin: 0; color: var(--navy); font-weight: 400; text-decoration: none; }
+  .footer-bottom { max-width: 1400px; margin: 48px auto 0; padding-top: 28px; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-size: 0.65rem; font-weight: 300; color: var(--text-light); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 28px; } nav.scrolled { padding: 14px 28px; }
+    .nav-links { display: none; } .mobile-toggle { display: block; }
+    .gallery-masonry { columns: 2; padding: 0 28px 100px; }
+    .gallery-controls { padding: 0 28px; }
+    .page-hero-content { padding: 0 28px 60px; }
+    .video-cta { padding: 80px 28px; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .cta-band { padding: 60px 28px; }
+  }
+  @media (max-width: 640px) {
+    .gallery-masonry { columns: 1; }
+    .filter-pills { gap: 6px; }
+    .filter-pill { padding: 8px 16px; font-size: 0.55rem; }
+    .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .lightbox-prev { left: 12px; }
+    .lightbox-next { right: 12px; }
+    .lightbox-nav { width: 40px; height: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="pearns-point.html" class="nav-logo">Pearns <em>Point</em></a>
+  <ul class="nav-links">
+    <li><a href="the-development.html">The Development</a></li>
+    <li><a href="lots-site-plan.html">Lots & Site Plan</a></li>
+    <li><a href="the-villas.html">The Villas</a></li>
+    <li><a href="#" class="active">Gallery</a></li>
+    <li><a href="#" class="nav-cta">Enquire Now</a></li>
+  </ul>
+  <div class="mobile-toggle"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <p class="page-hero-eyebrow">Pearns Point</p>
+    <h1 class="page-hero-title">The <em>Gallery</em></h1>
+    <p class="page-hero-sub">Explore the breathtaking beauty of Pearns Point — from aerial views of the peninsula to intimate glimpses of island life.</p>
+  </div>
+</section>
+
+<!-- GALLERY CONTROLS -->
+<div class="gallery-controls reveal">
+  <div class="filter-pills">
+    <button class="filter-pill active" data-filter="all">All</button>
+    <button class="filter-pill" data-filter="aerial">Aerial</button>
+    <button class="filter-pill" data-filter="beaches">Beaches</button>
+    <button class="filter-pill" data-filter="villas">Villas</button>
+    <button class="filter-pill" data-filter="lifestyle">Lifestyle</button>
+    <button class="filter-pill" data-filter="landscape">Landscape</button>
+  </div>
+  <span class="gallery-count"><span id="visible-count">18</span> images</span>
+</div>
+
+<!-- MASONRY GALLERY -->
+<div class="gallery-masonry" id="galleryGrid">
+
+  <!-- AERIAL -->
+  <div class="gallery-item" data-cat="aerial" data-title="Peninsula From Above" data-caption="Aerial">
+    <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=700&q=80" alt="Aerial view of peninsula" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Peninsula From Above</h4><span>Aerial</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="beaches" data-title="Crystal Waters" data-caption="Beaches">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="Crystal clear beach" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Crystal Waters</h4><span>Beaches</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="villas" data-title="Modern Villa Exterior" data-caption="Villas">
+    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80" alt="Villa exterior" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Modern Villa Exterior</h4><span>Villas</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="lifestyle" data-title="Yacht at Sunset" data-caption="Lifestyle">
+    <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=700&q=80" alt="Yacht at sunset" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Yacht at Sunset</h4><span>Lifestyle</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="aerial" data-title="Coastline Panorama" data-caption="Aerial">
+    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=700&q=80" alt="Aerial coastline" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Coastline Panorama</h4><span>Aerial</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="villas" data-title="Indoor/Outdoor Living" data-caption="Villas">
+    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80" alt="Villa interior" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Indoor/Outdoor Living</h4><span>Villas</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="landscape" data-title="Tropical Canopy" data-caption="Landscape">
+    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=700&q=80" alt="Tropical landscape" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Tropical Canopy</h4><span>Landscape</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="beaches" data-title="Secluded Bay" data-caption="Beaches">
+    <img src="https://images.unsplash.com/photo-1506953823976-52e1fdc0149a?w=700&q=80" alt="Secluded bay" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Secluded Bay</h4><span>Beaches</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="lifestyle" data-title="Waterfront Dining" data-caption="Lifestyle">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=80" alt="Waterfront dining" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Waterfront Dining</h4><span>Lifestyle</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="villas" data-title="Infinity Pool Vista" data-caption="Villas">
+    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80" alt="Villa with pool" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Infinity Pool Vista</h4><span>Villas</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="landscape" data-title="Golden Hour" data-caption="Landscape">
+    <img src="https://images.unsplash.com/photo-1476673160081-cf065607f449?w=700&q=80" alt="Golden hour sunset" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Golden Hour</h4><span>Landscape</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="aerial" data-title="Five Islands Bay" data-caption="Aerial">
+    <img src="https://images.unsplash.com/photo-1468413253725-0d5181091126?w=700&q=80" alt="Aerial bay view" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Five Islands Bay</h4><span>Aerial</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="lifestyle" data-title="Sailing the Coast" data-caption="Lifestyle">
+    <img src="https://images.unsplash.com/photo-1540946485063-a40da27545f8?w=700&q=80" alt="Sailing" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Sailing the Coast</h4><span>Lifestyle</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="beaches" data-title="White Sand Shores" data-caption="Beaches">
+    <img src="https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=700&q=80" alt="White sand beach" loading="lazy">
+    <div class="gallery-item-overlay"><h4>White Sand Shores</h4><span>Beaches</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="villas" data-title="Terrace at Dusk" data-caption="Villas">
+    <img src="https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=700&q=80" alt="Villa terrace" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Terrace at Dusk</h4><span>Villas</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="landscape" data-title="Caribbean Palms" data-caption="Landscape">
+    <img src="https://images.unsplash.com/photo-1509233725247-49e657c54213?w=700&q=80" alt="Palm trees" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Caribbean Palms</h4><span>Landscape</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="lifestyle" data-title="Sunset Cocktails" data-caption="Lifestyle">
+    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=700&q=80" alt="Cocktails at sunset" loading="lazy">
+    <div class="gallery-item-overlay"><h4>Sunset Cocktails</h4><span>Lifestyle</span></div>
+  </div>
+
+  <div class="gallery-item" data-cat="aerial" data-title="The Peninsula" data-caption="Aerial">
+    <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=700&q=80" alt="Peninsula aerial" loading="lazy">
+    <div class="gallery-item-overlay"><h4>The Peninsula</h4><span>Aerial</span></div>
+  </div>
+
+</div>
+
+<!-- VIDEO CTA -->
+<section class="video-cta">
+  <div class="video-cta-inner reveal">
+    <p class="section-eyebrow">Aerial Tour</p>
+    <h2 class="section-title">See Pearns Point<br>From <em>Above</em></h2>
+    <p class="section-text" style="max-width: 520px; margin: 0 auto;">Experience the scale and beauty of the peninsula with our drone flyover — showcasing the seven beaches, tropical landscape, and breathtaking coastline.</p>
+    <div class="video-thumb-wrap" id="videoThumb">
+      <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1200&q=80" alt="Aerial video thumbnail">
+      <button class="video-play-btn">
+        <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="videoModal">
+  <div class="video-modal-inner">
+    <button class="video-modal-close" id="videoClose">
+      <svg viewBox="0 0 24 24" fill="none"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+    </button>
+    <iframe id="videoFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="reveal">
+    <h2>Experience Pearns Point<br><em>For Yourself</em></h2>
+    <p>Arrange a private tour of the peninsula or speak to our team about available plots.</p>
+    <div class="cta-buttons">
+      <a href="#" class="btn-primary">Book a Visit</a>
+      <a href="#" class="btn-outline">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="pearns-point.html" class="footer-brand-logo">Pearns <em>Point</em></a>
+      <p>The Caribbean's foremost luxury real-estate development. A rare and exceptional opportunity on Antigua's pristine western coast, by Orange Limited.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="#">The Development</a>
+      <a href="#">The Villas</a>
+      <a href="#">Lots & Site Plan</a>
+      <a href="#">Gallery</a>
+    </div>
+    <div class="footer-col">
+      <h4>Information</h4>
+      <a href="#">The Antigua Experience</a>
+      <a href="#">Citizenship by Investment</a>
+      <a href="#">Latest News</a>
+      <a href="#">Plot and Plan</a>
+    </div>
+    <div class="footer-col">
+      <h4>Get in Touch</h4>
+      <div class="footer-contact-line">Antigua: <a href="tel:+12687364028">+1 268-736-4028</a></div>
+      <div class="footer-contact-line">Email: <a href="mailto:info@orangelimited.com">info@orangelimited.com</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Orange Limited. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">
+    <svg viewBox="0 0 24 24" fill="none"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+  </button>
+  <span class="lightbox-counter" id="lbCounter"></span>
+  <button class="lightbox-nav lightbox-prev" id="lbPrev">
+    <svg viewBox="0 0 24 24"><polyline points="15,4 7,12 15,20"/></svg>
+  </button>
+  <img class="lightbox-img" id="lbImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" id="lbNext">
+    <svg viewBox="0 0 24 24"><polyline points="9,4 17,12 9,20"/></svg>
+  </button>
+  <div class="lightbox-caption">
+    <h4 id="lbTitle"></h4>
+    <span id="lbCat"></span>
+  </div>
+</div>
+
+<script>
+  // NAV
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+  // REVEAL
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // FILTER
+  const pills = document.querySelectorAll('.filter-pill');
+  const items = document.querySelectorAll('.gallery-item');
+  const countEl = document.getElementById('visible-count');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filter = pill.dataset.filter;
+      let count = 0;
+      items.forEach(item => {
+        const show = filter === 'all' || item.dataset.cat === filter;
+        item.classList.toggle('hidden', !show);
+        if (show) count++;
+      });
+      countEl.textContent = count;
+    });
+  });
+
+  // LIGHTBOX
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbCat = document.getElementById('lbCat');
+  const lbCounter = document.getElementById('lbCounter');
+  let currentIdx = 0;
+
+  function getVisible() { return [...items].filter(i => !i.classList.contains('hidden')); }
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const vis = getVisible();
+      currentIdx = vis.indexOf(item);
+      openLB(vis[currentIdx]);
+    });
+  });
+
+  function openLB(item) {
+    const img = item.querySelector('img');
+    lbImg.src = img.src.replace('w=700', 'w=1400');
+    lbTitle.textContent = item.dataset.title;
+    lbCat.textContent = item.dataset.caption;
+    const vis = getVisible();
+    lbCounter.textContent = (currentIdx + 1) + ' / ' + vis.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLB() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function navLB(dir) {
+    const vis = getVisible();
+    currentIdx = (currentIdx + dir + vis.length) % vis.length;
+    openLB(vis[currentIdx]);
+  }
+
+  document.getElementById('lbClose').addEventListener('click', closeLB);
+  document.getElementById('lbPrev').addEventListener('click', () => navLB(-1));
+  document.getElementById('lbNext').addEventListener('click', () => navLB(1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLB();
+    if (e.key === 'ArrowLeft') navLB(-1);
+    if (e.key === 'ArrowRight') navLB(1);
+  });
+
+  // VIDEO MODAL
+  const vm = document.getElementById('videoModal');
+  const vf = document.getElementById('videoFrame');
+  document.getElementById('videoThumb').addEventListener('click', () => {
+    vf.src = 'https://www.youtube.com/embed/YOUTUBE_ID_HERE?autoplay=1';
+    vm.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  function closeVideo() { vm.classList.remove('open'); vf.src = ''; document.body.style.overflow = ''; }
+  document.getElementById('videoClose').addEventListener('click', closeVideo);
+  vm.addEventListener('click', e => { if (e.target === vm) closeVideo(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && vm.classList.contains('open')) closeVideo(); });
+</script>
+</body>
+</html>
