@@ -5,7 +5,8 @@ export default defineType({
   title: 'Site Settings',
   type: 'document',
   fields: [
-    defineField({ name: 'logo', title: 'Logo', type: 'image' }),
+    defineField({ name: 'logo', title: 'Logo (Dark)', type: 'image', description: 'Dark logo for use on light backgrounds (scrolled navbar).' }),
+    defineField({ name: 'logoLight', title: 'Logo (Light)', type: 'image', description: 'Light/white logo for use on dark backgrounds (initial navbar).' }),
     defineField({ name: 'siteName', title: 'Site Name', type: 'string' }),
     defineField({ name: 'contactPhoneAntigua', title: 'Phone (Antigua)', type: 'string' }),
     defineField({ name: 'contactPhoneSales', title: 'Phone (Sales)', type: 'string' }),

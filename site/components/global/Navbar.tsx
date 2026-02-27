@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -30,7 +31,7 @@ const allMobileLinks = [
   { label: 'Latest News', href: '/latest-news' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ logoDark, logoLight }: { logoDark?: string | null; logoLight?: string | null }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -82,11 +83,41 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-[1000] px-[60px] max-lg:px-7 flex items-center justify-between transition-all duration-500 ${navBg} ${navPadY}`}
         style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
       >
-        <Link
-          href="/"
-          className={`font-display text-[1.5rem] font-normal tracking-[0.08em] no-underline transition-colors duration-400 ${logoColor}`}
-        >
-          Pearns <em className="font-light italic">Point</em>
+        <Link href="/" className="no-underline relative block h-8 w-[160px]">
+          {logoDark || logoLight ? (
+            <>
+              {logoLight && (
+                <Image
+                  src={logoLight}
+                  alt="Pearns Point"
+                  width={160}
+                  height={40}
+                  className={`absolute inset-0 h-8 w-auto object-contain transition-opacity duration-400 ${
+                    scrolled || mobileOpen ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  priority
+                />
+              )}
+              {logoDark && (
+                <Image
+                  src={logoDark}
+                  alt="Pearns Point"
+                  width={160}
+                  height={40}
+                  className={`absolute inset-0 h-8 w-auto object-contain transition-opacity duration-400 ${
+                    scrolled || mobileOpen ? 'opacity-100' : 'opacity-0'
+                  }`}
+                  priority
+                />
+              )}
+            </>
+          ) : (
+            <span
+              className={`font-display text-[1.5rem] font-normal tracking-[0.08em] transition-colors duration-400 ${logoColor}`}
+            >
+              Pearns <em className="font-light italic">Point</em>
+            </span>
+          )}
         </Link>
 
         {/* Desktop links */}
