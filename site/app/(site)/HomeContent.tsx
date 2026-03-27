@@ -118,7 +118,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
             <img
               src={intro.mainImage}
               alt="Caribbean waterfront"
-              className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
+              className="w-full aspect-[5/4] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
           <ScrollReveal>
