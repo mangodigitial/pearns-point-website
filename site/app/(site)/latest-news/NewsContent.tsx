@@ -301,7 +301,7 @@ export default function LatestNewsPage({ cmsData, cmsPosts }: Props) {
             <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-white mb-5">
               Subscribe to <em className="font-light italic text-lagoon">Updates</em>
             </h2>
-            <p className="text-[0.88rem] font-light leading-[1.85] text-white/60 max-w-[480px] mx-auto mb-9">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-white/60 max-w-[480px] mx-auto mb-9">
               Receive development news, lifestyle features, and market insights delivered to your inbox.
             </p>
             <NewsletterForm />

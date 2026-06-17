@@ -100,7 +100,7 @@ export default function ContactPage({ cmsData }: Props) {
               dangerouslySetInnerHTML={{ __html: formTitle }}
             />
             <GoldRule />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-7 mb-9">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-7 mb-9">
               {formBody}
             </p>
             <ContactForm />

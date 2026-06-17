@@ -215,14 +215,14 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
             {introBody ? (
               <motion.div
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
                 dangerouslySetInnerHTML={{ __html: introBody }}
               />
             ) : (
               <>
                 <motion.p
                   variants={staggerItem}
-                  className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                  className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
                 >
                   Antigua is famed for its 365 beaches &mdash; one for every day of
                   the year. But beyond the powder-white sands and turquoise waters
@@ -231,7 +231,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
                 </motion.p>
                 <motion.p
                   variants={staggerItem}
-                  className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
+                  className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
                 >
                   With year-round sunshine, a stable economy, English-speaking
                   population, and excellent international connectivity, Antigua has
@@ -280,7 +280,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
             />
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
             >
               {lifestyleSubtitle}
             </motion.p>
@@ -326,13 +326,13 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
             {ghBody ? (
               <motion.div
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
                 dangerouslySetInnerHTML={{ __html: ghBody }}
               />
             ) : (
               <motion.p
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
               >
                 V.C. Bird International Airport connects Antigua to major cities
                 across Europe, North America, and the Caribbean &mdash; with
@@ -393,13 +393,13 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
             {climateBody ? (
               <motion.div
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
                 dangerouslySetInnerHTML={{ __html: climateBody }}
               />
             ) : (
               <motion.p
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
               >
                 Antigua enjoys one of the sunniest, driest climates in the Eastern
                 Caribbean. Cooled by the north-east trade winds, temperatures
@@ -450,7 +450,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
           </motion.h2>
           <motion.p
             variants={staggerItem}
-            className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
+            className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
           >
             Antigua offers far more than sun and sand &mdash; it&apos;s a
             vibrant island with a rich history, thriving culture, and endless

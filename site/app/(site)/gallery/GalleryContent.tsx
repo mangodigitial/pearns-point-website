@@ -278,7 +278,7 @@ export default function GalleryPage({ cmsData }: Props) {
             className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
             dangerouslySetInnerHTML={{ __html: videoTitle }}
           />
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[520px] mx-auto">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[520px] mx-auto">
             {videoDesc}
           </p>
 

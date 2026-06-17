@@ -24,7 +24,7 @@ export default function CTABand({ eyebrow, title, subtitle, primaryCTA, secondar
           dangerouslySetInnerHTML={{ __html: title }}
         />
         {subtitle && (
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-11">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-11">
             {subtitle}
           </p>
         )}

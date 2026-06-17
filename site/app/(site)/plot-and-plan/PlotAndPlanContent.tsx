@@ -188,17 +188,17 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
             <GoldRule className="my-7" />
             {introBody ? (
               <div
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] [&>p+p]:mt-4"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] [&>p+p]:mt-4"
                 dangerouslySetInnerHTML={{ __html: introBody }}
               />
             ) : (
               <>
-                <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
+                <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
                   Developing an overseas luxury home in the tropics is a dream for many — but managing a
                   project remotely can be challenging. Our Plot &amp; Plan programme removes the complexity
                   entirely.
                 </p>
-                <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
+                <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
                   Choose between three stunning design styles, select your plot, and our team of
                   internationally renowned architects and experienced local contractors will deliver a
                   finished turnkey villa — on time, on budget, and to the highest international standards.
@@ -218,7 +218,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
           <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
             Three Visions of<br /><em className="font-light italic">Caribbean</em> Living
           </h2>
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto">
             Three distinctive designs created by internationally renowned architects with intimate
             knowledge of Pearns Point — each offering the perfect balance of tropical indoor/outdoor
             living.
@@ -243,7 +243,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
             <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
               From Selection<br />to <em className="font-light italic">Move-In</em>
             </h2>
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[580px] mx-auto">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[580px] mx-auto">
               We guide you through every step — from choosing your plot and design, through
               construction, to handing you the keys to your completed Caribbean home.
             </p>
@@ -309,7 +309,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
               Everything <em className="font-light italic">Included</em>
             </h2>
             <GoldRule className="my-7" />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
               Your Plot & Plan villa is delivered as a complete, ready-to-live-in home. No additional
               costs, no surprises — a final price that covers everything.
             </p>
@@ -379,7 +379,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
           <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
             World-Class <em className="font-light italic">Expertise</em>
           </h2>
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-12">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-12">
             The Plot & Plan programme brings together an exceptional team of international designers
             and experienced local construction partners.
           </p>

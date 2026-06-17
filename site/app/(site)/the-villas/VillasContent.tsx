@@ -176,10 +176,10 @@ export default function TheVillasPage({ cmsData }: Props) {
               dangerouslySetInnerHTML={{ __html: philTitle }}
             />
             <GoldRule className="my-7" />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
               {philBody}
             </p>
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
               {philBody2}
             </p>
           </ScrollReveal>
@@ -213,7 +213,7 @@ export default function TheVillasPage({ cmsData }: Props) {
               className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
               dangerouslySetInnerHTML={{ __html: featuresTitle }}
             />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto">
               {featuresSubtitle}
             </p>
           </ScrollReveal>
@@ -245,7 +245,7 @@ export default function TheVillasPage({ cmsData }: Props) {
                 dangerouslySetInnerHTML={{ __html: archTitle }}
               />
               <GoldRule className="my-7" />
-              <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
+              <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
                 {archBody}
               </p>
             </ScrollReveal>
@@ -270,7 +270,7 @@ export default function TheVillasPage({ cmsData }: Props) {
           <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
             A Vision of<br /><em className="font-light italic">Exceptional</em> Living
           </h2>
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mx-auto">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mx-auto">
             Explore the design language, materials, and spaces that define life at Pearns Point.
           </p>
         </ScrollReveal>
@@ -305,10 +305,10 @@ export default function TheVillasPage({ cmsData }: Props) {
               dangerouslySetInnerHTML={{ __html: bespokeTitle }}
             />
             <GoldRule className="my-7" />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
               {bespokeBody}
             </p>
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
               {bespokeBody2}
             </p>
           </ScrollReveal>

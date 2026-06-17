@@ -164,7 +164,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
             </motion.div>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
               {visionBody}
             </motion.p>
@@ -195,7 +195,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
             </motion.div>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
               {projectBody}
             </motion.p>
@@ -249,7 +249,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
             />
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
             >
               Pearns Point owners will enjoy access to an exciting range of amenities on the
               main beach and public areas — ensuring a sense of sociability and community as
@@ -317,7 +317,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
             </motion.div>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
               {devBody}
             </motion.p>

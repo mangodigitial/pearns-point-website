@@ -250,7 +250,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             </motion.div>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
             >
               Antigua &amp; Barbuda&apos;s Citizenship by Investment Programme,
               established in 2013, enables individuals and families to obtain
@@ -259,7 +259,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             </motion.p>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
             >
               As a government-approved development, Pearns Point offers one of
               the Caribbean&apos;s most prestigious CBI-qualifying investments
@@ -287,7 +287,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             />
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
             >
               {benefitsSubtitle}
             </motion.p>
@@ -323,13 +323,13 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             {passportBody ? (
               <motion.div
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
                 dangerouslySetInnerHTML={{ __html: passportBody }}
               />
             ) : (
               <motion.p
                 variants={staggerItem}
-                className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
               >
                 An Antigua &amp; Barbuda passport is one of the strongest in the
                 Caribbean, offering extensive visa-free access to major business
@@ -390,7 +390,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             </motion.h2>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
             >
               From initial consultation to receiving your passport, the CBI
               process is straightforward and fully managed by our experienced
@@ -455,11 +455,11 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             />
             {qualifiesBody ? (
               <div
-                className="text-[0.88rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto"
+                className="text-[1.1rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto"
                 dangerouslySetInnerHTML={{ __html: qualifiesBody }}
               />
             ) : (
-              <p className="text-[0.88rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto">
+              <p className="text-[1.1rem] font-light leading-[1.85] text-white/65 max-w-[640px] mx-auto">
                 Every plot at Pearns Point meets the minimum investment threshold
                 required under Antigua&apos;s Citizenship by Investment Programme
                 &mdash; combining exceptional real estate with a clear pathway to
@@ -504,7 +504,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             </motion.h2>
             <motion.p
               variants={staggerItem}
-              className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mx-auto"
+              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mx-auto"
             >
               Everything you need to know about citizenship by investment through
               Pearns Point.

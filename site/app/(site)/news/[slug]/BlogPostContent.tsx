@@ -80,12 +80,12 @@ const portableTextComponents: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="ml-5 my-5 mb-7 text-[0.88rem] font-light leading-[2] text-prose-mid list-disc marker:text-ocean">
+      <ul className="ml-5 my-5 mb-7 text-[1.1rem] font-light leading-[2] text-prose-mid list-disc marker:text-ocean">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="ml-5 my-5 mb-7 text-[0.88rem] font-light leading-[2] text-prose-mid list-decimal marker:text-ocean">
+      <ol className="ml-5 my-5 mb-7 text-[1.1rem] font-light leading-[2] text-prose-mid list-decimal marker:text-ocean">
         {children}
       </ol>
     ),
@@ -271,7 +271,7 @@ export default function BlogPostContent({ post, relatedArticles }: BlogPostConte
             </p>
 
             {/* Bullet List */}
-            <ul className="ml-5 my-5 mb-7 text-[0.88rem] font-light leading-[2] text-prose-mid list-disc marker:text-ocean">
+            <ul className="ml-5 my-5 mb-7 text-[1.1rem] font-light leading-[2] text-prose-mid list-disc marker:text-ocean">
               <li className="mb-1.5">Minimum 5,000 sq ft of living space across generous open-plan layouts</li>
               <li className="mb-1.5">Private infinity pool with panoramic ocean or landscape views</li>
               <li className="mb-1.5">Natural ventilation designed around Antigua&apos;s prevailing trade winds</li>

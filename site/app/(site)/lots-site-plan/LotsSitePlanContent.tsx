@@ -220,7 +220,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
           <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
             Explore the <em className="font-light italic">Peninsula</em>
           </h2>
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-12">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-12">
             Select an area below to explore available lots, views, and features. Each zone of the peninsula has been
             thoughtfully planned to maximise privacy, natural beauty, and ocean access.
           </p>

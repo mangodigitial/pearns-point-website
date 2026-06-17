@@ -130,7 +130,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
               dangerouslySetInnerHTML={{ __html: intro.title }}
             />
             <GoldRule className="my-7" />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[520px]">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[520px]">
               {intro.body}
             </p>
             <div className="flex gap-10 mt-12 pt-9 border-t border-sand max-sm:flex-col max-sm:gap-5">
@@ -164,7 +164,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
       <section className="bg-white overflow-hidden">
         <ScrollReveal className="text-center py-[120px] pb-16 px-[60px] max-lg:px-7">
           <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5" dangerouslySetInnerHTML={{ __html: lifestyleTitle }} />
-          <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[580px] mx-auto">
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[580px] mx-auto">
             {lifestyleSubtitle}
           </p>
         </ScrollReveal>
@@ -192,7 +192,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
                 Homes Designed for<br /><em className="font-light italic">Exceptional</em> Living
               </h2>
             </div>
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid">
               With only 49 plots available, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from ocean view or coastline positions. Build your dream home with total creative freedom, or collaborate with our award-winning architects at KSR to craft a residence that is uniquely yours.
             </p>
           </ScrollReveal>
@@ -252,7 +252,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
             </p>
             <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5" dangerouslySetInnerHTML={{ __html: antiguaTitle }} />
             <GoldRule className="my-7" />
-            <p className="text-[0.88rem] font-light leading-[1.85] text-prose-mid max-w-[520px]">
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[520px]">
               {antiguaBody}
             </p>
             <div className="grid grid-cols-2 gap-7 mt-11">
