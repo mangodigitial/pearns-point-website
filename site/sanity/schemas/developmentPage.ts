@@ -29,6 +29,7 @@ export default defineType({
         defineField({ name: 'eyebrow', title: 'Eyebrow', type: 'string' }),
         defineField({ name: 'title', title: 'Title', type: 'string' }),
         defineField({ name: 'body', title: 'Body', type: 'text', rows: 5 }),
+        defineField({ name: 'image', title: 'Image', type: 'image' }),
         defineField({
           name: 'lotTypes',
           title: 'Lot Types',

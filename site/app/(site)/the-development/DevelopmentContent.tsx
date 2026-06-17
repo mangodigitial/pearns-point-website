@@ -116,6 +116,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
   const projectEyebrow = cmsData?.project?.eyebrow || 'The Project'
   const projectTitle = cmsData?.project?.title || 'Your Perfect Plot,<br>Your <em class="italic font-light">Perfect</em> Home'
   const projectBody = cmsData?.project?.body || "A spectacular choice of lots are available for sale on this remarkable peninsula. Subject to restrictive covenants that respect the low density, luxury vision for the peninsula, the Developer can also make available experienced design, planning and construction teams to build out your dream villa."
+  const projectImage = cmsData?.project?.image || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80'
   // Lot-type badges are driven entirely by Sanity — remove them there to hide them.
   const lotTypes = cmsData?.project?.lotTypes ?? []
 
@@ -236,7 +237,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
           {/* Visual (order 2 on desktop) */}
           <ScrollReveal className="order-2">
             <img
-              src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80"
+              src={projectImage}
               alt="Luxury villa design"
               className="w-full aspect-[3/4] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
