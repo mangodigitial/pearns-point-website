@@ -27,7 +27,8 @@ export default defineType({
               title: 'Thumbnails',
               type: 'array',
               of: [{ type: 'image' }],
-              validation: (Rule) => Rule.max(2),
+              description: 'Shown below the hero image. The first two are visible; any extras scroll horizontally.',
+              validation: (Rule) => Rule.max(12),
             }),
             defineField({
               name: 'features',

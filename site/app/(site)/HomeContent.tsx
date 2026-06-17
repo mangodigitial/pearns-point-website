@@ -15,7 +15,7 @@ const heroData = {
   title: 'Shared by Few,<br>Rivalled by <em>None</em>',
   subtitle: "Discover the Caribbean's most prestigious address — where seven pristine beaches, endless sunshine, and an extraordinary lifestyle await the discerning few.",
   backgroundImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80',
-  heroVideoUrl: 'https://vz-e6bde0ab-ddc.b-cdn.net/23d908e8-ee31-473b-9153-d236185fd4ba/play_1080p.mp4',
+  heroVideoUrl: 'https://vz-e6bde0ab-ddc.b-cdn.net/deeefdcf-3310-4366-8e12-3e5d81eaedf3/play_1080p.mp4',
   primaryCTA: { label: 'Explore the Peninsula', href: '/the-development' },
   secondaryCTA: { label: 'Discover the Lifestyle', href: '/lots-site-plan' },
 }

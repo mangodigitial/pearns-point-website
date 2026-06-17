@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 
 interface ScrollPillNavProps {
-  sections: { id: string; label: string }[]
+  sections: { id: string; label: string; lots?: string }[]
 }
 
 export default function ScrollPillNav({ sections }: ScrollPillNavProps) {
@@ -37,17 +37,26 @@ export default function ScrollPillNav({ sections }: ScrollPillNavProps) {
   return (
     <div className="sticky top-[72px] z-[100] bg-white/95 backdrop-blur-[20px] border-b border-sand py-4 px-[60px] max-lg:px-7 overflow-x-auto">
       <div className="flex gap-3 justify-center max-lg:justify-start">
-        {sections.map(({ id, label }) => (
+        {sections.map(({ id, label, lots }) => (
           <button
             key={id}
             onClick={() => scrollTo(id)}
-            className={`whitespace-nowrap px-5 py-2 text-[0.6rem] font-semibold tracking-[0.15em] uppercase border-[1.5px] transition-all duration-300 cursor-pointer ${
+            className={`flex flex-col items-center gap-0.5 leading-tight whitespace-nowrap px-5 py-2 text-[0.6rem] font-semibold tracking-[0.15em] uppercase border-[1.5px] transition-all duration-300 cursor-pointer ${
               activeId === id
                 ? 'bg-ocean border-ocean text-white'
                 : 'bg-transparent border-sand text-prose-mid hover:border-ocean hover:text-ocean'
             }`}
           >
-            {label}
+            <span>{label}</span>
+            {lots && (
+              <span
+                className={`text-[0.52rem] font-medium tracking-[0.08em] normal-case ${
+                  activeId === id ? 'text-white/80' : 'text-prose-light'
+                }`}
+              >
+                {lots.replace(/^lots?\s+/i, '')}
+              </span>
+            )}
           </button>
         ))}
       </div>

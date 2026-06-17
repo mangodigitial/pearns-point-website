@@ -159,7 +159,7 @@ const lotAreas = [
   },
 ]
 
-const pillNavSections = lotAreas.map((a) => ({ id: a.id, label: a.label }))
+const pillNavSections = lotAreas.map((a) => ({ id: a.id, label: a.label, lots: a.lots }))
 
 interface Props {
   cmsData?: Record<string, any> | null
@@ -186,7 +186,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
     thumbAlts: (area.thumbnails || []).map((_: any, i: number) => `${area.name} view ${i + 1}`),
     videoId: area.youtubeId || 'YOUTUBE_ID_HERE',
   })) : lotAreas
-  const displayPillNavSections = displayLotAreas.map((a: any) => ({ id: a.id, label: a.label }))
+  const displayPillNavSections = displayLotAreas.map((a: any) => ({ id: a.id, label: a.label, lots: a.lots }))
   const availabilityStats = cmsData?.availabilityBanner?.stats?.length ? cmsData.availabilityBanner.stats : [
     { number: '49', label: 'Total Plots' },
     { number: '8', label: 'Distinct Areas' },
@@ -303,25 +303,41 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
                   </div>
 
                   {/* Gallery */}
-                  <div className={`grid grid-cols-2 grid-rows-2 gap-3 max-sm:grid-cols-1 ${idx % 2 === 1 ? 'order-1 max-lg:order-2' : ''}`}>
-                    <div className="col-span-2 max-sm:col-auto overflow-hidden rounded-[4px]">
+                  <div className={`flex flex-col gap-3 ${idx % 2 === 1 ? 'order-1 max-lg:order-2' : ''}`}>
+                    {/* Hero image */}
+                    <div className="overflow-hidden rounded-[4px]">
                       <img
                         src={area.heroImage}
                         alt={area.heroAlt}
-                        className="w-full h-full object-cover aspect-[2/1] max-sm:aspect-[3/2] transition-transform duration-[1200ms] hover:scale-[1.06]"
+                        className="w-full object-cover aspect-[2/1] max-sm:aspect-[3/2] transition-transform duration-[1200ms] hover:scale-[1.06]"
                         style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
                       />
                     </div>
-                    {area.thumbs.map((thumb: any, ti: number) => (
-                      <div key={ti} className="overflow-hidden rounded-[4px]">
-                        <img
-                          src={thumb}
-                          alt={area.thumbAlts[ti]}
-                          className="w-full h-full object-cover aspect-square transition-transform duration-[1200ms] hover:scale-[1.06]"
-                          style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
-                        />
+
+                    {/* Thumbnail strip — first two visible, extras scroll horizontally */}
+                    {area.thumbs.length > 0 && (
+                      <div className="relative">
+                        <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1">
+                          {area.thumbs.map((thumb: any, ti: number) => (
+                            <div
+                              key={ti}
+                              className="flex-shrink-0 basis-[calc(50%-6px)] max-sm:basis-[78%] snap-start overflow-hidden rounded-[4px]"
+                            >
+                              <img
+                                src={thumb}
+                                alt={area.thumbAlts[ti]}
+                                className="w-full object-cover aspect-square transition-transform duration-[1200ms] hover:scale-[1.06]"
+                                style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        {/* Fade hint when there are more than two thumbnails */}
+                        {area.thumbs.length > 2 && (
+                          <div className="pointer-events-none absolute top-0 right-0 bottom-1 w-14 bg-gradient-to-l from-cream to-transparent" />
+                        )}
                       </div>
-                    ))}
+                    )}
                   </div>
                 </div>
               </ScrollReveal>
