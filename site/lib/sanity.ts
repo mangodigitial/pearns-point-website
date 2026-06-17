@@ -16,7 +16,9 @@ export const client = isSanityConfigured
       projectId,
       dataset,
       apiVersion: '2024-01-01',
-      useCdn: true,
+      // useCdn:false so that on-demand/ISR revalidation always fetches the
+      // freshly published content rather than a (briefly) stale CDN copy.
+      useCdn: false,
     })
   : null
 
