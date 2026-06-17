@@ -1,6 +1,8 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
+import type HlsType from 'hls.js'
 
 interface PageHeroProps {
   backgroundImage: string
@@ -12,9 +14,44 @@ interface PageHeroProps {
   children?: React.ReactNode
   vimeoId?: string
   youtubeId?: string
+  bunnyVideoUrl?: string
 }
 
-export default function PageHero({ backgroundImage, eyebrow, title, subtitle, isHome = false, heightClass, children, vimeoId, youtubeId }: PageHeroProps) {
+export default function PageHero({ backgroundImage, eyebrow, title, subtitle, isHome = false, heightClass, children, vimeoId, youtubeId, bunnyVideoUrl }: PageHeroProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Load the Bunny.net video into the native <video>. MP4 plays directly;
+  // HLS (.m3u8) plays natively in Safari and via hls.js everywhere else.
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !bunnyVideoUrl) return
+
+    const isHls = bunnyVideoUrl.toLowerCase().includes('.m3u8')
+
+    if (!isHls || video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = bunnyVideoUrl
+      return
+    }
+
+    let hls: HlsType | undefined
+    let cancelled = false
+    import('hls.js').then(({ default: Hls }) => {
+      if (cancelled) return
+      if (Hls.isSupported()) {
+        hls = new Hls()
+        hls.loadSource(bunnyVideoUrl)
+        hls.attachMedia(video)
+      } else {
+        video.src = bunnyVideoUrl
+      }
+    })
+
+    return () => {
+      cancelled = true
+      hls?.destroy()
+    }
+  }, [bunnyVideoUrl])
+
   const sectionHeight = heightClass ?? (isHome ? 'h-screen min-h-[700px]' : 'h-[65vh] min-h-[500px]')
   const titleSize = isHome
     ? 'text-[clamp(2.8rem,6.5vw,5.2rem)]'
@@ -35,8 +72,19 @@ export default function PageHero({ backgroundImage, eyebrow, title, subtitle, is
       />
 
       {/* Video background */}
-      {(vimeoId || youtubeId) && (
+      {(vimeoId || youtubeId || bunnyVideoUrl) && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none bg-black/20">
+          {bunnyVideoUrl && (
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          )}
           {vimeoId && (
             <iframe
               src={`https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&muted=1&quality=1080p`}
@@ -49,7 +97,7 @@ export default function PageHero({ backgroundImage, eyebrow, title, subtitle, is
           {youtubeId && (
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&mute=1&loop=1&playlist=${youtubeId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3`}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] min-w-full h-[56.25vw] min-h-full"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[1.5] w-[177.78vh] min-w-full h-[56.25vw] min-h-full"
               allow="autoplay; fullscreen"
               style={{ border: 0 }}
               title="Hero background video"

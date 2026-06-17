@@ -28,6 +28,7 @@ export interface HomePage {
     title: string
     subtitle: string
     backgroundImage: SanityImage
+    heroVideoUrl?: string
     primaryCTA: { label: string; href: string }
     secondaryCTA: { label: string; href: string }
   }
@@ -66,13 +67,6 @@ export interface HomePage {
     badgeNumber: string
     badgeLabel: string
     details: { title: string; description: string }[]
-  }
-  cbi: {
-    eyebrow: string
-    title: string
-    body: string
-    primaryCTA: { label: string; href: string }
-    secondaryCTA: { label: string; href: string }
   }
   developerStrip: {
     developers: { name: string; role: string }[]

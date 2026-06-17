@@ -14,7 +14,22 @@ const infoLinks = [
   { label: 'Plot and Plan', href: '/plot-and-plan' },
 ]
 
-export default function Footer() {
+interface FooterProps {
+  tagline?: string | null
+  phoneAntigua?: string | null
+  phoneSales?: string | null
+  email?: string | null
+}
+
+// Build a tel: href from a display phone string (strip spaces, dashes, etc.)
+const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, '')}`
+
+export default function Footer({ tagline, phoneAntigua, phoneSales, email }: FooterProps) {
+  const taglineText = tagline || "An exclusive 137-acre peninsula development on Antigua's stunning west coast, offering the finest in Caribbean luxury living."
+  const antiguaPhone = phoneAntigua || '+1 268-736-4028'
+  const salesPhone = phoneSales || '+1 268-720-2225'
+  const contactEmail = email || 'info@orangelimited.com'
+
   return (
     <footer className="bg-cream border-t border-sand">
       <div className="max-w-content mx-auto px-[60px] max-lg:px-7 pt-20 pb-12">
@@ -25,7 +40,7 @@ export default function Footer() {
               Pearns <em className="font-light italic">Point</em>
             </Link>
             <p className="text-[0.78rem] font-light text-prose-light leading-[1.7] max-w-[300px]">
-              An exclusive 137-acre peninsula development on Antigua&apos;s stunning west coast, offering the finest in Caribbean luxury living.
+              {taglineText}
             </p>
           </div>
 
@@ -68,20 +83,20 @@ export default function Footer() {
             </h4>
             <p className="text-[0.8rem] font-light text-prose-mid mb-3">
               Antigua:{' '}
-              <a href="tel:+12687364028" className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
-                +1 268-736-4028
+              <a href={telHref(antiguaPhone)} className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
+                {antiguaPhone}
               </a>
             </p>
             <p className="text-[0.8rem] font-light text-prose-mid mb-3">
               Sales:{' '}
-              <a href="tel:+12687202225" className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
-                +1 268-720-2225
+              <a href={telHref(salesPhone)} className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
+                {salesPhone}
               </a>
             </p>
             <p className="text-[0.8rem] font-light text-prose-mid mb-3">
               Email:{' '}
-              <a href="mailto:info@orangelimited.com" className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
-                info@orangelimited.com
+              <a href={`mailto:${contactEmail}`} className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
+                {contactEmail}
               </a>
             </p>
           </div>

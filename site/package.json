@@ -13,6 +13,7 @@
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^3.99.0",
     "framer-motion": "^11.18.2",
+    "hls.js": "^1.6.16",
     "next": "14.2.35",
     "next-sanity": "^7.1.4",
     "react": "^18",

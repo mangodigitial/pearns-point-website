@@ -15,6 +15,12 @@ export default defineType({
         defineField({ name: 'subtitle', title: 'Subtitle', type: 'text', rows: 2 }),
         defineField({ name: 'backgroundImage', title: 'Background Image', type: 'image' }),
         defineField({
+          name: 'heroVideoUrl',
+          title: 'Hero Background Video URL (Bunny.net)',
+          type: 'url',
+          description: 'Direct Bunny.net video URL (.mp4 or .m3u8 HLS). Plays muted, looping, behind the hero text. Leave empty to show only the background image.',
+        }),
+        defineField({
           name: 'primaryCTA',
           title: 'Primary CTA',
           type: 'object',
@@ -169,34 +175,6 @@ export default defineType({
                 defineField({ name: 'description', title: 'Description', type: 'text', rows: 3 }),
               ],
             },
-          ],
-        }),
-      ],
-    }),
-    defineField({
-      name: 'cbi',
-      title: 'CBI Section',
-      type: 'object',
-      fields: [
-        defineField({ name: 'eyebrow', title: 'Eyebrow', type: 'string' }),
-        defineField({ name: 'title', title: 'Title', type: 'string' }),
-        defineField({ name: 'body', title: 'Body', type: 'text', rows: 5 }),
-        defineField({
-          name: 'primaryCTA',
-          title: 'Primary CTA',
-          type: 'object',
-          fields: [
-            defineField({ name: 'label', title: 'Label', type: 'string' }),
-            defineField({ name: 'href', title: 'URL', type: 'string' }),
-          ],
-        }),
-        defineField({
-          name: 'secondaryCTA',
-          title: 'Secondary CTA',
-          type: 'object',
-          fields: [
-            defineField({ name: 'label', title: 'Label', type: 'string' }),
-            defineField({ name: 'href', title: 'URL', type: 'string' }),
           ],
         }),
       ],

@@ -130,13 +130,6 @@ const documents = [
         { _key: key(), title: 'Stable', description: 'Growing economy & government' },
       ],
     },
-    cbi: {
-      eyebrow: 'Citizenship by Investment',
-      title: 'Your Passport to a New Horizon',
-      body: "Antigua & Barbuda's Citizenship by Investment Programme offers a distinguished pathway to second citizenship — with visa-free access to over 150 countries including the UK, EU Schengen zone, and more.",
-      primaryCTA: { label: 'Learn About CBI', href: '/citizenship-by-investment' },
-      secondaryCTA: { label: 'Speak to an Advisor', href: '/contact' },
-    },
     developerStrip: {
       developers: [
         { _key: key(), name: 'Orange Limited', role: 'Developer' },

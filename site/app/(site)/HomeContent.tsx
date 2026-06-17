@@ -15,6 +15,9 @@ const heroData = {
   title: 'Shared by Few,<br>Rivalled by <em>None</em>',
   subtitle: "Discover the Caribbean's most prestigious address — where seven pristine beaches, endless sunshine, and an extraordinary lifestyle await the discerning few.",
   backgroundImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80',
+  heroVideoUrl: 'https://vz-e6bde0ab-ddc.b-cdn.net/23d908e8-ee31-473b-9153-d236185fd4ba/play_1080p.mp4',
+  primaryCTA: { label: 'Explore the Peninsula', href: '/the-development' },
+  secondaryCTA: { label: 'Discover the Lifestyle', href: '/lots-site-plan' },
 }
 
 const introData = {
@@ -86,7 +89,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
         title={hero.title}
         subtitle={hero.subtitle}
         isHome={true}
-        youtubeId="46A0w8iI8hs"
+        bunnyVideoUrl={hero.heroVideoUrl}
       >
         <motion.div
           initial={{ opacity: 0, y: 25 }}
@@ -95,18 +98,18 @@ export default function HomePage({ cmsData }: HomePageProps) {
           className="flex gap-4 justify-center max-sm:flex-col max-sm:items-center"
         >
           <Link
-            href="/the-development"
+            href={hero.primaryCTA.href}
             className="inline-block font-body text-[0.62rem] font-semibold tracking-[0.25em] uppercase text-navy bg-white px-11 py-4 transition-all duration-400 hover:bg-ocean hover:text-white hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(0,0,0,0.15)]"
             style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
           >
-            Explore the Peninsula
+            {hero.primaryCTA.label}
           </Link>
           <Link
-            href="/lots-site-plan"
+            href={hero.secondaryCTA.href}
             className="inline-block font-body text-[0.62rem] font-medium tracking-[0.25em] uppercase text-white bg-transparent border-[1.5px] border-white/60 px-11 py-4 transition-all duration-400 hover:bg-white/15 hover:border-white"
             style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
           >
-            Discover the Lifestyle
+            {hero.secondaryCTA.label}
           </Link>
         </motion.div>
       </PageHero>
