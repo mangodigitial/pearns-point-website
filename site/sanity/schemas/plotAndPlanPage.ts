@@ -18,6 +18,7 @@ export default defineType({
         defineField({ name: 'title', title: 'Title', type: 'string' }),
         defineField({ name: 'subtitle', title: 'Subtitle', type: 'text', rows: 2 }),
         defineField({ name: 'body', title: 'Body', type: 'text', rows: 5 }),
+        defineField({ name: 'image', title: 'Image', type: 'image' }),
       ],
     }),
     defineField({
@@ -63,6 +64,7 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
     }),
+    defineField({ name: 'whatsIncludedImage', title: "What's Included Image", type: 'image' }),
     defineField({
       name: 'pricing',
       title: 'Pricing',

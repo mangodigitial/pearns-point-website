@@ -147,6 +147,15 @@ export default function TheVillasPage({ cmsData }: Props) {
   const bespokeBody2 = "Whether you choose our recommended partners or bring your own vision, the result will be a home uniquely tailored to you \u2014 set within one of the most beautiful landscapes in the Caribbean."
   const bespokeImage = cmsData?.bespoke?.image || 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c0?w=800&q=80'
 
+  // Gallery — driven by Sanity (villasPage.gallery) with the hardcoded set as fallback.
+  const displayGallery = cmsData?.gallery?.length
+    ? cmsData.gallery.map((g: any) => ({
+        src: g.image,
+        alt: g.title || '',
+        className: g.isWide ? 'col-span-2 aspect-[2/1]' : g.isTall ? 'row-span-2 aspect-[3/4]' : 'aspect-square',
+      }))
+    : galleryItems
+
   return (
     <>
       {/* ── PAGE HERO ── */}
@@ -276,7 +285,7 @@ export default function TheVillasPage({ cmsData }: Props) {
         </ScrollReveal>
         <ScrollReveal className="max-w-content mx-auto">
           <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
-            {galleryItems.map((item, i) => (
+            {displayGallery.map((item: any, i: number) => (
               <div
                 key={i}
                 className={`group relative overflow-hidden rounded-[4px] cursor-pointer ${item.className} max-sm:col-span-1 max-sm:aspect-[3/2]`}

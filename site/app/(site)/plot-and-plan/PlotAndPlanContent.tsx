@@ -127,6 +127,8 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
   const introEyebrow = cmsData?.intro?.eyebrow || 'The Programme'
   const introTitle = cmsData?.intro?.title || 'Your Dream Home,<br><em class="font-light italic">Delivered</em>'
   const introBody = cmsData?.intro?.body || null
+  const introImage = cmsData?.intro?.image || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80'
+  const whatsIncludedImage = cmsData?.whatsIncludedImage || 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'
 
   // Designs
   const displayDesigns = cmsData?.designs?.length ? cmsData.designs.map((d: any) => ({
@@ -172,7 +174,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80"
+              src={introImage}
               alt="Luxury villa exterior"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
@@ -296,7 +298,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-20 items-center max-lg:grid-cols-1 max-lg:gap-12">
           <ScrollReveal>
             <img
-              src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80"
+              src={whatsIncludedImage}
               alt="Luxury villa interior"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
