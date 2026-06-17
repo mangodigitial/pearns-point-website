@@ -29,8 +29,8 @@ export async function generateMetadata({
   const post = await fetchPage<Record<string, any>>(blogPostQuery, { slug })
   if (post?.title) {
     return {
-      title: `${post.title} — Pearns Point`,
-      description: post.excerpt || undefined,
+      title: post.seoTitle || `${post.title} — Pearns Point`,
+      description: post.seoDescription || post.excerpt || undefined,
     }
   }
   return {
