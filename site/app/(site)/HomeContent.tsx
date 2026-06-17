@@ -60,6 +60,16 @@ export default function HomePage({ cmsData }: HomePageProps) {
   const hero = deepMerge(heroData, cmsData?.hero)
   const intro = deepMerge(introData, cmsData?.intro)
   const lifestyle = cmsData?.lifestyle?.cards?.length ? cmsData.lifestyle.cards : lifestyleCards
+  const featureImage = cmsData?.featureImage || 'https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=1600&q=80'
+  // Make the lifestyle grid always fill the row, whatever the number of cards.
+  const lifestyleCols = {
+    1: 'grid-cols-1',
+    2: 'grid-cols-1 sm:grid-cols-2',
+    3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+    4: 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-4',
+    5: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5',
+    6: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6',
+  }[Math.min(lifestyle.length, 6)] || 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5'
   const villas = cmsData?.villas?.cards?.length ? cmsData.villas.cards : villaCards
   const antigua = cmsData?.antigua?.details?.length ? cmsData.antigua.details : antiguaDetails
 
@@ -153,7 +163,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
       <section className="px-[60px] max-lg:px-7 pb-[60px]">
         <ScrollReveal>
           <img
-            src="https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=1600&q=80"
+            src={featureImage}
             alt="Pearns Point peninsula aerial view"
             className="w-full aspect-[21/9] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
           />
@@ -168,7 +178,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
             {lifestyleSubtitle}
           </p>
         </ScrollReveal>
-        <div className="grid grid-cols-5 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1">
+        <div className={`grid ${lifestyleCols}`}>
           {lifestyle.map((card: any, i: number) => (
             <Link key={i} href="/the-antigua-experience" className="block">
               <LifestyleCard {...card} />

@@ -67,6 +67,12 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'featureImage',
+      title: 'Feature Image (full-width band)',
+      type: 'image',
+      description: 'The large full-width image shown between the introduction and the lifestyle section.',
+    }),
+    defineField({
       name: 'lifestyle',
       title: 'Lifestyle',
       type: 'object',

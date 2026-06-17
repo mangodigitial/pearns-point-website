@@ -9,15 +9,26 @@ import ButtonPrimary from '@/components/buttons/ButtonPrimary'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
+/* Badge styles for the project lot-type tags, keyed by the `color` set in Sanity. */
+const lotTypeStyles: Record<string, string> = {
+  ocean: 'text-ocean bg-[#e0f2f8] border-ocean/15',
+  lagoon: 'text-lagoon bg-[#e0f7fa] border-lagoon/15',
+  gold: 'text-gold-warm bg-[#f5f0e0] border-gold-warm/15',
+  'gold-warm': 'text-gold-warm bg-[#f5f0e0] border-gold-warm/15',
+}
+
 /* ═══════════════════════════════════════════
    AMENITY DATA
 ═══════════════════════════════════════════ */
 const amenities = [
   {
     icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2">
-        <path d="M10 42 L26 10 L42 42 Z" />
-        <line x1="16" y1="30" x2="36" y2="30" />
+      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 14 H40 L26 30 Z" />
+        <line x1="26" y1="30" x2="26" y2="42" />
+        <line x1="18" y1="42" x2="34" y2="42" />
+        <line x1="33" y1="14" x2="41" y2="7" />
+        <circle cx="42" cy="6" r="1.6" />
       </svg>
     ),
     title: 'Beach Bar & Restaurant',
@@ -25,9 +36,10 @@ const amenities = [
   },
   {
     icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2">
-        <ellipse cx="26" cy="30" rx="18" ry="10" />
-        <path d="M8 30 V20 C8 12 44 12 44 20 V30" />
+      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M6 16 q5 -5 10 0 t10 0 t10 0 t10 0" />
+        <path d="M6 26 q5 -5 10 0 t10 0 t10 0 t10 0" />
+        <path d="M6 36 q5 -5 10 0 t10 0 t10 0 t10 0" />
       </svg>
     ),
     title: 'Swimming Pool',
@@ -35,10 +47,10 @@ const amenities = [
   },
   {
     icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2">
-        <rect x="10" y="10" width="32" height="32" rx="2" />
-        <line x1="10" y1="26" x2="42" y2="26" />
-        <line x1="26" y1="10" x2="26" y2="42" />
+      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="26" cy="26" r="17" />
+        <path d="M13 15 Q24 26 13 37" />
+        <path d="M39 15 Q28 26 39 37" />
       </svg>
     ),
     title: 'Tennis Courts',
@@ -46,9 +58,12 @@ const amenities = [
   },
   {
     icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2">
-        <circle cx="26" cy="26" r="16" />
-        <path d="M20 26 Q26 18 32 26 Q26 34 20 26" />
+      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <line x1="17" y1="26" x2="35" y2="26" />
+        <rect x="11" y="19" width="6" height="14" rx="1.5" />
+        <rect x="35" y="19" width="6" height="14" rx="1.5" />
+        <line x1="8" y1="22" x2="8" y2="30" />
+        <line x1="44" y1="22" x2="44" y2="30" />
       </svg>
     ),
     title: 'Fitness Centre',
@@ -101,6 +116,8 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
   const projectEyebrow = cmsData?.project?.eyebrow || 'The Project'
   const projectTitle = cmsData?.project?.title || 'Your Perfect Plot,<br>Your <em class="italic font-light">Perfect</em> Home'
   const projectBody = cmsData?.project?.body || "A spectacular choice of lots are available for sale on this remarkable peninsula. Subject to restrictive covenants that respect the low density, luxury vision for the peninsula, the Developer can also make available experienced design, planning and construction teams to build out your dream villa."
+  // Lot-type badges are driven entirely by Sanity — remove them there to hide them.
+  const lotTypes = cmsData?.project?.lotTypes ?? []
 
   // Amenities
   const amenitiesEyebrow = cmsData?.amenities?.eyebrow || "Owners' Facilities"
@@ -199,23 +216,21 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
             >
               {projectBody}
             </motion.p>
-            <motion.div
-              variants={staggerItem}
-              className="flex gap-3 mt-9 flex-wrap max-sm:flex-col"
-            >
-              {/* Beach Front - ocean color */}
-              <span className="text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-ocean bg-[#e0f2f8] px-5 py-[10px] rounded-[2px] border border-ocean/15">
-                Beach Front
-              </span>
-              {/* Ocean Front - lagoon color */}
-              <span className="text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-lagoon bg-[#e0f7fa] px-5 py-[10px] rounded-[2px] border border-lagoon/15">
-                Ocean Front
-              </span>
-              {/* Ocean View - gold color */}
-              <span className="text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-gold-warm bg-[#f5f0e0] px-5 py-[10px] rounded-[2px] border border-gold-warm/15">
-                Ocean View
-              </span>
-            </motion.div>
+            {lotTypes.length > 0 && (
+              <motion.div
+                variants={staggerItem}
+                className="flex gap-3 mt-9 flex-wrap max-sm:flex-col"
+              >
+                {lotTypes.map((lt: any, i: number) => (
+                  <span
+                    key={i}
+                    className={`text-[0.6rem] font-semibold tracking-[0.2em] uppercase px-5 py-[10px] rounded-[2px] border ${lotTypeStyles[lt.color] || lotTypeStyles.ocean}`}
+                  >
+                    {lt.label}
+                  </span>
+                ))}
+              </motion.div>
+            )}
           </StaggerReveal>
 
           {/* Visual (order 2 on desktop) */}

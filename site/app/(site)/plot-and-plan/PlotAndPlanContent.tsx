@@ -254,7 +254,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
             <div className="relative pl-[60px] max-sm:pl-12">
               {/* Vertical line */}
               <div
-                className="absolute left-[19px] max-sm:left-[15px] top-0 bottom-0 w-[2px]"
+                className="absolute left-[28px] max-sm:left-[24px] top-0 bottom-0 w-[2px]"
                 style={{
                   background: 'linear-gradient(180deg, #1a7a8a, #48b5c4, #e8dfd2)',
                 }}

@@ -137,8 +137,8 @@ export default function PageHero({ backgroundImage, eyebrow, title, subtitle, is
         />
         {subtitle && (
           <motion.p
-            className="font-body text-[0.88rem] font-light tracking-[0.04em] leading-[1.8] text-white/90 max-w-[540px] mx-auto mb-11"
-            style={{ textShadow: '0 1px 6px rgba(0,0,0,0.2)' }}
+            className="font-body text-[1.05rem] max-sm:text-[0.95rem] font-light tracking-[0.04em] leading-[1.8] text-white max-w-[580px] mx-auto mb-11"
+            style={{ textShadow: '0 1px 10px rgba(0,0,0,0.45)' }}
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: isHome ? 2.6 : 0.7, ease: [0.25, 0.1, 0.25, 1] }}

@@ -12,7 +12,7 @@ import ArchitectCard from '@/components/cards/ArchitectCard'
 /* ─── Feature Cards Data ─── */
 const featureCards = [
   {
-    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="4" y="16" width="36" height="24" rx="1"/><path d="M4 16 L22 4 L40 16"/></svg>',
+    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="17" x2="39" y2="17"/><rect x="9" y="17" width="26" height="19" rx="1"/><line x1="9" y1="27" x2="35" y2="27"/><line x1="4" y1="36" x2="40" y2="36"/></svg>',
     title: 'Horizontal Design',
     description:
       'Low-rise architecture maximises ocean views from every room while embracing the natural contours of the landscape.',
@@ -24,25 +24,25 @@ const featureCards = [
       'Work with world-class architects to personalise every detail — from layout and finishes to pool positioning and landscaping.',
   },
   {
-    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 4C18 12 12 18 4 22C12 26 18 32 22 40C26 32 32 26 40 22C32 18 26 12 22 4Z"/><circle cx="22" cy="22" r="4"/></svg>',
+    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M34 10 C19 10 10 21 10 34 C23 34 34 23 34 10 Z"/><path d="M15 29 C21 24 27 18 31 13"/></svg>',
     title: 'Natural Materials',
     description:
       'Locally sourced stone, timber, and natural materials connect each home to the Caribbean landscape and minimise ecological impact.',
   },
   {
-    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 32 Q14 8 22 20 Q30 32 36 12"/><line x1="4" y1="38" x2="40" y2="38" stroke-width="1"/></svg>',
+    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15 H28 a4 4 0 1 0 -4 -4"/><path d="M6 22 H32 a4 4 0 1 1 -4 4"/><path d="M6 29 H21 a4 4 0 1 1 -4 4"/></svg>',
     title: 'Trade Wind Cooling',
     description:
       "Designed to harness Antigua's pervasive trade winds for natural ventilation — reducing energy consumption and keeping interiors cool year-round.",
   },
   {
-    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="6" y="6" width="32" height="32" rx="2"/><line x1="6" y1="22" x2="38" y2="22"/><line x1="22" y1="6" x2="22" y2="38"/></svg>',
+    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="9" width="32" height="26" rx="1"/><line x1="14" y1="22" x2="30" y2="22"/><polyline points="18,17 13,22 18,27"/><polyline points="26,17 31,22 26,27"/></svg>',
     title: 'Indoor/Outdoor Flow',
     description:
       'Floor-to-ceiling openings, covered terraces, and infinity pools dissolve the boundary between interior luxury and the natural beauty beyond.',
   },
   {
-    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="22" cy="22" r="16"/><polyline points="22,12 22,22 30,26"/></svg>',
+    icon: '<svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6 L36 11 V21 C36 30 30 36 22 39 C14 36 8 30 8 21 V11 Z"/><polyline points="16,22 20,26 28,17"/></svg>',
     title: 'Low Maintenance',
     description:
       'Engineered for the tropical climate using materials and systems that withstand the elements and require barely any ongoing maintenance.',

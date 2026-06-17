@@ -40,6 +40,7 @@ export interface HomePage {
     accentImage: SanityImage
     stats: { number: string; label: string }[]
   }
+  featureImage?: SanityImage
   lifestyle: {
     eyebrow: string
     title: string
