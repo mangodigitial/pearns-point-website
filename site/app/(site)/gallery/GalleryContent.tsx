@@ -152,7 +152,6 @@ export default function GalleryPage({ cmsData }: Props) {
   const heroSubtitle = cmsData?.heroSubtitle || 'Explore the breathtaking beauty of Pearns Point — from aerial views of the peninsula to intimate glimpses of island life.'
 
   // Gallery data
-  const displayCategories = cmsData?.categories?.length ? cmsData.categories : categories
   const displayImages = cmsData?.images?.length ? cmsData.images.map((img: any) => ({
     src: img.image || '',
     srcLarge: img.image || '',
@@ -160,6 +159,15 @@ export default function GalleryPage({ cmsData }: Props) {
     category: img.category || '',
     alt: img.title || '',
   })) : galleryImages
+  // Only show category tabs that actually have images (avoids empty tabs).
+  const baseCategories = cmsData?.categories?.length ? cmsData.categories : categories
+  const usedCategories: string[] = Array.from(
+    new Set(displayImages.map((img: any) => img.category).filter(Boolean))
+  )
+  const displayCategories = [
+    ...baseCategories.filter((c: string) => usedCategories.includes(c)),
+    ...usedCategories.filter((c) => !baseCategories.includes(c)),
+  ]
 
   // Video section
   const videoEyebrow = cmsData?.videoSection?.eyebrow || 'Aerial Tour'
