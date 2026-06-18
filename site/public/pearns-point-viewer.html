@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pearns Point — Interactive Lot Viewer</title>
+<script>window.CESIUM_BASE_URL = 'https://cdn.jsdelivr.net/npm/cesium@1.119/Build/Cesium/';</script>
+<script src="https://cdn.jsdelivr.net/npm/cesium@1.119/Build/Cesium/Cesium.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/cesium@1.119/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0a1628;overflow:hidden}
+#cesiumContainer{width:100vw;height:100vh}
+.cesium-viewer-bottom,.cesium-viewer-toolbar{display:none!important}
+
+#header{position:fixed;top:0;left:0;right:0;z-index:10;padding:16px 24px;background:linear-gradient(180deg,rgba(10,22,40,0.85),transparent);display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+#header>*{pointer-events:auto}
+#logo h1{font-size:20px;font-weight:700;color:#c5a47e;letter-spacing:0.12em;text-transform:uppercase}
+#logo p{font-size:11px;color:#8b9aae;margin-top:2px}
+#nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav-btn{padding:6px 14px;border-radius:6px;border:1px solid rgba(197,164,126,0.3);background:rgba(10,22,40,0.6);color:#c5a47e;cursor:pointer;font-size:11px;font-weight:500;backdrop-filter:blur(8px);transition:all 0.2s}
+.nav-btn:hover,.nav-btn.active{background:rgba(197,164,126,0.2);border-color:#c5a47e}
+
+#zones-panel{position:fixed;bottom:16px;left:16px;z-index:10;display:flex;flex-direction:column;gap:6px;max-height:calc(100vh - 100px);overflow-y:auto}
+.zone-chip{padding:8px 14px;border-radius:8px;background:rgba(10,22,40,0.85);border:1px solid rgba(255,255,255,0.1);color:#e0ddd6;cursor:pointer;font-size:12px;font-weight:500;backdrop-filter:blur(8px);transition:all 0.2s;display:flex;align-items:center;gap:8px}
+.zone-chip:hover{border-color:#c5a47e;transform:translateX(4px)}
+.zone-chip .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.zone-chip .lots{font-size:10px;color:#8b9aae;margin-left:auto}
+
+#lightbox{position:fixed;top:0;right:0;width:420px;height:100vh;z-index:20;background:rgba(10,22,40,0.96);border-left:1px solid rgba(197,164,126,0.2);transform:translateX(100%);transition:transform 0.4s ease;overflow-y:auto;backdrop-filter:blur(12px)}
+#lightbox.open{transform:translateX(0)}
+#lb-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:rgba(10,22,40,0.8);color:#8b9aae;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:1}
+#lb-close:hover{color:#fff;border-color:#c5a47e}
+#lb-hero{width:100%;height:240px;object-fit:cover}
+#lb-content{padding:24px}
+#lb-content .zone-label{font-size:11px;color:#c5a47e;letter-spacing:0.08em;text-transform:uppercase;font-weight:600}
+#lb-content h2{font-size:24px;color:#e8e4de;font-weight:300;margin:8px 0 16px}
+#lb-content h2 em{font-style:italic;font-weight:400}
+#lb-content .desc{font-size:13px;color:#9aa3ae;line-height:1.7;margin-bottom:20px}
+#lb-content .features{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+#lb-content .feature{display:flex;align-items:center;gap:6px;font-size:11px;color:#b0bac4}
+#lb-content .feature::before{content:'';width:6px;height:6px;border-radius:50%;background:#c5a47e}
+#lb-content .status-badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:20px}
+.status-available{background:rgba(78,205,196,0.15);color:#4ecdc4}
+.status-sold{background:rgba(255,107,107,0.15);color:#ff6b6b}
+.status-reserved{background:rgba(249,202,36,0.15);color:#f9ca24}
+#lb-content .photos{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px}
+#lb-content .photos img{width:100%;height:120px;object-fit:cover;border-radius:6px;cursor:pointer;transition:opacity 0.2s}
+#lb-content .photos img:hover{opacity:0.8}
+.lb-btn{display:block;width:100%;padding:12px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;text-decoration:none;margin-bottom:8px}
+.btn-enquire{background:#c5a47e;color:#0a1628;border:none}
+.btn-enquire:hover{background:#d4b58e}
+.btn-fly{background:transparent;color:#c5a47e;border:1px solid #c5a47e44}
+.btn-fly:hover{background:#c5a47e22}
+
+#hint{position:fixed;bottom:16px;right:16px;z-index:10;padding:8px 14px;border-radius:8px;background:rgba(10,22,40,0.7);font-size:10px;color:rgba(255,255,255,0.35)}
+#config-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center}
+#config-box{background:#161b22;border-radius:12px;padding:32px;max-width:480px;width:90%;border:1px solid #2a2a2a}
+#config-box h2{color:#c5a47e;font-size:18px;margin-bottom:8px}
+#config-box p{color:#8b949e;font-size:13px;margin-bottom:16px;line-height:1.5}
+#config-box label{display:block;color:#c9d1d9;font-size:12px;margin-bottom:4px;font-weight:500}
+#config-box input{width:100%;padding:10px 12px;border-radius:6px;border:1px solid #2a2a2a;background:#0d1117;color:#e8e4de;font-size:13px;margin-bottom:16px}
+#config-box button{padding:10px 24px;border-radius:6px;border:none;background:#c5a47e;color:#0a1628;font-weight:600;cursor:pointer;font-size:13px}
+</style>
+</head>
+<body>
+
+<div id="config-modal">
+<div id="config-box">
+<h2>Pearns Point Viewer Setup</h2>
+<p>Enter your Cesium ion access token to load the 3D terrain. Get a free token at <a href="https://ion.cesium.com/tokens" target="_blank" style="color:#c5a47e">ion.cesium.com/tokens</a></p>
+<label>Cesium Ion Access Token</label>
+<input id="token-input" placeholder="eyJhbGciOi..." />
+<p style="font-size:11px">Optional: For Google 3D Tiles, also add your Google Maps API key</p>
+<label>Google Maps API Key (optional)</label>
+<input id="google-key-input" placeholder="AIza..." />
+<button onclick="startViewer()">Launch Viewer</button>
+</div>
+</div>
+
+<div id="cesiumContainer"></div>
+
+<div id="header">
+<div id="logo"><h1>Pearns Point</h1><p>Antigua, West Indies — Interactive Lot Viewer</p></div>
+<div id="nav">
+<button class="nav-btn active" onclick="flyToOverview()">Overview</button>
+<button class="nav-btn" onclick="toggleZones()">Toggle Lots</button>
+</div>
+</div>
+
+<div id="zones-panel"></div>
+
+<div id="lightbox">
+<button id="lb-close" onclick="closeLightbox()">×</button>
+<img id="lb-hero" src="" alt="">
+<div id="lb-content"></div>
+</div>
+
+<div id="hint">Drag to orbit · scroll to zoom · click a lot zone</div>
+
+<script>
+var ZONES = [
+  {id:"oceans-edge",name:"Oceans Edge",lots:"Lots 1–21",color:"#4ecdc4",status:"available",
+   lat:17.0795,lon:-61.9035,viewLat:17.0785,viewLon:-61.9045,viewH:80,viewHeading:320,viewPitch:-25,
+   desc:"Situated directly above beautiful turquoise waters with breathtaking sunset views for large parts of the year, these lots are conveniently close to the main Pearns Point beach. Although entirely private, owners will still be within easy walking distance from the amenities of the luxury hotel on site. Lots 9, 10 and Lots 19-21 enjoy access to a secluded white sand beach with easy swimming.",
+   features:["Sunset views","Direct water location","Mountain views"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/b88e27d393d2633349bd7cf72a69f44cb241ef58-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/d10959e71f2c89156f41699128fb5b4c96c32178-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/e384997a84ff6804a4e73ca74aa33f528ef19159-729x530.jpg"],
+   polygon:[[17.0815,-61.9005],[17.0808,-61.8995],[17.0790,-61.9010],[17.0775,-61.9030],[17.0770,-61.9060],[17.0775,-61.9075],[17.0790,-61.9080],[17.0808,-61.9065],[17.0815,-61.9035]]},
+
+  {id:"five-islands-point",name:"Five Islands Point",lots:"Lots 24 & 25",color:"#ff6b6b",status:"available",
+   lat:17.0780,lon:-61.9095,viewLat:17.0770,viewLon:-61.9105,viewH:60,viewHeading:250,viewPitch:-20,
+   desc:"The last remaining lot on this highly sought after point, Lot 24 is a large lot with many possibilities and faces out to the iconic Five Islands and the endless turquoise Caribbean Sea. Being at the western point of the property, the sunset views are mesmerising and quiet privacy is guaranteed.",
+   features:["Private point position","Five Islands views","Beach access","Best sunset position"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/ae573d03b4e8e3bacd7319abf6abf17d671df358-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/94ad3d66e6b4e6f24013029e1ca18e402243c20f-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/84b9c74673336f6cedba4431983b9913ce29f198-729x530.jpg"],
+   polygon:[[17.0790,-61.9080],[17.0775,-61.9075],[17.0765,-61.9090],[17.0770,-61.9110],[17.0785,-61.9115],[17.0795,-61.9095]]},
+
+  {id:"pearns-bay",name:"Pearns Bay",lots:"Lot 28",color:"#f9ca24",status:"available",
+   lat:17.0830,lon:-61.9060,viewLat:17.0820,viewLon:-61.9070,viewH:70,viewHeading:280,viewPitch:-20,
+   desc:"An exceptional lot with beach access to a gorgeous powder white soft sand beach with excellent snorkelling. The views out to the unpopulated far green shore are enhanced by panoramic ocean views. The lot rises gently back to the road making for easy access and elevated views that include the iconic Five Islands.",
+   features:["Beach access","Snorkelling","Panoramic views","Gentle elevation"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/a21c65da387fd3c72d30f617a1303bd69418cd08-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/af3908bc43d220f814d30d032900455b87ce5790-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/00ce34cf9a2fa38bfbc84b332d3196939fbef869-729x530.jpg"],
+   polygon:[[17.0840,-61.9050],[17.0835,-61.9040],[17.0820,-61.9045],[17.0818,-61.9060],[17.0825,-61.9070],[17.0838,-61.9065]]},
+
+  {id:"secret-bay",name:"Secret Bay",lots:"Lots 38 & 39",color:"#a29bfe",status:"available",
+   lat:17.0860,lon:-61.8985,viewLat:17.0870,viewLon:-61.8975,viewH:60,viewHeading:30,viewPitch:-20,
+   desc:"Some of the last beachfront lots available — this exquisite bay has a beautiful and secluded stretch of white sand with turquoise waters straight in front. The elevated incline down to the beach allows for complete privacy and safety from any seasonal wave activity.",
+   features:["Beachfront","Secluded white sand","Elevated privacy","Last remaining"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/c68f754c6c6f5644de423526a226e3cfd9fc43a4-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/5831acce8ad59784d70172ebe3551d2c85c58bcb-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/e31d1451853c7dd502b02024eb5590d88a8484b1-729x530.jpg"],
+   polygon:[[17.0865,-61.8970],[17.0855,-61.8960],[17.0845,-61.8970],[17.0848,-61.8990],[17.0858,-61.9000],[17.0868,-61.8990]]},
+
+  {id:"five-islands-bay",name:"Five Islands Bay",lots:"Lots 41–43, 59, 63–71",color:"#6c5ce7",status:"available",
+   lat:17.0845,lon:-61.8955,viewLat:17.0840,viewLon:-61.8945,viewH:100,viewHeading:60,viewPitch:-25,
+   desc:"These more elevated ocean view lots are generously sized to allow for residences with multiple views and also benefit from the cooling north-easterly winds across Antigua. In good proximity to the property entrance, they are within easy reach of the main Pearns Point beach.",
+   features:["Elevated position","Generous lot sizes","Cooling breezes","Intimate cove access"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/204a2610e524d8e9e4f1cf34500f9894f877a3b5-729x530.jpg",
+   imgs:[],
+   polygon:[[17.0860,-61.8945],[17.0850,-61.8935],[17.0835,-61.8940],[17.0830,-61.8960],[17.0840,-61.8975],[17.0855,-61.8970]]},
+
+  {id:"pearns-beach",name:"Pearns Beach",lots:"Lots 44–53",color:"#fd79a8",status:"available",
+   lat:17.0815,lon:-61.8980,viewLat:17.0805,viewLon:-61.8990,viewH:90,viewHeading:200,viewPitch:-20,
+   desc:"Looking out to Montserrat on a clear day, these lots are all about an abundance of colour — with views over the white Pearns Point Beach and out to the famous turquoise waters of Antigua, all amid a backdrop of the Antiguan mountain range to the south.",
+   features:["Montserrat views","Beach views","Mountain backdrop","Turquoise waters"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/6b501ae65cc0efd5d6ad0a6748ee9652adb21ab4-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/c9348139e21d8b30a505f29defa0291f9cad562a-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/a40afa66edba45d20f4565082cef096dd5079a52-729x530.jpg"],
+   polygon:[[17.0830,-61.8960],[17.0820,-61.8955],[17.0805,-61.8965],[17.0800,-61.8985],[17.0810,-61.9000],[17.0825,-61.8995]]},
+
+  {id:"five-islands-view",name:"Five Islands View",lots:"Lots 54–59",color:"#00cec9",status:"available",
+   lat:17.0825,lon:-61.9040,viewLat:17.0820,viewLon:-61.9050,viewH:110,viewHeading:270,viewPitch:-15,
+   desc:"Offering perhaps the best combination of ocean and Five Islands views, these higher elevation lots also enjoy an almost year-round breeze and a peaceful serenity. Lot sizes are larger here, affording more uses of the property and different design options for your dream home.",
+   features:["Best combined views","Higher elevation","Larger lot sizes","Year-round breeze"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/95c8cbea16a0df2f1b2d6c26610fc257d1815401-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/e158c6feb96ff3ce938e52dd822e595f777f046a-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/3ebad629bc3fb94078990e822012de4f36117bff-729x530.jpg"],
+   polygon:[[17.0838,-61.9035],[17.0830,-61.9020],[17.0818,-61.9025],[17.0815,-61.9045],[17.0822,-61.9055],[17.0835,-61.9050]]},
+
+  {id:"the-look-out",name:"The Look Out",lots:"Lots 60–61",color:"#ffeaa7",status:"reserved",
+   lat:17.0830,lon:-61.9005,viewLat:17.0835,viewLon:-61.9010,viewH:140,viewHeading:180,viewPitch:-10,
+   desc:"The highest points on the property — the 360-degree views here are outstanding. Cooling breezes and a view over most of the north-west coast of Antigua will keep you spellbound. These are truly the crown jewels of the peninsula.",
+   features:["360° views","Highest elevation","Cooling breezes","Crown jewel lots"],
+   heroImg:"https://cdn.sanity.io/images/st9j6mh7/production/e1ff560c840c79c62c4048bc46c2f64b5c95f41c-729x530.jpg",
+   imgs:["https://cdn.sanity.io/images/st9j6mh7/production/71d30cabbc8f415a41fa32957a6c6884bc2d751a-729x530.jpg","https://cdn.sanity.io/images/st9j6mh7/production/a5da5ee3ce8b30e410ec1e552b6ea757edd06877-729x530.jpg"],
+   polygon:[[17.0838,-61.9015],[17.0832,-61.8995],[17.0822,-61.8998],[17.0820,-61.9010],[17.0828,-61.9020]]}
+];
+
+var viewer, zonesVisible = true;
+
+function startViewer() {
+  var token = document.getElementById('token-input').value.trim();
+  var googleKey = document.getElementById('google-key-input').value.trim();
+  if (!token) { alert('Please enter a Cesium ion access token'); return; }
+
+  document.getElementById('config-modal').style.display = 'none';
+  Cesium.Ion.defaultAccessToken = token;
+
+  viewer = new Cesium.Viewer('cesiumContainer', {
+    terrain: Cesium.Terrain.fromWorldTerrain(),
+    timeline: false, animation: false, homeButton: false,
+    baseLayerPicker: false, navigationHelpButton: false,
+    geocoder: false, sceneModePicker: false, fullscreenButton: false,
+    infoBox: false, selectionIndicator: false
+  });
+  viewer.scene.globe.depthTestAgainstTerrain = true;
+
+  if (googleKey) {
+    try {
+      var tileset = viewer.scene.primitives.add(new Cesium.Cesium3DTileset({
+        url: 'https://tile.googleapis.com/v1/3dtiles/root.json?key=' + googleKey
+      }));
+    } catch(e) { console.log('Google 3D Tiles not available, using terrain + imagery'); }
+  }
+
+  addZonePolygons();
+  buildZonePanel();
+  flyToOverview();
+
+  var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+  handler.setInputAction(function(click) {
+    var picked = viewer.scene.pick(click.position);
+    if (Cesium.defined(picked) && picked.id && picked.id.zoneId) {
+      openLightbox(picked.id.zoneId);
+    }
+  }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+}
+
+function addZonePolygons() {
+  ZONES.forEach(function(z) {
+    var positions = z.polygon.map(function(p) { return Cesium.Cartesian3.fromDegrees(p[1], p[0], 20); });
+    var color = Cesium.Color.fromCssColorString(z.color);
+
+    viewer.entities.add({
+      zoneId: z.id,
+      polygon: {
+        hierarchy: new Cesium.PolygonHierarchy(positions),
+        material: color.withAlpha(0.35),
+        outline: true,
+        outlineColor: color,
+        outlineWidth: 2,
+        height: 15,
+        extrudedHeight: 25,
+        classificationType: Cesium.ClassificationType.BOTH
+      },
+      label: {
+        text: z.name,
+        font: '14px system-ui',
+        fillColor: Cesium.Color.WHITE,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 2,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY
+      },
+      position: Cesium.Cartesian3.fromDegrees(z.lon, z.lat, 40)
+    });
+  });
+}
+
+function buildZonePanel() {
+  var panel = document.getElementById('zones-panel');
+  ZONES.forEach(function(z) {
+    var chip = document.createElement('div');
+    chip.className = 'zone-chip';
+    chip.innerHTML = '<span class="dot" style="background:'+z.color+'"></span>' + z.name + '<span class="lots">'+z.lots+'</span>';
+    chip.onclick = function() { openLightbox(z.id); };
+    panel.appendChild(chip);
+  });
+}
+
+function openLightbox(zoneId) {
+  var z = ZONES.find(function(z) { return z.id === zoneId; });
+  if (!z) return;
+
+  document.getElementById('lb-hero').src = z.heroImg;
+  var statusClass = 'status-' + z.status;
+  var statusText = z.status.charAt(0).toUpperCase() + z.status.slice(1);
+
+  var photosHtml = z.imgs.map(function(img) {
+    return '<img src="'+img+'" alt="'+z.name+'">';
+  }).join('');
+
+  var featuresHtml = z.features.map(function(f) {
+    return '<span class="feature">'+f+'</span>';
+  }).join('');
+
+  document.getElementById('lb-content').innerHTML =
+    '<span class="zone-label">'+z.lots+'</span>' +
+    '<h2>'+z.name.replace(/(\w+)$/, '<em>$1</em>')+'</h2>' +
+    '<span class="status-badge '+statusClass+'">'+statusText+'</span>' +
+    '<p class="desc">'+z.desc+'</p>' +
+    '<div class="features">'+featuresHtml+'</div>' +
+    (photosHtml ? '<div class="photos">'+photosHtml+'</div>' : '') +
+    '<button class="lb-btn btn-fly" onclick="flyToZone(\''+z.id+'\')">Fly to This Area</button>' +
+    '<a class="lb-btn btn-enquire" href="https://pearns-point-website.vercel.app/contact" target="_blank">Enquire About This Area</a>';
+
+  document.getElementById('lightbox').classList.add('open');
+
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(z.lon, z.lat, 300),
+    orientation: { heading: Cesium.Math.toRadians(0), pitch: Cesium.Math.toRadians(-45), roll: 0 },
+    duration: 1.5
+  });
+}
+
+function flyToZone(zoneId) {
+  var z = ZONES.find(function(z) { return z.id === zoneId; });
+  if (!z) return;
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(z.viewLon, z.viewLat, z.viewH),
+    orientation: {
+      heading: Cesium.Math.toRadians(z.viewHeading),
+      pitch: Cesium.Math.toRadians(z.viewPitch),
+      roll: 0
+    },
+    duration: 2.0
+  });
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+function flyToOverview() {
+  if (!viewer) return;
+  closeLightbox();
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(-61.901, 17.082, 800),
+    orientation: { heading: Cesium.Math.toRadians(30), pitch: Cesium.Math.toRadians(-35), roll: 0 },
+    duration: 2.0
+  });
+}
+
+function toggleZones() {
+  zonesVisible = !zonesVisible;
+  viewer.entities.values.forEach(function(e) { e.show = zonesVisible; });
+}
+</script>
+</body>
+</html>
