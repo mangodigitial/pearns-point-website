@@ -221,7 +221,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
               {villas.map((card: any, i: number) => (
                 <div
                   key={i}
-                  className={`group relative overflow-hidden rounded-[4px] cursor-pointer ${
+                  className={`group relative overflow-hidden rounded-[4px] ${
                     card.isHero ? 'row-span-2 max-lg:row-auto max-lg:min-h-[400px]' : 'max-lg:min-h-[320px]'
                   }`}
                 >
