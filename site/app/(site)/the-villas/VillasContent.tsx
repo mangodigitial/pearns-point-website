@@ -119,7 +119,6 @@ export default function TheVillasPage({ cmsData }: Props) {
   const philEyebrow = cmsData?.philosophy?.eyebrow || 'Design Philosophy'
   const philTitle = cmsData?.philosophy?.title || 'Where Architecture<br>Meets <em class="font-light italic">Paradise</em>'
   const philBody = cmsData?.philosophy?.body || "Every villa at Pearns Point is designed around a horizontal philosophy \u2014 maximising the spectacular views from every room and providing creative layout possibilities to suit individual ideas and styles, whether modern or classical."
-  const philBody2 = "Effective use of natural elements is paramount. The island\u2019s pervasive trade winds keep indoor temperatures cool, while locally sourced materials ensure each home feels intrinsically connected to its Caribbean surroundings."
   const philImage = cmsData?.philosophy?.image || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'
 
   // Showcase image
@@ -129,6 +128,14 @@ export default function TheVillasPage({ cmsData }: Props) {
   const featuresEyebrow = cmsData?.features?.eyebrow || 'Villa Features'
   const featuresTitle = cmsData?.features?.title || 'Designed for <em class="font-light italic">Durability</em>,<br>Built for Beauty'
   const featuresSubtitle = cmsData?.features?.subtitle || 'The villas are designed to ensure durability is assured, ecological impact is minimised, and barely any maintenance is required \u2014 so you can focus on living, not upkeep.'
+  // Bind feature cards to Sanity (text), keeping the local icon SVGs by position.
+  const displayFeatures = cmsData?.features?.cards?.length
+    ? cmsData.features.cards.map((c: any, i: number) => ({
+        icon: c.iconSvg || c.icon || featureCards[i]?.icon || featureCards[0].icon,
+        title: c.title,
+        description: c.description,
+      }))
+    : featureCards
 
   // Architects
   const archEyebrow = cmsData?.architects?.eyebrow || 'The Architects'
@@ -143,8 +150,7 @@ export default function TheVillasPage({ cmsData }: Props) {
   // Bespoke
   const bespokeEyebrow = cmsData?.bespoke?.eyebrow || 'Your Own Vision'
   const bespokeTitle = cmsData?.bespoke?.title || 'Bring Your Own<br><em class="font-light italic">Design</em> Team'
-  const bespokeBody = cmsData?.bespoke?.body || "While we offer access to internationally celebrated architects, homeowners are also free to engage their own design teams \u2014 subject to certain architectural and building covenants that protect the low-density, luxury character of the peninsula."
-  const bespokeBody2 = "Whether you choose our recommended partners or bring your own vision, the result will be a home uniquely tailored to you \u2014 set within one of the most beautiful landscapes in the Caribbean."
+  const bespokeBody = cmsData?.bespoke?.body || "While we offer access to internationally celebrated architects, homeowners are also free to engage their own design teams \u2014 subject to certain architectural and building covenants that protect the low-density, luxury character of the peninsula.\n\nWhether you choose our recommended partners or bring your own vision, the result will be a home uniquely tailored to you \u2014 set within one of the most beautiful landscapes in the Caribbean."
   const bespokeImage = cmsData?.bespoke?.image || 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c0?w=800&q=80'
 
   // Gallery — driven by Sanity (villasPage.gallery) with the hardcoded set as fallback.
@@ -185,12 +191,11 @@ export default function TheVillasPage({ cmsData }: Props) {
               dangerouslySetInnerHTML={{ __html: philTitle }}
             />
             <GoldRule className="my-7" />
-            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
-              {philBody}
-            </p>
-            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
-              {philBody2}
-            </p>
+            {philBody.split('\n\n').map((para: string, i: number) => (
+              <p key={i} className={`text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]${i > 0 ? ' mt-4' : ''}`}>
+                {para}
+              </p>
+            ))}
           </ScrollReveal>
         </div>
       </section>
@@ -227,7 +232,7 @@ export default function TheVillasPage({ cmsData }: Props) {
             </p>
           </ScrollReveal>
           <StaggerReveal className="grid grid-cols-3 gap-8 max-lg:grid-cols-2 max-sm:grid-cols-1">
-            {featureCards.map((card, i) => (
+            {displayFeatures.map((card: any, i: number) => (
               <FeatureCard key={i} {...card} />
             ))}
           </StaggerReveal>
@@ -314,12 +319,11 @@ export default function TheVillasPage({ cmsData }: Props) {
               dangerouslySetInnerHTML={{ __html: bespokeTitle }}
             />
             <GoldRule className="my-7" />
-            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
-              {bespokeBody}
-            </p>
-            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4">
-              {bespokeBody2}
-            </p>
+            {bespokeBody.split('\n\n').map((para: string, i: number) => (
+              <p key={i} className={`text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]${i > 0 ? ' mt-4' : ''}`}>
+                {para}
+              </p>
+            ))}
           </ScrollReveal>
           <ScrollReveal className="order-2">
             <img

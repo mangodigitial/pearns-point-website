@@ -174,7 +174,8 @@ export default function GalleryPage({ cmsData }: Props) {
   const videoTitle = cmsData?.videoSection?.title || 'See Pearns Point<br>From <em class="font-light italic">Above</em>'
   const videoDesc = cmsData?.videoSection?.description || 'Experience the scale and beauty of the peninsula with our drone flyover — showcasing the seven beaches, tropical landscape, and breathtaking coastline.'
   const videoThumbnail = cmsData?.videoSection?.thumbnailImage || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1200&q=80'
-  const videoYoutubeId = cmsData?.videoSection?.youtubeId || 'YOUTUBE_ID_HERE'
+  const videoYoutubeId = cmsData?.videoSection?.youtubeId || ''
+  const videoUrl = cmsData?.videoSection?.videoUrl || ''
 
   const [activeCategory, setActiveCategory] = useState('All')
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -330,6 +331,7 @@ export default function GalleryPage({ cmsData }: Props) {
 
       {/* ── VIDEO MODAL ── */}
       <VideoModal
+        videoUrl={videoUrl}
         youtubeId={videoYoutubeId}
         isOpen={videoOpen}
         onClose={() => setVideoOpen(false)}

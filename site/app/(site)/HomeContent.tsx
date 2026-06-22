@@ -73,6 +73,11 @@ export default function HomePage({ cmsData }: HomePageProps) {
   const villas = cmsData?.villas?.cards?.length ? cmsData.villas.cards : villaCards
   const antigua = cmsData?.antigua?.details?.length ? cmsData.antigua.details : antiguaDetails
 
+  // Residences section text
+  const villasSection = cmsData?.villas || {}
+  const villasTitle = villasSection.title || 'Homes Designed for<br /><em class="font-light italic">Exceptional</em> Living'
+  const villasDescription = villasSection.description || 'With only 49 plots available, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from ocean view or coastline positions. Build your dream home with total creative freedom, or collaborate with our award-winning architects at KSR to craft a residence that is uniquely yours.'
+
   // Quote section
   const quoteText = cmsData?.quote?.text || "An investment in Pearns Point is an investment in an unparalleled way of life — where every sunrise brings possibility and every sunset is a masterpiece."
   const quoteAttribution = cmsData?.quote?.attribution || "Pearns Point, Antigua & Barbuda"
@@ -89,6 +94,10 @@ export default function HomePage({ cmsData }: HomePageProps) {
   // Lifestyle section text
   const lifestyleTitle = cmsData?.lifestyle?.title || 'More Than a Home.<br />A Way of <em className="font-light italic">Living.</em>'
   const lifestyleSubtitle = cmsData?.lifestyle?.subtitle || 'Pearns Point is an invitation to an extraordinary life — where turquoise waters, world-class dining, and unhurried luxury define every single day.'
+
+  // Developer strip
+  const developerLabel = cmsData?.developerStrip?.label || 'Developed by'
+  const developers = cmsData?.developerStrip?.developers?.length ? cmsData.developerStrip.developers : [{ name: 'Orange Limited' }]
 
   return (
     <>
@@ -198,12 +207,13 @@ export default function HomePage({ cmsData }: HomePageProps) {
         <div className="max-w-content mx-auto">
           <ScrollReveal className="grid grid-cols-2 gap-[60px] items-end mb-16 max-lg:grid-cols-1">
             <div>
-              <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy">
-                Homes Designed for<br /><em className="font-light italic">Exceptional</em> Living
-              </h2>
+              <h2
+                className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy"
+                dangerouslySetInnerHTML={{ __html: villasTitle }}
+              />
             </div>
             <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid">
-              With only 49 plots available, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from ocean view or coastline positions. Build your dream home with total creative freedom, or collaborate with our award-winning architects at KSR to craft a residence that is uniquely yours.
+              {villasDescription}
             </p>
           </ScrollReveal>
           <ScrollReveal>
@@ -281,11 +291,13 @@ export default function HomePage({ cmsData }: HomePageProps) {
       <section className="py-20 px-[60px] max-lg:px-7 bg-navy text-center">
         <div className="max-w-[1000px] mx-auto flex items-center justify-center gap-[60px] flex-wrap max-sm:flex-col max-sm:gap-6">
           <p className="font-body text-[0.62rem] font-normal tracking-[0.25em] uppercase text-white/40">
-            Developed by
+            {developerLabel}
           </p>
-          <span className="font-display text-[1.1rem] font-normal text-white/50 tracking-[0.08em] px-1 border-b border-white/10">
-            Orange Limited
-          </span>
+          {developers.map((dev: any, i: number) => (
+            <span key={i} className="font-display text-[1.1rem] font-normal text-white/50 tracking-[0.08em] px-1 border-b border-white/10">
+              {dev.name}
+            </span>
+          ))}
         </div>
       </section>
     </>

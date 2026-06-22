@@ -44,6 +44,21 @@ export default defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
+      name: 'directLines',
+      title: 'Direct Lines',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'label', title: 'Label', type: 'string' }),
+            defineField({ name: 'phone', title: 'Phone Number', type: 'string' }),
+          ],
+        },
+      ],
+    }),
+    defineField({ name: 'email', title: 'Email Address', type: 'string' }),
+    defineField({
       name: 'offices',
       title: 'Offices',
       type: 'array',

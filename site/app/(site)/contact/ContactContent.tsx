@@ -50,6 +50,17 @@ export default function ContactPage({ cmsData }: Props) {
     { name: 'Orange Limited', address: "Developer Head Office\nSt. John\u2019s, Antigua & Barbuda" },
   ]
 
+  // Direct lines, email & office hours (sidebar)
+  const directLines = cmsData?.directLines?.length ? cmsData.directLines : [
+    { label: 'Antigua Office', phone: '+1 268-736-4028' },
+    { label: 'Sales Direct', phone: '+1 268-720-2225' },
+  ]
+  const contactEmail = cmsData?.email || 'info@orangelimited.com'
+  const officeHours = cmsData?.officeHours?.length ? cmsData.officeHours : [
+    { days: 'Monday \u2013 Friday', hours: '9:00 AM \u2013 5:00 PM (AST)' },
+    { days: 'Saturday', hours: 'By appointment only' },
+  ]
+
   return (
     <>
       {/* ── Hero ── */}
@@ -103,7 +114,7 @@ export default function ContactPage({ cmsData }: Props) {
             <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-7 mb-9">
               {formBody}
             </p>
-            <ContactForm />
+            <ContactForm enquiryTypes={cmsData?.enquiryTypes || []} />
           </div>
         </ScrollReveal>
 
@@ -115,45 +126,27 @@ export default function ContactPage({ cmsData }: Props) {
               Direct Lines
             </h4>
 
-            {/* Antigua Office */}
-            <div className="flex items-center gap-3.5 mb-3.5">
-              <div className="w-9 h-9 flex-shrink-0 bg-ocean/[0.06] rounded-full flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-ocean stroke-[1.3] fill-none">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                </svg>
+            {/* Phone lines */}
+            {directLines.map((line: any, i: number) => (
+              <div key={i} className="flex items-center gap-3.5 mb-3.5">
+                <div className="w-9 h-9 flex-shrink-0 bg-ocean/[0.06] rounded-full flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-ocean stroke-[1.3] fill-none">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+                  </svg>
+                </div>
+                <div className="text-[0.84rem] font-light text-prose-mid leading-[1.5]">
+                  <span className="block text-[0.6rem] font-medium tracking-[0.1em] uppercase text-prose-light mb-0.5">
+                    {line.label}
+                  </span>
+                  <a
+                    href={`tel:${(line.phone || '').replace(/[^+\d]/g, '')}`}
+                    className="text-navy font-normal hover:text-ocean transition-colors duration-300"
+                  >
+                    {line.phone}
+                  </a>
+                </div>
               </div>
-              <div className="text-[0.84rem] font-light text-prose-mid leading-[1.5]">
-                <span className="block text-[0.6rem] font-medium tracking-[0.1em] uppercase text-prose-light mb-0.5">
-                  Antigua Office
-                </span>
-                <a
-                  href="tel:+12687364028"
-                  className="text-navy font-normal hover:text-ocean transition-colors duration-300"
-                >
-                  +1 268-736-4028
-                </a>
-              </div>
-            </div>
-
-            {/* Sales Direct */}
-            <div className="flex items-center gap-3.5 mb-3.5">
-              <div className="w-9 h-9 flex-shrink-0 bg-ocean/[0.06] rounded-full flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-ocean stroke-[1.3] fill-none">
-                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-                </svg>
-              </div>
-              <div className="text-[0.84rem] font-light text-prose-mid leading-[1.5]">
-                <span className="block text-[0.6rem] font-medium tracking-[0.1em] uppercase text-prose-light mb-0.5">
-                  Sales Direct
-                </span>
-                <a
-                  href="tel:+12687202225"
-                  className="text-navy font-normal hover:text-ocean transition-colors duration-300"
-                >
-                  +1 268-720-2225
-                </a>
-              </div>
-            </div>
+            ))}
 
             {/* Email */}
             <div className="flex items-center gap-3.5 mb-3.5">
@@ -168,10 +161,10 @@ export default function ContactPage({ cmsData }: Props) {
                   Email
                 </span>
                 <a
-                  href="mailto:info@orangelimited.com"
+                  href={`mailto:${contactEmail}`}
                   className="text-navy font-normal hover:text-ocean transition-colors duration-300"
                 >
-                  info@orangelimited.com
+                  {contactEmail}
                 </a>
               </div>
             </div>
@@ -199,35 +192,22 @@ export default function ContactPage({ cmsData }: Props) {
               Office Hours
             </h4>
 
-            <div className="flex items-center gap-3.5 mb-3.5">
-              <div className="w-9 h-9 flex-shrink-0 bg-ocean/[0.06] rounded-full flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-ocean stroke-[1.3] fill-none">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12,6 12,12 16,14" />
-                </svg>
+            {officeHours.map((oh: any, i: number) => (
+              <div key={i} className="flex items-center gap-3.5 mb-3.5">
+                <div className="w-9 h-9 flex-shrink-0 bg-ocean/[0.06] rounded-full flex items-center justify-center">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-ocean stroke-[1.3] fill-none">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12,6 12,12 16,14" />
+                  </svg>
+                </div>
+                <div className="text-[0.84rem] font-light text-prose-mid leading-[1.5]">
+                  <span className="block text-[0.6rem] font-medium tracking-[0.1em] uppercase text-prose-light mb-0.5">
+                    {oh.days}
+                  </span>
+                  {oh.hours}
+                </div>
               </div>
-              <div className="text-[0.84rem] font-light text-prose-mid leading-[1.5]">
-                <span className="block text-[0.6rem] font-medium tracking-[0.1em] uppercase text-prose-light mb-0.5">
-                  Monday &ndash; Friday
-                </span>
-                9:00 AM &ndash; 5:00 PM (AST)
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3.5 mb-3.5">
-              <div className="w-9 h-9 flex-shrink-0 bg-ocean/[0.06] rounded-full flex items-center justify-center">
-                <svg viewBox="0 0 24 24" className="w-4 h-4 stroke-ocean stroke-[1.3] fill-none">
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12,6 12,12 16,14" />
-                </svg>
-              </div>
-              <div className="text-[0.84rem] font-light text-prose-mid leading-[1.5]">
-                <span className="block text-[0.6rem] font-medium tracking-[0.1em] uppercase text-prose-light mb-0.5">
-                  Saturday
-                </span>
-                By appointment only
-              </div>
-            </div>
+            ))}
           </motion.div>
         </StaggerReveal>
       </section>

@@ -159,6 +159,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
   // Intro
   const introEyebrow = cmsData?.intro?.eyebrow || 'The Programme'
   const introTitle = cmsData?.intro?.title || 'A Pathway to<br><em class="font-light italic">Global</em> Freedom'
+  const introBody = cmsData?.intro?.body || "Antigua & Barbuda's Citizenship by Investment Programme, established in 2013, enables individuals and families to obtain full citizenship through a qualifying investment in government-approved real estate.\n\nAs a government-approved development, Pearns Point offers one of the Caribbean's most prestigious CBI-qualifying investments — combining an exceptional lifestyle asset with the security and freedom of second citizenship."
   const introImage = cmsData?.intro?.image || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=800&q=80'
 
   // Benefits
@@ -248,24 +249,15 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
             <motion.div variants={staggerItem}>
               <GoldRule className="my-7" />
             </motion.div>
-            <motion.p
-              variants={staggerItem}
-              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
-            >
-              Antigua &amp; Barbuda&apos;s Citizenship by Investment Programme,
-              established in 2013, enables individuals and families to obtain
-              full citizenship through a qualifying investment in
-              government-approved real estate.
-            </motion.p>
-            <motion.p
-              variants={staggerItem}
-              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mt-4"
-            >
-              As a government-approved development, Pearns Point offers one of
-              the Caribbean&apos;s most prestigious CBI-qualifying investments
-              &mdash; combining an exceptional lifestyle asset with the security
-              and freedom of second citizenship.
-            </motion.p>
+            {introBody.split('\n\n').map((para: string, i: number) => (
+              <motion.p
+                key={i}
+                variants={staggerItem}
+                className={`text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]${i > 0 ? ' mt-4' : ''}`}
+              >
+                {para}
+              </motion.p>
+            ))}
           </StaggerReveal>
         </div>
       </section>

@@ -29,7 +29,7 @@ const lotAreas = [
     ],
     heroAlt: 'Oceans Edge aerial',
     thumbAlts: ['Beach view', 'Turquoise water'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'five-islands-point',
@@ -47,7 +47,7 @@ const lotAreas = [
     ],
     heroAlt: 'Five Islands Point view',
     thumbAlts: ['Sunset view', 'Coastline'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'pearns-bay',
@@ -65,7 +65,7 @@ const lotAreas = [
     ],
     heroAlt: 'Pearns Bay coastline',
     thumbAlts: ['Bay view', 'Water view'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'secret-bay',
@@ -83,7 +83,7 @@ const lotAreas = [
     ],
     heroAlt: 'Secret Bay beach',
     thumbAlts: ['Secluded beach', 'Bay aerial'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'five-islands-bay',
@@ -101,7 +101,7 @@ const lotAreas = [
     ],
     heroAlt: 'Five Islands Bay panorama',
     thumbAlts: ['Ocean view', 'Elevated view'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'pearns-beach',
@@ -119,7 +119,7 @@ const lotAreas = [
     ],
     heroAlt: 'Pearns Beach',
     thumbAlts: ['Beach panorama', 'Coastal view'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'five-islands-view',
@@ -137,7 +137,7 @@ const lotAreas = [
     ],
     heroAlt: 'Five Islands View',
     thumbAlts: ['Elevated panorama', 'Island view'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
   {
     id: 'the-look-out',
@@ -155,7 +155,7 @@ const lotAreas = [
     ],
     heroAlt: 'The Look Out panorama',
     thumbAlts: ['360 view', 'Coastline from height'],
-    videoId: 'YOUTUBE_ID_HERE',
+    videoUrl: '',
   },
 ]
 
@@ -184,7 +184,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
     thumbs: area.thumbnails || lotAreas[idx]?.thumbs || [],
     heroAlt: area.name || '',
     thumbAlts: (area.thumbnails || []).map((_: any, i: number) => `${area.name} view ${i + 1}`),
-    videoId: area.youtubeId || 'YOUTUBE_ID_HERE',
+    videoUrl: area.videoUrl || '',
   })) : lotAreas
   const displayPillNavSections = displayLotAreas.map((a: any) => ({ id: a.id, label: a.label, lots: a.lots }))
   const availabilityStats = cmsData?.availabilityBanner?.stats?.length ? cmsData.availabilityBanner.stats : [
@@ -194,10 +194,10 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
   ]
 
   const [videoOpen, setVideoOpen] = useState(false)
-  const [activeVideoId, setActiveVideoId] = useState('')
+  const [activeVideoUrl, setActiveVideoUrl] = useState('')
 
-  const openVideo = (youtubeId: string) => {
-    setActiveVideoId(youtubeId)
+  const openVideo = (videoUrl: string) => {
+    setActiveVideoUrl(videoUrl)
     setVideoOpen(true)
   }
 
@@ -289,16 +289,18 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
                     {/* Buttons */}
                     <div className="flex gap-3 flex-wrap max-sm:flex-col">
                       <ButtonOutline href="/contact">Enquire About This Area</ButtonOutline>
-                      <button
-                        onClick={() => openVideo(area.videoId)}
-                        className="inline-flex items-center gap-2 font-body text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-navy bg-sand-light border-[1.5px] border-sand px-7 py-3 cursor-pointer transition-all duration-400 hover:bg-navy hover:text-white hover:border-navy max-sm:justify-center"
-                        style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
-                      >
-                        <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" strokeWidth="1.5">
-                          <polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none" />
-                        </svg>
-                        Drone Video
-                      </button>
+                      {area.videoUrl && (
+                        <button
+                          onClick={() => openVideo(area.videoUrl)}
+                          className="inline-flex items-center gap-2 font-body text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-navy bg-sand-light border-[1.5px] border-sand px-7 py-3 cursor-pointer transition-all duration-400 hover:bg-navy hover:text-white hover:border-navy max-sm:justify-center"
+                          style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
+                        >
+                          <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5" strokeWidth="1.5">
+                            <polygon points="3,1 12,7 3,13" fill="currentColor" stroke="none" />
+                          </svg>
+                          Drone Video
+                        </button>
+                      )}
                     </div>
                   </div>
 
@@ -390,7 +392,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
       </section>
 
       {/* ── VIDEO MODAL ── */}
-      <VideoModal youtubeId={activeVideoId} isOpen={videoOpen} onClose={() => setVideoOpen(false)} />
+      <VideoModal videoUrl={activeVideoUrl} isOpen={videoOpen} onClose={() => setVideoOpen(false)} />
     </>
   )
 }

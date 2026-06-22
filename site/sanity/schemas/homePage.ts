@@ -199,6 +199,7 @@ export default defineType({
       title: 'Developer Strip',
       type: 'object',
       fields: [
+        defineField({ name: 'label', title: 'Label', type: 'string', description: 'Small uppercase label, e.g. "Developed by".' }),
         defineField({
           name: 'developers',
           title: 'Developers',

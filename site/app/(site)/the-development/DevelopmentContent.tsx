@@ -123,6 +123,14 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
   // Amenities
   const amenitiesEyebrow = cmsData?.amenities?.eyebrow || "Owners' Facilities"
   const amenitiesTitle = cmsData?.amenities?.title || 'A Community Built on<br><em class="italic font-light">Luxury</em> &amp; Lifestyle'
+  // Amenity cards take their text from Sanity, keeping the local SVG icons by position.
+  const displayAmenities = cmsData?.amenities?.cards?.length
+    ? cmsData.amenities.cards.map((c: any, i: number) => ({
+        icon: amenities[i]?.icon ?? amenities[0].icon,
+        title: c.title,
+        description: c.description,
+      }))
+    : amenities
 
   // Quote
   const quoteText = cmsData?.quote?.text || "A luxurious sanctuary that respects the rich local inheritance and culture of Antigua — ecologically sensitive and financially exceptional."
@@ -275,7 +283,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
 
           {/* Amenities Grid */}
           <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {amenities.map((amenity) => (
+            {displayAmenities.map((amenity: any) => (
               <motion.div
                 key={amenity.title}
                 variants={staggerItem}

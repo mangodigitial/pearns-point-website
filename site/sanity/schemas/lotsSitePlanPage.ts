@@ -36,7 +36,12 @@ export default defineType({
               type: 'array',
               of: [{ type: 'string' }],
             }),
-            defineField({ name: 'youtubeId', title: 'YouTube Video ID', type: 'string' }),
+            defineField({
+              name: 'videoUrl',
+              title: 'Drone Video URL (Bunny.net)',
+              type: 'url',
+              description: 'Direct Bunny.net video URL (.mp4 or .m3u8 HLS). Leave empty to hide the "Drone Video" button for this area.',
+            }),
           ],
         },
       ],

@@ -186,6 +186,21 @@ export default function LatestNewsPage({ cmsData, cmsPosts }: Props) {
 
   const displayCategories = cmsData?.categories?.length ? cmsData.categories : categories
 
+  // Newsletter band
+  const newsletter = cmsData?.newsletter || {}
+  const newsletterEyebrow = newsletter.eyebrow || 'Stay Informed'
+  const newsletterTitle = newsletter.title || 'Subscribe to <em class="font-light italic text-lagoon">Updates</em>'
+  const newsletterBody = newsletter.body || 'Receive development news, lifestyle features, and market insights delivered to your inbox.'
+
+  // Bottom CTA band
+  const ctaBand = cmsData?.ctaBand || {}
+  const ctaTitle = ctaBand.title || 'Explore Pearns Point'
+  const ctaSubtitle = ctaBand.subtitle || "Discover available lots, villa designs, and the lifestyle that awaits on Antigua's western coast."
+  const ctaPrimaryLabel = ctaBand.primaryLabel || 'View Available Lots'
+  const ctaPrimaryHref = ctaBand.primaryHref || '/lots-site-plan'
+  const ctaSecondaryLabel = ctaBand.secondaryLabel || 'Contact Us'
+  const ctaSecondaryHref = ctaBand.secondaryHref || '/contact'
+
   const [activeFilter, setActiveFilter] = useState('All')
 
   const filteredArticles =
@@ -296,13 +311,14 @@ export default function LatestNewsPage({ cmsData, cmsPosts }: Props) {
         <ScrollReveal>
           <div className="max-w-[600px] mx-auto">
             <p className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-lagoon mb-4">
-              Stay Informed
+              {newsletterEyebrow}
             </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-white mb-5">
-              Subscribe to <em className="font-light italic text-lagoon">Updates</em>
-            </h2>
+            <h2
+              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal text-white mb-5"
+              dangerouslySetInnerHTML={{ __html: newsletterTitle }}
+            />
             <p className="text-[1.1rem] font-light leading-[1.85] text-white/60 max-w-[480px] mx-auto mb-9">
-              Receive development news, lifestyle features, and market insights delivered to your inbox.
+              {newsletterBody}
             </p>
             <NewsletterForm />
           </div>
@@ -311,10 +327,10 @@ export default function LatestNewsPage({ cmsData, cmsPosts }: Props) {
 
       {/* ── CTA Band ── */}
       <CTABand
-        title="Explore Pearns Point"
-        subtitle="Discover available lots, villa designs, and the lifestyle that awaits on Antigua's western coast."
-        primaryCTA={{ label: "View Available Lots", href: "/lots-site-plan" }}
-        secondaryCTA={{ label: "Contact Us", href: "/contact" }}
+        title={ctaTitle}
+        subtitle={ctaSubtitle}
+        primaryCTA={{ label: ctaPrimaryLabel, href: ctaPrimaryHref }}
+        secondaryCTA={{ label: ctaSecondaryLabel, href: ctaSecondaryHref }}
       />
     </>
   )
