@@ -66,6 +66,12 @@ export default defineType({
                 defineField({ name: 'name', title: 'Name', type: 'string' }),
                 defineField({ name: 'role', title: 'Role', type: 'string' }),
                 defineField({ name: 'description', title: 'Description', type: 'text', rows: 3 }),
+                defineField({
+                  name: 'website',
+                  title: 'Website URL',
+                  type: 'url',
+                  description: 'Optional — links the partner card to their website (opens in a new tab).',
+                }),
               ],
             },
           ],

@@ -2,9 +2,10 @@ interface ArchitectCardProps {
   name: string
   role: string
   description: string
+  website?: string
 }
 
-export default function ArchitectCard({ name, role, description }: ArchitectCardProps) {
+export default function ArchitectCard({ name, role, description, website }: ArchitectCardProps) {
   return (
     <div className="py-7 px-8 bg-cream rounded-[4px] border-l-[3px] border-ocean">
       <h4 className="font-display text-[1.2rem] font-normal text-navy mb-1">
@@ -16,6 +17,17 @@ export default function ArchitectCard({ name, role, description }: ArchitectCard
       <p className="text-[0.78rem] font-light leading-[1.75] text-prose-mid">
         {description}
       </p>
+      {website && (
+        <a
+          href={website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 mt-3.5 text-[0.6rem] font-semibold tracking-[0.18em] uppercase text-ocean hover:text-ocean-deep transition-colors"
+        >
+          Visit Website
+          <span aria-hidden="true">&#8599;</span>
+        </a>
+      )}
     </div>
   )
 }

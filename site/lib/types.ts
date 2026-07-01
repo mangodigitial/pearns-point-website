@@ -183,7 +183,7 @@ export interface VillasPage {
     title: string
     body: string
     image: SanityImage
-    partners: { name: string; role: string; description: string }[]
+    partners: { name: string; role: string; description: string; website?: string }[]
   }
   quote: { text: string }
   gallery: { image: SanityImage; title: string; isWide: boolean; isTall: boolean }[]
