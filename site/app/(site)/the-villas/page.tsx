@@ -9,10 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchPage(villasPageQuery)
   const d = data as Record<string, any>
   return {
-    title: d?.seo?.title || 'The Villas — Architecture & Design',
+    title: d?.seo?.title ? { absolute: d.seo.title } : 'The Villas — Architecture & Design',
     description:
       d?.seo?.description ||
       'Discover the design philosophy behind Pearns Point villas — horizontal architecture, natural materials, and world-class creative partners.',
+    alternates: { canonical: '/the-villas' },
   }
 }
 

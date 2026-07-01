@@ -1,7 +1,36 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
+const SITE_URL = 'https://pearnspoint.com'
+const OG_DESCRIPTION =
+  'An exclusive 137-acre peninsula on the west coast of Antigua — luxury plots, bespoke villas, and Caribbean citizenship by investment.'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    type: 'website',
+    siteName: 'Pearns Point',
+    locale: 'en_GB',
+    url: SITE_URL,
+    title: 'Pearns Point — Luxury Caribbean Living in Antigua',
+    description: OG_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Pearns Point — Luxury Caribbean Living in Antigua',
+    description: OG_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   title: {
     default: 'Pearns Point — Luxury Caribbean Living in Antigua',
     template: '%s | Pearns Point',

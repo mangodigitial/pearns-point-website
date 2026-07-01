@@ -9,10 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchPage(cbiPageQuery)
   const d = data as Record<string, any>
   return {
-    title: d?.seo?.title || 'Citizenship by Investment — Antigua & Barbuda',
+    title: d?.seo?.title ? { absolute: d.seo.title } : 'Citizenship by Investment — Antigua & Barbuda',
     description:
       d?.seo?.description ||
       'Learn about Antigua\u2019s CBI programme — visa-free access to 150+ countries, fast processing, and full family inclusion through Pearns Point.',
+    alternates: { canonical: '/citizenship-by-investment' },
   }
 }
 

@@ -19,6 +19,17 @@ export async function generateStaticParams() {
   }
 }
 
+/* ─── Turn a hero image into an absolute, 1200x630 OG image URL ─── */
+function ogImageUrl(url?: string): string | undefined {
+  if (!url) return undefined
+  // Sanity CDN images accept on-the-fly crop/resize params.
+  if (url.includes('cdn.sanity.io')) {
+    const sep = url.includes('?') ? '&' : '?'
+    return `${url}${sep}w=1200&h=630&fit=crop&auto=format`
+  }
+  return url
+}
+
 /* ─── Metadata ─── */
 export async function generateMetadata({
   params,
@@ -28,15 +39,48 @@ export async function generateMetadata({
   const { slug } = await params
   const post = await fetchPage<Record<string, any>>(blogPostQuery, { slug })
   if (post?.title) {
+    const ogTitle = post.seoTitle || post.title
+    const description = post.seoDescription || post.excerpt || undefined
+    const image = ogImageUrl(post.heroImage)
     return {
-      title: post.seoTitle || `${post.title} — Pearns Point`,
-      description: post.seoDescription || post.excerpt || undefined,
+      // Let the "| Pearns Point" title template add the suffix; a custom
+      // seoTitle is treated as the full title (absolute).
+      title: post.seoTitle ? { absolute: post.seoTitle } : post.title,
+      description,
+      alternates: { canonical: `/news/${slug}` },
+      openGraph: {
+        type: 'article',
+        siteName: 'Pearns Point',
+        locale: 'en_GB',
+        title: ogTitle,
+        description,
+        url: `/news/${slug}`,
+        ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}),
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: ogTitle,
+        description,
+        ...(image ? { images: [image] } : {}),
+      },
     }
   }
+  const image = ogImageUrl(fallbackPost.heroImage)
   return {
-    title: 'Three New Villa Designs Unveiled — Pearns Point',
+    title: 'Three New Villa Designs Unveiled',
     description:
       'We are excited to reveal three distinctive architectural visions for the Plot & Plan programme.',
+    alternates: { canonical: `/news/${slug}` },
+    openGraph: {
+      type: 'article',
+      siteName: 'Pearns Point',
+      locale: 'en_GB',
+      title: 'Three New Villa Designs Unveiled',
+      description:
+        'We are excited to reveal three distinctive architectural visions for the Plot & Plan programme.',
+      url: `/news/${slug}`,
+      ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}),
+    },
   }
 }
 

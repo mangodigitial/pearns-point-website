@@ -9,10 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchPage(antiguaPageQuery)
   const d = data as Record<string, any>
   return {
-    title: d?.seo?.title || 'The Antigua Experience — Island Life',
+    title: d?.seo?.title ? { absolute: d.seo.title } : 'The Antigua Experience — Island Life',
     description:
       d?.seo?.description ||
       'Discover Antigua — 365 beaches, world-class sailing, exceptional dining, year-round sunshine, and direct flights from London and New York.',
+    alternates: { canonical: '/the-antigua-experience' },
   }
 }
 

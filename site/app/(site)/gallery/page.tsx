@@ -9,10 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchPage(galleryPageQuery)
   const d = data as Record<string, any>
   return {
-    title: d?.seo?.title || 'Gallery — Pearns Point, Antigua',
+    title: d?.seo?.title ? { absolute: d.seo.title } : 'Gallery — Aerial Views, Beaches & Villas',
     description:
       d?.seo?.description ||
       'Explore aerial views, pristine beaches, luxury villas, and island lifestyle photography from Pearns Point peninsula.',
+    alternates: { canonical: '/gallery' },
   }
 }
 

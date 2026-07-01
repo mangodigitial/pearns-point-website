@@ -9,10 +9,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchPage(contactPageQuery)
   const d = data as Record<string, any>
   return {
-    title: d?.seo?.title || 'Contact Us — Pearns Point',
+    title: d?.seo?.title ? { absolute: d.seo.title } : 'Contact Us',
     description:
       d?.seo?.description ||
       'Get in touch with the Pearns Point sales team. Call, email, or book a site visit to Antigua\u2019s premier luxury development.',
+    alternates: { canonical: '/contact' },
   }
 }
 
