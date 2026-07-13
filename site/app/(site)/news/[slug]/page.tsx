@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import { client, isSanityConfigured, fetchPage } from '@/lib/sanity'
 import { blogPostQuery, blogPostSlugsQuery } from '@/lib/queries'
 import BlogPostContent from './BlogPostContent'
@@ -37,7 +38,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const post = await fetchPage<Record<string, any>>(blogPostQuery, { slug })
+  const { isEnabled: preview } = draftMode()
+  const post = await fetchPage<Record<string, any>>(blogPostQuery, { slug }, { preview })
   if (post?.title) {
     const ogTitle = post.seoTitle || post.title
     const description = post.seoDescription || post.excerpt || undefined
@@ -166,7 +168,8 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const cmsPost = await fetchPage<Record<string, any>>(blogPostQuery, { slug })
+  const { isEnabled: preview } = draftMode()
+  const cmsPost = await fetchPage<Record<string, any>>(blogPostQuery, { slug }, { preview })
 
   const post = cmsPost ? mapCmsPost(cmsPost) : fallbackPost
   const relatedArticles = cmsPost?.relatedPosts?.length

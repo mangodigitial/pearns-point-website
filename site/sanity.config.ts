@@ -2,6 +2,7 @@ import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './sanity/schemas'
+import { PreviewAction } from './sanity/actions/PreviewAction'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || ''
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
@@ -71,5 +72,10 @@ export default defineConfig({
   ],
   schema: {
     types: schemaTypes,
+  },
+  document: {
+    // Add an "Open Preview" action to blog posts.
+    actions: (prev, context) =>
+      context.schemaType === 'blogPost' ? [...prev, PreviewAction] : prev,
   },
 })

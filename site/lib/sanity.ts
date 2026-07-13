@@ -22,6 +22,25 @@ export const client = isSanityConfigured
     })
   : null
 
+/**
+ * Preview client: reads unpublished (draft & scheduled) content. Only used
+ * server-side when Next.js Draft Mode is enabled. Requires a read token.
+ */
+const readToken = process.env.SANITY_API_READ_TOKEN
+export const previewClient =
+  isSanityConfigured && readToken
+    ? createClient({
+        projectId,
+        dataset,
+        apiVersion: '2025-02-19',
+        useCdn: false,
+        token: readToken,
+        perspective: 'drafts',
+        // Ignore browser-token warnings; this client is server-only.
+        ignoreBrowserTokenWarning: true,
+      })
+    : null
+
 const builder = isSanityConfigured && client
   ? imageUrlBuilder(client)
   : null
@@ -70,11 +89,14 @@ export function processSanityDocument(doc: unknown): unknown {
  */
 export async function fetchPage<T = Record<string, unknown>>(
   query: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  opts?: { preview?: boolean }
 ): Promise<T | null> {
   if (!isSanityConfigured || !client) return null
+  // In Draft Mode, read unpublished content via the token-authed preview client.
+  const activeClient = opts?.preview && previewClient ? previewClient : client
   try {
-    const doc = await client.fetch(query, params ?? {})
+    const doc = await activeClient.fetch(query, params ?? {})
     if (!doc) return null
     return processSanityDocument(doc) as T
   } catch (err) {
