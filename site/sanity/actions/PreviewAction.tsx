@@ -7,7 +7,9 @@ import { createPreviewSecret } from '@sanity/preview-url-secret/create-secret'
  * in Next.js Draft Mode, so editors can preview draft & scheduled posts before
  * they publish. Generates a short-lived, single-use preview secret.
  */
-const SITE_URL = 'https://pearnspoint.com'
+// Canonical host — the apex domain 308-redirects to www and drops the preview
+// query params/cookies, so the preview link must target www directly.
+const SITE_URL = 'https://www.pearnspoint.com'
 
 export const PreviewAction: DocumentActionComponent = (props: DocumentActionProps) => {
   const client = useClient({ apiVersion: '2025-02-19' })
