@@ -18,60 +18,6 @@ const lotTypeStyles: Record<string, string> = {
 }
 
 /* ═══════════════════════════════════════════
-   AMENITY DATA
-═══════════════════════════════════════════ */
-const amenities = [
-  {
-    icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 14 H40 L26 30 Z" />
-        <line x1="26" y1="30" x2="26" y2="42" />
-        <line x1="18" y1="42" x2="34" y2="42" />
-        <line x1="33" y1="14" x2="41" y2="7" />
-        <circle cx="42" cy="6" r="1.6" />
-      </svg>
-    ),
-    title: 'Beach Bar & Restaurant',
-    description: 'Dine oceanside with Caribbean-inspired cuisine and international fine dining.',
-  },
-  {
-    icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 16 q5 -5 10 0 t10 0 t10 0 t10 0" />
-        <path d="M6 26 q5 -5 10 0 t10 0 t10 0 t10 0" />
-        <path d="M6 36 q5 -5 10 0 t10 0 t10 0 t10 0" />
-      </svg>
-    ),
-    title: 'Swimming Pool',
-    description: 'An infinity-edge pool overlooking the Caribbean Sea and surrounding islands.',
-  },
-  {
-    icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="26" cy="26" r="17" />
-        <path d="M13 15 Q24 26 13 37" />
-        <path d="M39 15 Q28 26 39 37" />
-      </svg>
-    ),
-    title: 'Tennis Courts',
-    description: 'Championship-standard courts set amongst the tropical landscape.',
-  },
-  {
-    icon: (
-      <svg className="w-[52px] h-[52px] text-ocean" viewBox="0 0 52 52" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="17" y1="26" x2="35" y2="26" />
-        <rect x="11" y="19" width="6" height="14" rx="1.5" />
-        <rect x="35" y="19" width="6" height="14" rx="1.5" />
-        <line x1="8" y1="22" x2="8" y2="30" />
-        <line x1="44" y1="22" x2="44" y2="30" />
-      </svg>
-    ),
-    title: 'Fitness Centre',
-    description: 'State-of-the-art wellness and fitness facilities for residents.',
-  },
-]
-
-/* ═══════════════════════════════════════════
    DEVELOPER HIGHLIGHTS DATA
 ═══════════════════════════════════════════ */
 const developerHighlights = [
@@ -119,18 +65,6 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
   const projectImage = cmsData?.project?.image || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80'
   // Lot-type badges are driven entirely by Sanity — remove them there to hide them.
   const lotTypes = cmsData?.project?.lotTypes ?? []
-
-  // Amenities
-  const amenitiesEyebrow = cmsData?.amenities?.eyebrow || "Owners' Facilities"
-  const amenitiesTitle = cmsData?.amenities?.title || 'A Community Built on<br><em class="italic font-light">Luxury</em> &amp; Lifestyle'
-  // Amenity cards take their text from Sanity, keeping the local SVG icons by position.
-  const displayAmenities = cmsData?.amenities?.cards?.length
-    ? cmsData.amenities.cards.map((c: any, i: number) => ({
-        icon: amenities[i]?.icon ?? amenities[0].icon,
-        title: c.title,
-        description: c.description,
-      }))
-    : amenities
 
   // Quote
   const quoteText = cmsData?.quote?.text || "A luxurious sanctuary that respects the rich local inheritance and culture of Antigua — ecologically sensitive and financially exceptional."
@@ -250,55 +184,6 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
               className="w-full aspect-[3/4] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════
-          COMMUNITY — AMENITIES
-      ═══════════════════════════════════════════ */}
-      <section className="py-[140px] px-[60px] max-lg:px-7">
-        <div className="max-w-content mx-auto">
-          {/* Header */}
-          <StaggerReveal className="text-center mb-[72px]">
-            <motion.p
-              variants={staggerItem}
-              className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
-            >
-              {amenitiesEyebrow}
-            </motion.p>
-            <motion.h2
-              variants={staggerItem}
-              className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
-              dangerouslySetInnerHTML={{ __html: amenitiesTitle }}
-            />
-            <motion.p
-              variants={staggerItem}
-              className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto"
-            >
-              Pearns Point owners will enjoy access to an exciting range of amenities on the
-              main beach and public areas — ensuring a sense of sociability and community as
-              and when the mood suits.
-            </motion.p>
-          </StaggerReveal>
-
-          {/* Amenities Grid */}
-          <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {displayAmenities.map((amenity: any) => (
-              <motion.div
-                key={amenity.title}
-                variants={staggerItem}
-                className="text-center px-7 py-11 bg-white rounded-[4px] border border-black/[0.04] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)]"
-              >
-                <div className="flex justify-center mb-5">{amenity.icon}</div>
-                <h3 className="font-display text-[1.15rem] font-normal text-navy mb-2">
-                  {amenity.title}
-                </h3>
-                <p className="text-[0.75rem] font-light leading-[1.65] text-prose-light">
-                  {amenity.description}
-                </p>
-              </motion.div>
-            ))}
-          </StaggerReveal>
         </div>
       </section>
 
