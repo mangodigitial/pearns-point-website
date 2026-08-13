@@ -93,11 +93,6 @@ export interface DevelopmentPage {
     body: string
     lotTypes: { label: string; color: string }[]
   }
-  amenities: {
-    eyebrow: string
-    title: string
-    cards: { image: SanityImage; title: string; description: string }[]
-  }
   quote: { text: string }
   developer: {
     eyebrow: string
