@@ -231,7 +231,11 @@ export async function POST(request: Request) {
     }
   } else {
     emailError = 'not-configured'
-    console.warn('[enquiry] Email skipped - RESEND_API_KEY missing')
+    console.warn(
+      '[enquiry] Email notification skipped - RESEND_API_KEY not set. ' +
+        'This is the expected interim state while the sending domain is being verified. ' +
+        'The lead is still stored in Sanity.'
+    )
   }
 
   // --- Outcome ------------------------------------------------------------
@@ -246,5 +250,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'delivery-failed' }, { status: 500 })
   }
 
-  return NextResponse.json({ ok: true, stored: Boolean(storedId), emailed })
+  // Stored but nobody notified. The lead is safe, but it is sitting in Sanity
+  // unseen - which is how leads quietly rot. Log it loudly and greppably so
+  // this window is visible in the Vercel logs rather than silent.
+  if (storedId && !emailed) {
+    console.warn(
+      '[enquiry] LEAD STORED BUT NOT NOTIFIED - check Sanity Studio. id=' +
+        storedId +
+        ' reason=' +
+        (emailError || 'unknown')
+    )
+  }
+
+  return NextResponse.json({
+    ok: true,
+    stored: Boolean(storedId),
+    emailed,
+    // Surfaced so the delivery path can be verified from outside without
+    // digging through logs: 'both' | 'stored-only' | 'emailed-only'
+    delivery: storedId && emailed ? 'both' : storedId ? 'stored-only' : 'emailed-only',
+  })
 }
