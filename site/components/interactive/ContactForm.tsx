@@ -152,12 +152,12 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
         className="inline-block font-body text-[0.62rem] font-semibold tracking-[0.25em] uppercase text-white bg-ocean px-12 py-4 border-none cursor-pointer transition-all duration-400 hover:bg-ocean-deep hover:-translate-y-0.5 hover:shadow-[0_12px_36px_rgba(26,122,138,0.25)]"
         style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
       >
-        {status === 'sending' ? 'Sending\u2026' : 'Send Enquiry'}
+        {status === 'sending' ? 'Sending…' : 'Send Enquiry'}
       </button>
 
       {status === 'sent' && (
         <p className="text-[0.85rem] font-light text-ocean" role="status">
-          Thank you \u2014 your enquiry has been received. A member of the team will be in touch shortly.
+          Thank you — your enquiry has been received. A member of the team will be in touch shortly.
         </p>
       )}
 
