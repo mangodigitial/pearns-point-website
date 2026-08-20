@@ -55,7 +55,7 @@ export default function NewsletterForm() {
       </button>
       {status === 'sent' && (
         <p className="mt-3 text-[0.8rem] font-light text-white/80" role="status">
-          Thank you \u2014 you have been added to the list.
+          Thank you — you have been added to the list.
         </p>
       )}
       {status === 'error' && (
