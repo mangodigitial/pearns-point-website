@@ -4,10 +4,36 @@ import { useState } from 'react'
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Newsletter signup logic
+    if (status === 'sending') return
+    setStatus('sending')
+
+    try {
+      const response = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          source: 'newsletter',
+          company: '',
+          pageUrl: window.location.href,
+          referrer: document.referrer,
+        }),
+      })
+
+      if (!response.ok) throw new Error('Request failed: ' + response.status)
+
+      setStatus('sent')
+      window.dataLayer = window.dataLayer || []
+      window.dataLayer.push({ event: 'newsletter_signup' })
+      setEmail('')
+    } catch (error) {
+      console.error('[NewsletterForm] submission failed', error)
+      setStatus('error')
+    }
   }
 
   return (
@@ -22,10 +48,21 @@ export default function NewsletterForm() {
       />
       <button
         type="submit"
+        disabled={status === 'sending'}
         className="px-8 py-4 text-[0.62rem] font-semibold tracking-[0.25em] uppercase text-white bg-ocean border-none cursor-pointer hover:bg-ocean-deep transition-colors duration-300"
       >
         Subscribe
       </button>
+      {status === 'sent' && (
+        <p className="mt-3 text-[0.8rem] font-light text-white/80" role="status">
+          Thank you — you have been added to the list.
+        </p>
+      )}
+      {status === 'error' && (
+        <p className="mt-3 text-[0.8rem] font-light text-red-300" role="alert">
+          Sorry, something went wrong. Please try again.
+        </p>
+      )}
     </form>
   )
 }

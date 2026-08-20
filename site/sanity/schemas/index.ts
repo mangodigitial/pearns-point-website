@@ -10,6 +10,7 @@ import cbiPage from './cbiPage'
 import contactPage from './contactPage'
 import newsPage from './newsPage'
 import blogPost from './blogPost'
+import enquiry from './enquiry'
 
 export const schemaTypes = [
   siteSettings,
@@ -24,4 +25,5 @@ export const schemaTypes = [
   contactPage,
   newsPage,
   blogPost,
+  enquiry,
 ]
