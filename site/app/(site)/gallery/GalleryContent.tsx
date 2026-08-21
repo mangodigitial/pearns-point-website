@@ -235,6 +235,7 @@ export default function GalleryPage({ cmsData }: Props) {
             activeCategory={activeCategory}
             onSelect={setActiveCategory}
             counts={counts}
+            total={displayImages.length}
           />
           <span className="text-[0.72rem] font-light text-prose-light">
             {filtered.length} images
