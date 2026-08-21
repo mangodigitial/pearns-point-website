@@ -5,9 +5,12 @@ interface FilterPillsProps {
   activeCategory: string
   onSelect: (category: string) => void
   counts?: Record<string, number>
+  /** Total across every category. Used for the "All" pill so it stays correct
+   *  even when items are untagged and no category pill is rendered. */
+  total?: number
 }
 
-export default function FilterPills({ categories, activeCategory, onSelect, counts }: FilterPillsProps) {
+export default function FilterPills({ categories, activeCategory, onSelect, counts, total }: FilterPillsProps) {
   return (
     <div className="flex flex-wrap gap-3 justify-center">
       <button
@@ -18,7 +21,11 @@ export default function FilterPills({ categories, activeCategory, onSelect, coun
             : 'bg-transparent border-ocean/20 text-prose-mid hover:border-ocean hover:text-ocean'
         }`}
       >
-        All{counts ? ` (${Object.values(counts).reduce((a, b) => a + b, 0)})` : ''}
+        All{typeof total === 'number'
+          ? ` (${total})`
+          : counts
+            ? ` (${Object.values(counts).reduce((a, b) => a + b, 0)})`
+            : ''}
       </button>
       {categories.map((cat) => (
         <button
