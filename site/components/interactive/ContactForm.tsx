@@ -2,6 +2,28 @@
 
 import { useState } from 'react'
 
+/**
+ * Relative weighting for Google Ads Smart Bidding - NOT a revenue forecast.
+ *
+ * These numbers exist only to tell Google which enquiries deserve more budget.
+ * A single valued conversion is used rather than several separate conversion
+ * actions: at this volume, splitting the signal would leave each action with
+ * too little data to learn from.
+ *
+ * Revisit once offline 'Qualified Enquiry' data shows what actually closes.
+ * Keys must match the enquiryTypes list in the Sanity contactPage document.
+ */
+const ENQUIRY_VALUES: Record<string, number> = {
+  'Visiting the Site': 500,
+  'Purchasing a Plot': 400,
+  'Plot & Plan Programme': 400,
+  'Citizenship by Investment': 300,
+  'General Enquiry': 150,
+}
+
+/** Used for an unset dropdown, or any type added in Sanity but not mapped above. */
+const DEFAULT_ENQUIRY_VALUE = 150
+
 interface ContactFormProps {
   enquiryTypes?: string[]
 }
@@ -59,6 +81,8 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
       window.dataLayer.push({
         event: 'enquiry_submitted',
         enquiry_type: formData.interest || 'unspecified',
+        enquiry_value: ENQUIRY_VALUES[formData.interest] ?? DEFAULT_ENQUIRY_VALUE,
+        currency: 'GBP',
         enquiry_country: formData.country || 'unspecified',
       })
 
