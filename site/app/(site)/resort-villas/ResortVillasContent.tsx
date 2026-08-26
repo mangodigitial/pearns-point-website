@@ -118,8 +118,7 @@ export default function ResortVillasPage() {
 
       {/* ── PAGE HERO ── */}
       <PageHero
-        /* Placeholder hero — swap for the site photography when supplied. */
-        backgroundImage="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxNjAnIGhlaWdodD0nOTAnIHByZXNlcnZlQXNwZWN0UmF0aW89J25vbmUnPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0nZycgeDE9JzAnIHkxPScwJyB4Mj0nMScgeTI9JzEnPjxzdG9wIG9mZnNldD0nMCcgc3RvcC1jb2xvcj0nIzBhMjU0MCcvPjxzdG9wIG9mZnNldD0nMC41JyBzdG9wLWNvbG9yPScjMGQ1ZjZlJy8+PHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjMWE3YThhJy8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3Qgd2lkdGg9JzE2MCcgaGVpZ2h0PSc5MCcgZmlsbD0ndXJsKCNnKScvPjwvc3ZnPg=="
+        backgroundImage="/images/resort-villas/peninsula-aerial.jpg"
         eyebrow="A New Chapter for the Peninsula"
         title="Hotel &amp; <em>Resort Villas</em>"
         subtitle="A luxury boutique resort within Pearns Point — an intimate collection of suites, turnkey villas for sale, and world-class amenities shared by guests and owners alike."
@@ -129,9 +128,10 @@ export default function ResortVillasPage() {
       <section className="py-[100px] pb-[120px] px-[60px] max-lg:px-7 max-lg:py-[80px]">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
-            <ImagePlaceholder
-              label="Aerial of the resort site — the western peninsula as it stands today"
-              className="aspect-[4/5] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
+            <img
+              src="/images/resort-villas/beach-and-access.jpg"
+              alt="The resort site at Pearns Point — beach and shoreline access as it stands today"
+              className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
           <ScrollReveal>
@@ -193,9 +193,10 @@ export default function ResortVillasPage() {
 
       {/* ── FULL-WIDTH SHOWCASE ── */}
       <ScrollReveal className="px-[60px] py-[80px] max-lg:px-7">
-        <ImagePlaceholder
-          label="Wide landscape shot of the resort site — hillside to shoreline"
-          className="h-[55vh] min-h-[360px] max-w-content mx-auto"
+        <img
+          src="/images/resort-villas/beach-aerial.jpg"
+          alt="Aerial view of the beach and hillside at the Pearns Point resort site"
+          className="w-full h-[55vh] min-h-[360px] object-cover rounded-[4px] max-w-content mx-auto"
         />
       </ScrollReveal>
 
@@ -250,9 +251,10 @@ export default function ResortVillasPage() {
             </p>
           </ScrollReveal>
           <ScrollReveal>
-            <ImagePlaceholder
-              label="Signature residence plot — land as it is today, or an architect’s render when available"
-              className="aspect-[4/3] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
+            <img
+              src="/images/resort-villas/peninsula-aerial.jpg"
+              alt="The peninsula setting for the two signature residences at Pearns Point"
+              className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
         </div>
@@ -390,17 +392,41 @@ export default function ResortVillasPage() {
             The Site <em className="font-light italic">Today</em>
           </h2>
           <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] mx-auto">
-            Photography of the resort site to follow.
+            The peninsula as it stands today — the land the resort will be set into.
           </p>
         </ScrollReveal>
         <ScrollReveal className="max-w-content mx-auto">
           <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
-            <ImagePlaceholder label="Aerial of the peninsula" className="col-span-2 aspect-[2/1] max-sm:col-span-1" />
-            <ImagePlaceholder label="Shoreline and beach" className="aspect-square" />
-            <ImagePlaceholder label="Hillside toward the sea" className="aspect-square" />
-            <ImagePlaceholder label="Beach club location" className="aspect-square" />
-            <ImagePlaceholder label="Watersports frontage" className="aspect-square" />
-            <ImagePlaceholder label="Sunset over the west coast" className="col-span-2 aspect-[2/1] max-sm:col-span-1" />
+            {[
+              {
+                src: '/images/resort-villas/peninsula-aerial.jpg',
+                alt: 'Aerial of the Pearns Point peninsula and the resort site',
+                className: 'col-span-2 aspect-[2/1] max-sm:col-span-1',
+              },
+              {
+                src: '/images/resort-villas/beach-aerial.jpg',
+                alt: 'The beach and shoreline at the resort site',
+                className: 'col-span-2 aspect-[2/1] max-sm:col-span-1',
+              },
+              {
+                src: '/images/resort-villas/beach-and-access.jpg',
+                alt: 'Beach access and the bay beyond at Pearns Point',
+                className: 'col-span-2 aspect-[2/1] max-sm:col-span-1',
+              },
+            ].map((item) => (
+              <div
+                key={item.src}
+                className={`group relative overflow-hidden rounded-[4px] ${item.className} max-sm:aspect-[3/2]`}
+              >
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.06]"
+                  style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
+                />
+              </div>
+            ))}
+            <ImagePlaceholder label="Further site photography" className="col-span-2 aspect-[2/1] max-sm:col-span-1" />
           </div>
         </ScrollReveal>
       </section>
