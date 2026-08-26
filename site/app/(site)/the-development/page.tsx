@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: d?.seo?.title ? { absolute: d.seo.title } : 'The Development — Antigua Peninsula',
     description:
       d?.seo?.description ||
-      'Explore the vision behind Pearns Point — a rare peninsula development on Antigua\u2019s west coast with 49 exclusive plots across seven private beaches.',
+      'Explore the vision behind Pearns Point — a rare peninsula development on Antigua\u2019s west coast with 49 exclusive plots across seven pristine beaches.',
     alternates: { canonical: '/the-development' },
   }
 }

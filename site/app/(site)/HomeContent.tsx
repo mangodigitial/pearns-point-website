@@ -26,7 +26,7 @@ const introData = {
   mainImage: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80',
   stats: [
     { number: '49', label: 'Exclusive Plots' },
-    { number: '7', label: 'Private Beaches' },
+    { number: '7', label: 'Pristine Beaches' },
     { number: '360°', label: 'Ocean Views' },
   ],
 }

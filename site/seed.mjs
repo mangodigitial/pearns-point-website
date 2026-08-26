@@ -63,7 +63,7 @@ const documents = [
       body: "Stretching along Antigua's celebrated western coast, Pearns Point is a rare and unspoilt peninsula offering spectacular ocean views, seven white sand beaches, and an unmatched sense of privacy. Every detail has been considered to respect and enhance the island's natural beauty.",
       stats: [
         { _key: key(), number: '49', label: 'Exclusive Plots' },
-        { _key: key(), number: '7', label: 'Private Beaches' },
+        { _key: key(), number: '7', label: 'Pristine Beaches' },
         { _key: key(), number: '360°', label: 'Ocean Views' },
       ],
     },
