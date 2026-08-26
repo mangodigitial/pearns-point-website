@@ -7,7 +7,6 @@ import GoldRule from '@/components/global/GoldRule'
 import QuoteStrip from '@/components/global/QuoteStrip'
 import CTABand from '@/components/global/CTABand'
 import FeatureCard from '@/components/cards/FeatureCard'
-import ImagePlaceholder from './ImagePlaceholder'
 
 /* ─── Accommodation ─── */
 const accommodation = [
@@ -118,7 +117,7 @@ export default function ResortVillasPage() {
 
       {/* ── PAGE HERO ── */}
       <PageHero
-        backgroundImage="/images/resort-villas/peninsula-aerial.jpg"
+        backgroundImage="/images/resort-villas/hero-peninsula.jpg"
         eyebrow="A New Chapter for the Peninsula"
         title="Hotel &amp; <em>Resort Villas</em>"
         subtitle="A luxury boutique resort within Pearns Point — an intimate collection of suites, turnkey villas for sale, and world-class amenities shared by guests and owners alike."
@@ -194,8 +193,8 @@ export default function ResortVillasPage() {
       {/* ── FULL-WIDTH SHOWCASE ── */}
       <ScrollReveal className="px-[60px] py-[80px] max-lg:px-7">
         <img
-          src="/images/resort-villas/beach-aerial.jpg"
-          alt="Aerial view of the beach and hillside at the Pearns Point resort site"
+          src="/images/resort-villas/islands-and-sailboat.jpg"
+          alt="The Pearns Point peninsula and its offshore islets, Antigua's west coast"
           className="w-full h-[55vh] min-h-[360px] object-cover rounded-[4px] max-w-content mx-auto"
         />
       </ScrollReveal>
@@ -252,8 +251,8 @@ export default function ResortVillasPage() {
           </ScrollReveal>
           <ScrollReveal>
             <img
-              src="/images/resort-villas/peninsula-aerial.jpg"
-              alt="The peninsula setting for the two signature residences at Pearns Point"
+              src="/images/resort-villas/coastline-aerial.jpg"
+              alt="The Pearns Point coastline, setting for the two signature residences"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
@@ -316,9 +315,10 @@ export default function ResortVillasPage() {
       <section className="py-[140px] px-[60px] max-lg:px-7 bg-white">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
           <ScrollReveal>
-            <ImagePlaceholder
-              label="Portrait of Daniel Shamoon, or a Luxury Hotel Partners property"
-              className="aspect-[3/2] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
+            <img
+              src="/images/resort-villas/peninsula-from-the-air.jpg"
+              alt="The Pearns Point peninsula on Antigua's west coast"
+              className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
           </ScrollReveal>
           <ScrollReveal>
@@ -413,6 +413,11 @@ export default function ResortVillasPage() {
                 alt: 'Beach access and the bay beyond at Pearns Point',
                 className: 'col-span-2 aspect-[2/1] max-sm:col-span-1',
               },
+              {
+                src: '/images/resort-villas/coastline-aerial.jpg',
+                alt: 'The west-coast beaches of the Pearns Point peninsula from the air',
+                className: 'col-span-2 aspect-[2/1] max-sm:col-span-1',
+              },
             ].map((item) => (
               <div
                 key={item.src}
@@ -426,7 +431,6 @@ export default function ResortVillasPage() {
                 />
               </div>
             ))}
-            <ImagePlaceholder label="Further site photography" className="col-span-2 aspect-[2/1] max-sm:col-span-1" />
           </div>
         </ScrollReveal>
       </section>
