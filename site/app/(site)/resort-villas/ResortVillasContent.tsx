@@ -26,7 +26,7 @@ const accommodation = [
     label: 'Villas for Sale',
     count: '36',
     description:
-      'Nature-framed three- and four-bedroom turnkey villas available for purchase, from US$3M to US$6M.',
+      'Nature-framed three- and four-bedroom villas available for purchase, from US$3M to US$6M.',
   },
 ]
 
@@ -165,6 +165,11 @@ export default function ResortVillasPage() {
               </div>
             ))}
           </StaggerReveal>
+          <ScrollReveal className="mt-10 text-center">
+            <p className="text-[0.78rem] font-light leading-[1.7] text-prose-mid/70">
+              Pricing is indicative and subject to change.
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -250,65 +255,6 @@ export default function ResortVillasPage() {
             Albert Hartog, Owner of Orange Limited
           </cite>
         </ScrollReveal>
-      </section>
-
-      {/* ── BUYING A RESORT VILLA ── */}
-      <section className="py-[120px] px-[60px] max-lg:px-7 bg-sand-light">
-        <div className="max-w-content mx-auto">
-          <ScrollReveal className="text-center mb-[56px]">
-            <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
-              Ownership
-            </p>
-            <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Buying a<br /><em className="font-light italic">Resort Villa</em>
-            </h2>
-            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto">
-              Thirty-six three- and four-bedroom villas will be released for private ownership within the resort,
-              framed by the landscape and served by every amenity on the peninsula.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal className="max-w-[760px] mx-auto bg-white rounded-[4px] border border-black/[0.04] px-14 py-14 text-center max-sm:px-8">
-            <p className="font-body text-[0.6rem] font-semibold tracking-[0.35em] uppercase text-ocean mb-5">
-              Resort Villas
-            </p>
-            <p className="font-display text-[clamp(2.4rem,5vw,3.6rem)] leading-none text-navy mb-6">
-              US$3M &ndash; US$6M
-            </p>
-            <GoldRule className="mx-auto mb-7" />
-            <div className="grid grid-cols-3 gap-8 max-sm:grid-cols-1 max-sm:gap-6">
-              <div>
-                <p className="font-display text-[1.6rem] text-ocean leading-none mb-2">36</p>
-                <p className="text-[0.78rem] font-light leading-[1.6] text-prose-mid">Villas for sale</p>
-              </div>
-              <div>
-                <p className="font-display text-[1.6rem] text-ocean leading-none mb-2">3 &amp; 4</p>
-                <p className="text-[0.78rem] font-light leading-[1.6] text-prose-mid">Bedroom layouts</p>
-              </div>
-              <div>
-                <p className="font-display text-[1.6rem] text-ocean leading-none mb-2">Turnkey</p>
-                <p className="text-[0.78rem] font-light leading-[1.6] text-prose-mid">Delivered ready to occupy</p>
-              </div>
-            </div>
-            <p className="text-[0.78rem] font-light leading-[1.7] text-prose-mid/70 mt-9">
-              Pricing is indicative and subject to change.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal className="mt-14 text-center">
-            <p className="text-[0.9rem] font-light leading-[1.9] text-prose-mid max-w-[720px] mx-auto">
-              Looking beyond the resort? The wider peninsula offers beachfront, oceanfront and elevated{' '}
-              <a href="/lots-site-plan" className="text-ocean underline underline-offset-4 decoration-ocean/30 hover:decoration-ocean transition-colors">
-                homesites from US$2M
-              </a>
-              , <a href="/plot-and-plan" className="text-ocean underline underline-offset-4 decoration-ocean/30 hover:decoration-ocean transition-colors">
-                turnkey residences from US$4M
-              </a>{' '}
-              and finished homes from US$20M. Early sales have been strong &mdash; 26 lots sold to date,
-              totalling US$50M.
-            </p>
-          </ScrollReveal>
-        </div>
       </section>
 
       {/* ── ABOUT DANIEL SHAMOON ── */}
