@@ -70,28 +70,6 @@ const amenities = [
   },
 ]
 
-/* ─── Current ownership offering ─── */
-const ownership = [
-  {
-    title: 'Homesites',
-    price: 'From US$2M',
-    description:
-      'A limited collection of beachfront, oceanfront and elevated homesites — build a bespoke residence alongside award-winning architects and builders.',
-  },
-  {
-    title: 'Turnkey Residences',
-    price: 'From US$4M',
-    description:
-      'Finished to order in locally sourced stone, timber and natural materials, ready to step into.',
-  },
-  {
-    title: 'Finished Homes',
-    price: 'From US$20M',
-    description:
-      'Completed residences on the peninsula, for buyers who want the view without the wait.',
-  },
-]
-
 /* ─── Shamoon portfolio ─── */
 const portfolio = [
   'Hermitage Bay, Antigua',
@@ -274,38 +252,60 @@ export default function ResortVillasPage() {
         </ScrollReveal>
       </section>
 
-      {/* ── OWNERSHIP TODAY ── */}
+      {/* ── BUYING A RESORT VILLA ── */}
       <section className="py-[120px] px-[60px] max-lg:px-7 bg-sand-light">
         <div className="max-w-content mx-auto">
-          <ScrollReveal className="text-center mb-[60px]">
+          <ScrollReveal className="text-center mb-[56px]">
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
               Ownership
             </p>
             <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
-              Ways to Own at<br /><em className="font-light italic">Pearns Point</em>
+              Buying a<br /><em className="font-light italic">Resort Villa</em>
             </h2>
             <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto">
-              Early sales have been strong &mdash; 26 lots sold to date, totalling US$50M.
+              Thirty-six three- and four-bedroom villas will be released for private ownership within the resort,
+              framed by the landscape and served by every amenity on the peninsula.
             </p>
           </ScrollReveal>
-          <StaggerReveal className="grid grid-cols-3 gap-8 max-lg:grid-cols-1">
-            {ownership.map((item) => (
-              <div
-                key={item.title}
-                className="p-12 px-10 bg-white rounded-[4px] border border-black/[0.04]"
-              >
-                <h3 className="font-display text-[1.35rem] font-normal text-navy mb-2">{item.title}</h3>
-                <p className="font-body text-[0.6rem] font-semibold tracking-[0.35em] uppercase text-ocean mb-4">
-                  {item.price}
-                </p>
-                <p className="text-[0.8rem] font-light leading-[1.75] text-prose-mid">{item.description}</p>
+
+          <ScrollReveal className="max-w-[760px] mx-auto bg-white rounded-[4px] border border-black/[0.04] px-14 py-14 text-center max-sm:px-8">
+            <p className="font-body text-[0.6rem] font-semibold tracking-[0.35em] uppercase text-ocean mb-5">
+              Resort Villas
+            </p>
+            <p className="font-display text-[clamp(2.4rem,5vw,3.6rem)] leading-none text-navy mb-6">
+              US$3M &ndash; US$6M
+            </p>
+            <GoldRule className="mx-auto mb-7" />
+            <div className="grid grid-cols-3 gap-8 max-sm:grid-cols-1 max-sm:gap-6">
+              <div>
+                <p className="font-display text-[1.6rem] text-ocean leading-none mb-2">36</p>
+                <p className="text-[0.78rem] font-light leading-[1.6] text-prose-mid">Villas for sale</p>
               </div>
-            ))}
-          </StaggerReveal>
-          <ScrollReveal className="mt-12 text-center">
-            <p className="text-[0.85rem] font-light leading-[1.8] text-prose-mid/80 max-w-[680px] mx-auto">
-              Resort villas will be available for purchase from US$3M to US$6M. Pricing is indicative and subject
-              to change.
+              <div>
+                <p className="font-display text-[1.6rem] text-ocean leading-none mb-2">3 &amp; 4</p>
+                <p className="text-[0.78rem] font-light leading-[1.6] text-prose-mid">Bedroom layouts</p>
+              </div>
+              <div>
+                <p className="font-display text-[1.6rem] text-ocean leading-none mb-2">Turnkey</p>
+                <p className="text-[0.78rem] font-light leading-[1.6] text-prose-mid">Delivered ready to occupy</p>
+              </div>
+            </div>
+            <p className="text-[0.78rem] font-light leading-[1.7] text-prose-mid/70 mt-9">
+              Pricing is indicative and subject to change.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal className="mt-14 text-center">
+            <p className="text-[0.9rem] font-light leading-[1.9] text-prose-mid max-w-[720px] mx-auto">
+              Looking beyond the resort? The wider peninsula offers beachfront, oceanfront and elevated{' '}
+              <a href="/lots-site-plan" className="text-ocean underline underline-offset-4 decoration-ocean/30 hover:decoration-ocean transition-colors">
+                homesites from US$2M
+              </a>
+              , <a href="/plot-and-plan" className="text-ocean underline underline-offset-4 decoration-ocean/30 hover:decoration-ocean transition-colors">
+                turnkey residences from US$4M
+              </a>{' '}
+              and finished homes from US$20M. Early sales have been strong &mdash; 26 lots sold to date,
+              totalling US$50M.
             </p>
           </ScrollReveal>
         </div>
