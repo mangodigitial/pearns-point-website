@@ -3,16 +3,19 @@ import ResortVillasPage from './ResortVillasContent'
 
 export const revalidate = 60
 
-// DRAFT PAGE — not linked from the navigation and excluded from the sitemap.
-// `noindex, nofollow` stays until the press release is out and the page is signed off.
+// While RESORT_PREVIEW_PASSWORD holds a password, this page is gated by
+// middleware.ts, kept out of the sitemap and marked noindex. Set the variable
+// to "public" and redeploy to take it live. See middleware.ts.
+const isPublic = process.env.RESORT_PREVIEW_PASSWORD === 'public'
+
 export const metadata: Metadata = {
   title: { absolute: 'Hotel & Resort Villas in Antigua | Pearns Point' },
   description:
-    'A luxury boutique resort at Pearns Point, Antigua — 20 suites, 20 two-bedroom villas and 36 turnkey resort villas for sale from US$3M, with a beach club, spa, racquet club and watersports hub.',
+    'A luxury boutique resort at Pearns Point, Antigua — 20 suites, 20 two-bedroom villas and 36 resort villas for sale from US$3M, with a beach club, spa, racquet club and watersports hub.',
   alternates: { canonical: '/resort-villas' },
-  robots: { index: false, follow: false },
+  robots: isPublic ? undefined : { index: false, follow: false },
 }
 
 export default function Page() {
-  return <ResortVillasPage />
+  return <ResortVillasPage isPublic={isPublic} />
 }
