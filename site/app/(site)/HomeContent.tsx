@@ -11,7 +11,7 @@ import { deepMerge } from '@/lib/data-utils'
 
 /* ─── Fallback Data (used when Sanity is not configured) ─── */
 const heroData = {
-  eyebrow: "Antigua's Exclusive Western Peninsula",
+  eyebrow: "Antigua's prime beachfront and oceanfront property",
   title: 'Shared by Few,<br>Rivalled by <em>None</em>',
   subtitle: "Discover the Caribbean's most prestigious address — where seven pristine beaches, endless sunshine, and an extraordinary lifestyle await the discerning few.",
   backgroundImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80',

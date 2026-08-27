@@ -111,7 +111,7 @@ interface Props {
 
 export default function TheVillasPage({ cmsData }: Props) {
   const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=85'
-  const heroEyebrow = cmsData?.heroEyebrow || 'Architecture & Design'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Luxury villas at Pearns Point, Antigua'
   const heroTitle = cmsData?.heroTitle || 'The <em>Villas</em>'
   const heroSubtitle = cmsData?.heroSubtitle || 'Signature details and a horizontal design philosophy maximise the spectacular views — offering creative layout possibilities to suit every individual style.'
 

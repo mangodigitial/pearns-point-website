@@ -119,7 +119,7 @@ interface Props {
 
 export default function PlotAndPlanPage({ cmsData }: Props) {
   const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=85'
-  const heroEyebrow = cmsData?.heroEyebrow || 'Turnkey Luxury'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Turnkey luxury designed villas'
   const heroTitle = cmsData?.heroTitle || 'Plot and <em>Plan</em>'
   const heroSubtitle = cmsData?.heroSubtitle || 'For the first time, Pearns Point offers pre-designed luxury villas at a final price — giving you simplicity, peace of mind, and a home crafted by world-class architects.'
 

@@ -167,7 +167,7 @@ interface Props {
 
 export default function LotsSitePlanPage({ cmsData }: Props) {
   const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85'
-  const heroEyebrow = cmsData?.heroEyebrow || 'Explore the Peninsula'
+  const heroEyebrow = cmsData?.heroEyebrow || 'Available property Pearns Point, Antigua'
   const heroTitle = cmsData?.heroTitle || 'Lots & <em>Site Plan</em>'
   const heroSubtitle = cmsData?.heroSubtitle || 'Discover the exciting opportunities available across eight distinct areas of the Pearns Point peninsula — each with its own character, views, and unique appeal.'
 

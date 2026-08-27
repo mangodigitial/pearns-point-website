@@ -52,6 +52,12 @@ export default function PageHero({ backgroundImage, eyebrow, title, subtitle, is
     }
   }, [bunnyVideoUrl])
 
+  /* The eyebrow carries the page's keyword phrase, so it is the semantic <h1>
+     while keeping its existing type treatment; the display headline below it is
+     then a <p>, styled exactly as before. Where a hero has no eyebrow the
+     headline stays the <h1> so every page keeps exactly one. */
+  const Headline = eyebrow ? motion.p : motion.h1
+
   const sectionHeight = heightClass ?? (isHome ? 'h-screen min-h-[700px]' : 'h-[65vh] min-h-[500px]')
   const titleSize = isHome
     ? 'text-[clamp(2.8rem,6.5vw,5.2rem)]'
@@ -117,7 +123,7 @@ export default function PageHero({ backgroundImage, eyebrow, title, subtitle, is
       {/* Content */}
       <div className="relative z-[2] text-center max-w-[850px] px-10 -mt-[60px] max-sm:px-5">
         {eyebrow && (
-          <motion.p
+          <motion.h1
             className="font-body text-[0.62rem] font-medium tracking-[0.5em] uppercase text-white mb-6"
             style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}
             initial={{ opacity: 0, y: 25 }}
@@ -125,9 +131,9 @@ export default function PageHero({ backgroundImage, eyebrow, title, subtitle, is
             transition={{ duration: 1, delay: isHome ? 2 : 0.3, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {eyebrow}
-          </motion.p>
+          </motion.h1>
         )}
-        <motion.h1
+        <Headline
           className={`font-display ${titleSize} font-normal leading-[1.1] text-white mb-6`}
           style={{ textShadow: '0 2px 20px rgba(0,0,0,0.25)' }}
           initial={{ opacity: 0, y: 25 }}

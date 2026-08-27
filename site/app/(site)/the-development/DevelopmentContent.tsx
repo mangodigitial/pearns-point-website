@@ -48,7 +48,7 @@ interface Props {
 
 export default function TheDevelopmentPage({ cmsData }: Props) {
   const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=1920&q=85'
-  const heroEyebrow = cmsData?.heroEyebrow || 'Pearns Point'
+  const heroEyebrow = cmsData?.heroEyebrow || "Antigua's prime luxury property"
   const heroTitle = cmsData?.heroTitle || 'The <em>Development</em>'
 
   // Vision
