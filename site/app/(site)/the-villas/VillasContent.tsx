@@ -144,6 +144,9 @@ export default function TheVillasPage({ cmsData }: Props) {
   const archImage = cmsData?.architects?.image || 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'
   const archPartners = cmsData?.architects?.partners?.length ? cmsData.architects.partners : architectCards
 
+  // Intro paragraph (optional, sits directly under the hero)
+  const introBody = cmsData?.intro?.body || ''
+
   // Quote
   const quoteText = cmsData?.quote?.text || 'Signature details and a horizontal design maximise the spectacular views and provide creative layout possibilities to suit individual ideas and styles.'
 
@@ -171,6 +174,18 @@ export default function TheVillasPage({ cmsData }: Props) {
         title={heroTitle}
         subtitle={heroSubtitle}
       />
+
+      {/* ── INTRO PARAGRAPH ── */}
+      {introBody && (
+        <section className="pt-[100px] px-[60px] max-lg:px-7 max-lg:pt-[70px]">
+          <ScrollReveal className="max-w-[760px] mx-auto text-center">
+            <p className="text-[1.15rem] max-sm:text-[1.02rem] font-light leading-[1.9] text-prose-mid whitespace-pre-line">
+              {introBody}
+            </p>
+            <GoldRule className="mt-10 mx-auto" />
+          </ScrollReveal>
+        </section>
+      )}
 
       {/* ── DESIGN PHILOSOPHY ── */}
       <section className="py-[100px] pb-[140px] px-[60px] max-lg:px-7 max-lg:py-[80px]">

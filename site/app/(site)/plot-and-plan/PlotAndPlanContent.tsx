@@ -128,6 +128,9 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
   const introTitle = cmsData?.intro?.title || 'Your Dream Home,<br><em class="font-light italic">Delivered</em>'
   const introBody = cmsData?.intro?.body || null
   const introImage = cmsData?.intro?.image || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80'
+  const whatsIncludedBody =
+    cmsData?.whatsIncludedBody ||
+    'Your Plot & Plan villa is delivered as a complete, ready-to-live-in home. No additional costs, no surprises \u2014 a final price that covers everything.'
   const whatsIncludedImage = cmsData?.whatsIncludedImage || 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80'
 
   // Designs
@@ -311,9 +314,8 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
               Everything <em className="font-light italic">Included</em>
             </h2>
             <GoldRule className="my-7" />
-            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]">
-              Your Plot & Plan villa is delivered as a complete, ready-to-live-in home. No additional
-              costs, no surprises — a final price that covers everything.
+            <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px] whitespace-pre-line">
+              {whatsIncludedBody}
             </p>
             <ul className="mt-8 list-none">
               {displayIncluded.map((item: string, i: number) => (

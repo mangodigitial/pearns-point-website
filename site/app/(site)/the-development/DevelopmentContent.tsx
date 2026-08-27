@@ -70,6 +70,33 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
   const quoteText = cmsData?.quote?.text || "A luxurious sanctuary that respects the rich local inheritance and culture of Antigua — ecologically sensitive and financially exceptional."
 
   // Developer
+  // Pearns Point Today
+  const todayEyebrow = cmsData?.today?.eyebrow || 'Pearns Point Today'
+  const todayTitle = cmsData?.today?.title || 'Pearns Point <em class="italic font-light">Today</em>'
+  const todayBody = cmsData?.today?.body || ''
+  const todayImage = cmsData?.today?.image
+  const todayLinkLabel = cmsData?.today?.linkLabel
+  const todayLinkHref = cmsData?.today?.linkHref
+
+  /* Renders the body, turning `linkLabel` into a link when a URL is set.
+     With no URL the words stay as plain text, so the section can go live
+     before the hotel page does. */
+  const todayParagraph = (() => {
+    if (!todayLinkLabel || !todayLinkHref || !todayBody.includes(todayLinkLabel)) {
+      return todayBody
+    }
+    const [before, ...rest] = todayBody.split(todayLinkLabel)
+    return (
+      <>
+        {before}
+        <Link href={todayLinkHref} className="text-ocean underline underline-offset-4 hover:text-ocean-deep transition-colors">
+          {todayLinkLabel}
+        </Link>
+        {rest.join(todayLinkLabel)}
+      </>
+    )
+  })()
+
   const devEyebrow = cmsData?.developer?.eyebrow || 'The Developer'
   const devTitle = cmsData?.developer?.title || 'Orange <em class="italic font-light">Limited</em>'
   const devBody = cmsData?.developer?.body || "Pearns Point is owned by luxury property developers Orange Limited, led by Dutch entrepreneur Albert Hartog and his partners. Together, they have been creating one of the most exclusive projects in the Caribbean \u2014 a luxurious sanctuary that respects the rich local inheritance and culture of Antigua, while protecting local ecosystems in a sustainable way."
@@ -193,6 +220,48 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
       <QuoteStrip
         text={quoteText}
       />
+
+      {/* ═══════════════════════════════════════════
+          PEARNS POINT TODAY
+      ═══════════════════════════════════════════ */}
+      {todayBody && (
+        <section className="py-[140px] px-[60px] max-lg:px-7 max-lg:py-[80px]">
+          <div className="max-w-content mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[100px] max-lg:gap-[60px] items-center">
+            <StaggerReveal>
+              <motion.p
+                variants={staggerItem}
+                className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4"
+              >
+                {todayEyebrow}
+              </motion.p>
+              <motion.h2
+                variants={staggerItem}
+                className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5"
+                dangerouslySetInnerHTML={{ __html: todayTitle }}
+              />
+              <motion.div variants={staggerItem}>
+                <GoldRule className="my-7" />
+              </motion.div>
+              <motion.p
+                variants={staggerItem}
+                className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[560px]"
+              >
+                {todayParagraph}
+              </motion.p>
+            </StaggerReveal>
+
+            {todayImage && (
+              <ScrollReveal>
+                <img
+                  src={todayImage}
+                  alt="Pearns Point today"
+                  className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
+                />
+              </ScrollReveal>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════
           THE DEVELOPER

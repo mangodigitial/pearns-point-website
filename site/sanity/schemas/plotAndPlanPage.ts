@@ -64,6 +64,12 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
     }),
+    defineField({
+      name: 'whatsIncludedBody',
+      title: "What's Included Body",
+      type: 'text',
+      rows: 5,
+    }),
     defineField({ name: 'whatsIncludedImage', title: "What's Included Image", type: 'image' }),
     defineField({
       name: 'pricing',

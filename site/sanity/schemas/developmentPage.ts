@@ -47,6 +47,31 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'today',
+      title: 'Pearns Point Today',
+      type: 'object',
+      fields: [
+        defineField({ name: 'eyebrow', title: 'Eyebrow', type: 'string' }),
+        defineField({ name: 'title', title: 'Title', type: 'string' }),
+        defineField({ name: 'body', title: 'Body', type: 'text', rows: 6 }),
+        defineField({ name: 'image', title: 'Image', type: 'image' }),
+        defineField({
+          name: 'linkLabel',
+          title: 'Hyperlink text',
+          type: 'string',
+          description:
+            'Optional. The exact words inside the body that should become a link, e.g. "recent announcement of hotel partner".',
+        }),
+        defineField({
+          name: 'linkHref',
+          title: 'Hyperlink URL',
+          type: 'string',
+          description:
+            'Optional. Leave empty until the hotel page is public — the words stay as plain text until a URL is set.',
+        }),
+      ],
+    }),
+    defineField({
       name: 'quote',
       title: 'Quote',
       type: 'object',

@@ -10,6 +10,15 @@ export default defineType({
     defineField({ name: 'heroTitle', title: 'Hero Title', type: 'string' }),
     defineField({ name: 'heroSubtitle', title: 'Hero Subtitle', type: 'text', rows: 2 }),
     defineField({
+      name: 'intro',
+      title: 'Intro Paragraph',
+      type: 'object',
+      description: 'Optional lead paragraph shown directly beneath the hero.',
+      fields: [
+        defineField({ name: 'body', title: 'Body', type: 'text', rows: 6 }),
+      ],
+    }),
+    defineField({
       name: 'philosophy',
       title: 'Design Philosophy',
       type: 'object',
