@@ -114,10 +114,10 @@ export default function Footer({ tagline, phoneAntigua, phoneSales, email }: Foo
             </a>
           </span>
           <div className="flex gap-6">
-            <Link href="#" className="text-[0.65rem] font-light text-prose-light no-underline hover:text-ocean transition-colors duration-300">
+            <Link href="/privacy-policy" className="text-[0.65rem] font-light text-prose-light no-underline hover:text-ocean transition-colors duration-300">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-[0.65rem] font-light text-prose-light no-underline hover:text-ocean transition-colors duration-300">
+            <Link href="/terms-and-conditions" className="text-[0.65rem] font-light text-prose-light no-underline hover:text-ocean transition-colors duration-300">
               Terms &amp; Conditions
             </Link>
           </div>

@@ -16,6 +16,8 @@ const STATIC_ROUTES = [
   'gallery',
   'latest-news',
   'contact',
+  'privacy-policy',
+  'terms-and-conditions',
   // Added only once the Resort Villas page is public — see middleware.ts.
   ...(process.env.RESORT_PREVIEW_PASSWORD === 'public' ? ['resort-villas'] : []),
 ]

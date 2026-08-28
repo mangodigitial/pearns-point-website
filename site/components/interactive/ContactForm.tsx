@@ -170,6 +170,11 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
           I consent to Pearns Point storing my details and contacting me regarding my enquiry.
         </span>
       </label>
+      {/* Outside the label so the link navigates without also toggling the box. */}
+      <p className="text-[0.72rem] font-light text-prose-light leading-[1.6] -mt-2 pl-[27px]">
+        How we handle your details is set out in our{' '}
+        <a href="/privacy-policy" className="text-ocean underline hover:text-ocean-deep">Privacy Policy</a>.
+      </p>
       <button
         type="submit"
         disabled={status === 'sending'}
