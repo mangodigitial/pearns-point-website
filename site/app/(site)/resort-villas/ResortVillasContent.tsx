@@ -112,7 +112,7 @@ export default function ResortVillasPage({ isPublic = false }: Props) {
       <section className="py-[100px] pb-[120px] px-[60px] max-lg:px-7 max-lg:py-[80px]">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src="/images/resort-villas/beach-and-access.jpg"
               alt="The resort site at Pearns Point — beach and shoreline access as it stands today"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -182,7 +182,7 @@ export default function ResortVillasPage({ isPublic = false }: Props) {
 
       {/* ── FULL-WIDTH SHOWCASE ── */}
       <ScrollReveal className="px-[60px] py-[80px] max-lg:px-7">
-        <img
+        <img loading="lazy" decoding="async"
           src="/images/resort-villas/islands-and-sailboat.jpg"
           alt="The Pearns Point peninsula and its offshore islets, Antigua's west coast"
           className="w-full h-[55vh] min-h-[360px] object-cover rounded-[4px] max-w-content mx-auto"
@@ -240,7 +240,7 @@ export default function ResortVillasPage({ isPublic = false }: Props) {
             </p>
           </ScrollReveal>
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src="/images/resort-villas/coastline-aerial.jpg"
               alt="The Pearns Point coastline, setting for the two signature residences"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -268,7 +268,7 @@ export default function ResortVillasPage({ isPublic = false }: Props) {
       <section className="py-[140px] px-[60px] max-lg:px-7 bg-white">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src="/images/resort-villas/peninsula-from-the-air.jpg"
               alt="The Pearns Point peninsula on Antigua's west coast"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -376,7 +376,7 @@ export default function ResortVillasPage({ isPublic = false }: Props) {
                 key={item.src}
                 className={`group relative overflow-hidden rounded-[4px] ${item.className} max-sm:aspect-[3/2]`}
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={item.src}
                   alt={item.alt}
                   className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.06]"

@@ -297,7 +297,7 @@ export default function GalleryPage({ cmsData }: Props) {
             className="relative mt-12 rounded-[4px] overflow-hidden cursor-pointer shadow-[0_32px_80px_rgba(0,0,0,0.1)] group"
             onClick={() => setVideoOpen(true)}
           >
-            <img
+            <img loading="lazy" decoding="async"
               src={videoThumbnail}
               alt="Aerial video thumbnail"
               className="w-full block transition-transform duration-[1200ms] group-hover:scale-[1.06]"

@@ -12,7 +12,7 @@ const portableTextComponents: PortableTextComponents = {
   types: {
     fullWidthImage: ({ value }: { value: any }) => (
       <figure className="my-11 -mx-[60px] max-lg:mx-0 rounded overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-        <img
+        <img loading="lazy" decoding="async"
           src={value.imageUrl || value.image}
           alt={value.alt || ''}
           className="w-full block"
@@ -27,7 +27,7 @@ const portableTextComponents: PortableTextComponents = {
     imagePair: ({ value }: { value: any }) => (
       <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4 my-11">
         {[value.imageLeft, value.imageRight].filter(Boolean).map((img: string, i: number) => (
-          <img
+          <img loading="lazy" decoding="async"
             key={i}
             src={img}
             alt=""
@@ -209,7 +209,7 @@ export default function BlogPostContent({ post, relatedArticles }: BlogPostConte
 
             {/* Full-width Image */}
             <figure className="my-11 -mx-[60px] max-lg:mx-0 rounded overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
-              <img
+              <img loading="lazy" decoding="async"
                 src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80"
                 alt="Caribbean Chic villa exterior"
                 className="w-full block"
@@ -249,12 +249,12 @@ export default function BlogPostContent({ post, relatedArticles }: BlogPostConte
 
             {/* Image Pair */}
             <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4 my-11">
-              <img
+              <img loading="lazy" decoding="async"
                 src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
                 alt="Modern villa interior"
                 className="w-full aspect-[3/2] object-cover rounded shadow-[0_12px_40px_rgba(0,0,0,0.06)]"
               />
-              <img
+              <img loading="lazy" decoding="async"
                 src="https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=600&q=80"
                 alt="Connected pavilion design"
                 className="w-full aspect-[3/2] object-cover rounded shadow-[0_12px_40px_rgba(0,0,0,0.06)]"

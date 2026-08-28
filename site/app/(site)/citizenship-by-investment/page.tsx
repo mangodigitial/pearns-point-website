@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { fetchPage } from '@/lib/sanity'
 import { cbiPageQuery } from '@/lib/queries'
 import CitizenshipByInvestmentPage from './CbiContent'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const revalidate = 60
 
@@ -19,5 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const cmsData = await fetchPage(cbiPageQuery)
-  return <CitizenshipByInvestmentPage cmsData={cmsData as Record<string, any> | null} />
+  const crumbs = breadcrumbSchema([{ name: 'Citizenship by Investment', path: '/citizenship-by-investment' }])
+  return (
+    <>
+      <JsonLd data={crumbs} />
+      <CitizenshipByInvestmentPage cmsData={cmsData as Record<string, any> | null} />
+    </>
+  )
 }

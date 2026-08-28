@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import LegalPage, { type LegalBlock } from '@/components/global/LegalPage'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions',
@@ -105,13 +107,17 @@ const blocks: LegalBlock[] = [
 ]
 
 export default function Page() {
+  const crumbs = breadcrumbSchema([{ name: 'Terms & Conditions', path: '/terms-and-conditions' }])
   return (
-    <LegalPage
-      eyebrow="Terms and Conditions"
-      title="Terms &amp; <em>Conditions</em>"
-      intro="The basis on which we make this website and the information on it available to you."
-      updated={UPDATED}
-      blocks={blocks}
-    />
+    <>
+      <JsonLd data={crumbs} />
+      <LegalPage
+        eyebrow="Terms and Conditions"
+        title="Terms &amp; <em>Conditions</em>"
+        intro="The basis on which we make this website and the information on it available to you."
+        updated={UPDATED}
+        blocks={blocks}
+      />
+    </>
   )
 }

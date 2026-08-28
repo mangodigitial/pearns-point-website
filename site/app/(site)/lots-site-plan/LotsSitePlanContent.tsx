@@ -225,7 +225,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
             thoughtfully planned to maximise privacy, natural beauty, and ocean access.
           </p>
           <div className="relative bg-white rounded-[6px] p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-black/[0.04]">
-            <img
+            <img loading="lazy" decoding="async"
               src={siteMapImage}
               alt="Pearns Point Site Plan — aerial view of peninsula"
               className="w-full h-auto rounded-[4px]"
@@ -308,7 +308,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
                   <div className={`flex flex-col gap-3 ${idx % 2 === 1 ? 'order-1 max-lg:order-2' : ''}`}>
                     {/* Hero image */}
                     <div className="overflow-hidden rounded-[4px]">
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={area.heroImage}
                         alt={area.heroAlt}
                         className="w-full object-cover aspect-[2/1] max-sm:aspect-[3/2] transition-transform duration-[1200ms] hover:scale-[1.06]"
@@ -325,7 +325,7 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
                               key={ti}
                               className="flex-shrink-0 basis-[calc(50%-6px)] max-sm:basis-[78%] snap-start overflow-hidden rounded-[4px]"
                             >
-                              <img
+                              <img loading="lazy" decoding="async"
                                 src={thumb}
                                 alt={area.thumbAlts[ti]}
                                 className="w-full object-cover aspect-square transition-transform duration-[1200ms] hover:scale-[1.06]"

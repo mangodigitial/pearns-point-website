@@ -137,7 +137,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
       <section className="py-[140px] px-[60px] max-lg:px-7 max-lg:py-[100px]">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-start max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={intro.mainImage}
               alt="Caribbean waterfront"
               className="w-full aspect-[5/4] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -171,7 +171,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
       {/* FULL-WIDTH IMAGE */}
       <section className="px-[60px] max-lg:px-7 pb-[60px]">
         <ScrollReveal>
-          <img
+          <img loading="lazy" decoding="async"
             src={featureImage}
             alt="Pearns Point peninsula aerial view"
             className="w-full aspect-[21/9] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -225,7 +225,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
                     card.isHero ? 'row-span-2 max-lg:row-auto max-lg:min-h-[400px]' : 'max-lg:min-h-[320px]'
                   }`}
                 >
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={card.image}
                     alt={card.title}
                     className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.04]"
@@ -253,7 +253,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
             <div className="relative">
-              <img
+              <img loading="lazy" decoding="async"
                 src={antiguaImage}
                 alt="Antigua harbour"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"

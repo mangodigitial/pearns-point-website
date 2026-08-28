@@ -120,12 +120,12 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
           {/* Images */}
           <ScrollReveal>
             <div className="relative">
-              <img
+              <img loading="lazy" decoding="async"
                 src={visionMainImage}
                 alt="Peninsula aerial view"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
-              <img
+              <img loading="lazy" decoding="async"
                 src={visionFloatImage}
                 alt="White sand beach"
                 className="absolute -bottom-[30px] -right-[40px] w-1/2 aspect-square object-cover rounded-[4px] border-[5px] border-cream shadow-[0_16px_40px_rgba(0,0,0,0.1)] max-lg:hidden"
@@ -205,7 +205,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
 
           {/* Visual (order 2 on desktop) */}
           <ScrollReveal className="order-2">
-            <img
+            <img loading="lazy" decoding="async"
               src={projectImage}
               alt="Luxury villa design"
               className="w-full aspect-[3/4] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -252,7 +252,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
 
             {todayImage && (
               <ScrollReveal>
-                <img
+                <img loading="lazy" decoding="async"
                   src={todayImage}
                   alt="Pearns Point today"
                   className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -270,7 +270,7 @@ export default function TheDevelopmentPage({ cmsData }: Props) {
         <div className="max-w-content mx-auto grid grid-cols-1 lg:grid-cols-2 gap-[100px] max-lg:gap-[60px] items-center">
           {/* Image */}
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={devImage}
               alt="Luxury development"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"

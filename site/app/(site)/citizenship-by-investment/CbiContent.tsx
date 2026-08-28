@@ -219,7 +219,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
           {/* Visual */}
           <ScrollReveal>
             <div className="relative">
-              <img
+              <img loading="lazy" decoding="async"
                 src={introImage}
                 alt="Antigua coastline"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -355,7 +355,7 @@ export default function CitizenshipByInvestmentPage({ cmsData }: Props) {
 
           {/* Image */}
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={passportImage}
               alt="Global travel"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"

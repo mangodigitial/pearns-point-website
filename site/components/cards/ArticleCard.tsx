@@ -19,7 +19,7 @@ export default function ArticleCard({ image, category, date, title, excerpt, slu
     <motion.article variants={staggerItem} className="group bg-white rounded-[4px] shadow-[0_4px_20px_rgba(0,0,0,0.06)] overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_12px_36px_rgba(0,0,0,0.1)]" style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}>
       <Link href={`/news/${slug}`} className="block no-underline">
         <div className="relative overflow-hidden aspect-[16/10]">
-          <img
+          <img loading="lazy" decoding="async"
             src={image}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-[1.05]"

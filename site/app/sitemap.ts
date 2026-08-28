@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { fetchPage } from '@/lib/sanity'
 import { blogPostSlugsQuery } from '@/lib/queries'
 
-const SITE_URL = 'https://pearnspoint.com'
+const SITE_URL = 'https://www.pearnspoint.com'
 
 // Static routes, mapped to their (site) segment paths. '' is the home page.
 const STATIC_ROUTES = [

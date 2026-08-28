@@ -202,7 +202,7 @@ export default function TheVillasPage({ cmsData }: Props) {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
             <div className="relative overflow-hidden rounded-[4px]">
-              <img
+              <img loading="lazy" decoding="async"
               src={philImage}
               alt="Villa exterior design"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -230,7 +230,7 @@ export default function TheVillasPage({ cmsData }: Props) {
 
       {/* ── FULL-WIDTH SHOWCASE IMAGE ── */}
       <ScrollReveal className="relative overflow-hidden h-[60vh] min-h-[400px]">
-        <img
+        <img loading="lazy" decoding="async"
           src={showcaseImage}
           alt="Villa interior with ocean view"
           className="w-full h-full object-cover"
@@ -274,7 +274,7 @@ export default function TheVillasPage({ cmsData }: Props) {
           <div className="grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
             <ScrollReveal>
               <div className="relative overflow-hidden rounded-[4px]">
-                <img
+                <img loading="lazy" decoding="async"
                 src={archImage}
                 alt="Architectural detail"
                 className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -327,7 +327,7 @@ export default function TheVillasPage({ cmsData }: Props) {
                 key={i}
                 className={`group relative overflow-hidden rounded-[4px] cursor-pointer h-full ${item.className} max-sm:col-span-1 max-sm:row-span-1`}
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={item.src}
                   alt={item.alt}
                   className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.06]"
@@ -360,7 +360,7 @@ export default function TheVillasPage({ cmsData }: Props) {
           </ScrollReveal>
           <ScrollReveal className="order-2">
             <div className="relative overflow-hidden rounded-[4px]">
-              <img
+              <img loading="lazy" decoding="async"
               src={bespokeImage}
               alt="Bespoke villa design"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"

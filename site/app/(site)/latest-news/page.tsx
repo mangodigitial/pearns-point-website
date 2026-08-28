@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { fetchPage } from '@/lib/sanity'
 import { newsPageQuery, allBlogPostsQuery } from '@/lib/queries'
 import LatestNewsPage from './NewsContent'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const revalidate = 60
 
@@ -22,10 +24,14 @@ export default async function Page() {
     fetchPage(newsPageQuery),
     fetchPage<any[]>(allBlogPostsQuery),
   ])
+  const crumbs = breadcrumbSchema([{ name: 'Latest News', path: '/latest-news' }])
   return (
-    <LatestNewsPage
-      cmsData={cmsData as Record<string, any> | null}
-      cmsPosts={cmsPosts as any[] | null}
-    />
+    <>
+      <JsonLd data={crumbs} />
+      <LatestNewsPage
+        cmsData={cmsData as Record<string, any> | null}
+        cmsPosts={cmsPosts as any[] | null}
+      />
+    </>
   )
 }

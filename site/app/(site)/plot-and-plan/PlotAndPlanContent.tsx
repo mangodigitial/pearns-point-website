@@ -176,7 +176,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
       <section className="py-[100px] pb-[140px] px-[60px] max-lg:px-7 max-lg:py-[80px]">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={introImage}
               alt="Luxury villa exterior"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -300,7 +300,7 @@ export default function PlotAndPlanPage({ cmsData }: Props) {
       <section className="py-[120px] px-[60px] max-lg:px-7 bg-white">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-20 items-center max-lg:grid-cols-1 max-lg:gap-12">
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={whatsIncludedImage}
               alt="Luxury villa interior"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"

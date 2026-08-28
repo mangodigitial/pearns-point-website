@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import ResortVillasPage from './ResortVillasContent'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const revalidate = 60
 
@@ -17,5 +19,11 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <ResortVillasPage isPublic={isPublic} />
+  const crumbs = breadcrumbSchema([{ name: 'Resort Villas', path: '/resort-villas' }])
+  return (
+    <>
+      <JsonLd data={crumbs} />
+      <ResortVillasPage isPublic={isPublic} />
+    </>
+  )
 }

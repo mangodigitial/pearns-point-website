@@ -8,7 +8,7 @@ export default function AuthorBox({ name, bio, avatar }: AuthorBoxProps) {
   return (
     <div className="flex items-start gap-6 p-8 bg-sand-light rounded-[4px] mt-16">
       {avatar && (
-        <img
+        <img loading="lazy" decoding="async"
           src={avatar}
           alt={name}
           className="w-16 h-16 rounded-full object-cover flex-shrink-0"

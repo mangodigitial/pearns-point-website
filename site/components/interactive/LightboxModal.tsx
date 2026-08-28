@@ -90,7 +90,7 @@ export default function LightboxModal({ images, currentIndex, isOpen, onClose, o
             className="max-w-[90vw] max-h-[85vh] flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
+            <img loading="eager" decoding="async"
               src={current.src}
               alt={current.title || ''}
               className="max-w-full max-h-[80vh] object-contain"

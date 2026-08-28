@@ -226,7 +226,7 @@ export default function LatestNewsPage({ cmsData, cmsPosts }: Props) {
             <div className="grid grid-cols-[1.1fr_1fr] max-lg:grid-cols-1 rounded overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.06)] transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(0,0,0,0.09)]">
               {/* Image */}
               <div className="relative overflow-hidden">
-                <img
+                <img loading="lazy" decoding="async"
                   src={displayFeatured.image}
                   alt={displayFeatured.title}
                   className="w-full h-full object-cover min-h-[400px] max-lg:min-h-[280px] transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-[1.04]"

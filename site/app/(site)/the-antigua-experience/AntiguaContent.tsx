@@ -179,7 +179,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
           {/* Visual */}
           <ScrollReveal>
             <div className="relative">
-              <img
+              <img loading="lazy" decoding="async"
                 src={introImage}
                 alt="Antigua beach with palms"
                 className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -353,7 +353,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
 
           {/* Image */}
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={ghImage}
               alt="Aerial view of island coastline"
               className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -367,7 +367,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
           {/* Image */}
           <ScrollReveal>
-            <img
+            <img loading="lazy" decoding="async"
               src={climateImage}
               alt="Caribbean sunset"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -468,7 +468,7 @@ export default function TheAntiguaExperiencePage({ cmsData }: Props) {
             >
               {/* Image */}
               <div className={isEven ? 'order-2 max-lg:order-1' : ''}>
-                <img
+                <img loading="lazy" decoding="async"
                   src={exp.image}
                   alt={exp.alt}
                   className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_20px_50px_rgba(0,0,0,0.07)]"

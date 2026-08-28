@@ -64,7 +64,7 @@ const components: PortableTextComponents = {
   types: {
     fullWidthImage: ({ value }) => (
       <figure className="my-12 -mx-4">
-        <img
+        <img loading="lazy" decoding="async"
           src={value.image?.asset ? `https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${value.image.asset._ref.replace('image-', '').replace('-jpg', '.jpg').replace('-png', '.png').replace('-webp', '.webp')}` : '/placeholder.jpg'}
           alt={value.caption || ''}
           className="w-full rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
@@ -78,12 +78,12 @@ const components: PortableTextComponents = {
     ),
     imagePair: ({ value }) => (
       <div className="grid grid-cols-2 gap-5 my-12 max-sm:grid-cols-1">
-        <img
+        <img loading="lazy" decoding="async"
           src={value.imageLeft?.asset ? '/placeholder.jpg' : '/placeholder.jpg'}
           alt=""
           className="w-full rounded-[4px] shadow-[0_16px_40px_rgba(0,0,0,0.06)]"
         />
-        <img
+        <img loading="lazy" decoding="async"
           src={value.imageRight?.asset ? '/placeholder.jpg' : '/placeholder.jpg'}
           alt=""
           className="w-full rounded-[4px] shadow-[0_16px_40px_rgba(0,0,0,0.06)]"

@@ -3,6 +3,8 @@ import { draftMode } from 'next/headers'
 import { client, isSanityConfigured, fetchPage } from '@/lib/sanity'
 import { blogPostQuery, blogPostSlugsQuery } from '@/lib/queries'
 import BlogPostContent from './BlogPostContent'
+import JsonLd from '@/components/global/JsonLd'
+import { articleSchema, breadcrumbSchema } from '@/lib/structuredData'
 
 /* ─── ISR: revalidate every 60 seconds ─── */
 export const revalidate = 60
@@ -176,5 +178,26 @@ export default async function BlogPostPage({
     ? mapRelated(cmsPost.relatedPosts)
     : fallbackRelated
 
-  return <BlogPostContent post={post} relatedArticles={relatedArticles} />
+  const structuredData = [
+    articleSchema({
+      title: cmsPost?.title || post.title,
+      slug,
+      description: cmsPost?.seoDescription || cmsPost?.excerpt || undefined,
+      image: cmsPost?.heroImage || post.heroImage,
+      publishedAt: cmsPost?.publishedAt,
+      updatedAt: cmsPost?._updatedAt || cmsPost?.publishedAt,
+      authorName: cmsPost?.author?.name || post.author,
+    }),
+    breadcrumbSchema([
+      { name: 'Latest News', path: '/latest-news' },
+      { name: cmsPost?.title || post.title, path: `/news/${slug}` },
+    ]),
+  ]
+
+  return (
+    <>
+      <JsonLd data={structuredData} />
+      <BlogPostContent post={post} relatedArticles={relatedArticles} />
+    </>
+  )
 }

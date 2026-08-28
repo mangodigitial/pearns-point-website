@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import './globals.css'
 
-const SITE_URL = 'https://pearnspoint.com'
+const SITE_URL = 'https://www.pearnspoint.com'
 const OG_DESCRIPTION =
   'An exclusive 160-acre peninsula on the west coast of Antigua — luxury plots, bespoke villas, and Caribbean citizenship by investment.'
 

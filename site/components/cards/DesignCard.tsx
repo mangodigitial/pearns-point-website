@@ -14,7 +14,7 @@ export default function DesignCard({ tag, title, image, imageAlt, description, f
     <div className="group h-full flex flex-col bg-cream rounded-[6px] overflow-hidden transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_60px_rgba(0,0,0,0.08)]">
       {/* Image */}
       <div className="overflow-hidden">
-        <img
+        <img loading="lazy" decoding="async"
           src={image}
           alt={imageAlt}
           className="w-full aspect-[16/10] object-cover transition-transform duration-[1200ms] group-hover:scale-[1.06]"

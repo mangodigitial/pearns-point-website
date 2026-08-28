@@ -12,7 +12,7 @@ export default function LifestyleCard({ image, tag, title, description, aspectCl
   const aspect = aspectClass ?? 'aspect-[3/4] max-lg:aspect-square max-sm:aspect-[4/3]'
   return (
     <div className={`group relative overflow-hidden ${aspect} cursor-pointer rounded-[4px]`}>
-      <img
+      <img loading="lazy" decoding="async"
         src={image}
         alt={title}
         className="w-full h-full object-cover transition-transform duration-[1.2s]  group-hover:scale-[1.06]"

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { fetchPage } from '@/lib/sanity'
 import { galleryPageQuery } from '@/lib/queries'
 import GalleryPage from './GalleryContent'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const revalidate = 60
 
@@ -19,5 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const cmsData = await fetchPage(galleryPageQuery)
-  return <GalleryPage cmsData={cmsData as Record<string, any> | null} />
+  const crumbs = breadcrumbSchema([{ name: 'Gallery', path: '/gallery' }])
+  return (
+    <>
+      <JsonLd data={crumbs} />
+      <GalleryPage cmsData={cmsData as Record<string, any> | null} />
+    </>
+  )
 }

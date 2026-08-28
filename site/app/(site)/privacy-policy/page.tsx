@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import LegalPage, { type LegalBlock } from '@/components/global/LegalPage'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
@@ -109,13 +111,17 @@ const blocks: LegalBlock[] = [
 ]
 
 export default function Page() {
+  const crumbs = breadcrumbSchema([{ name: 'Privacy Policy', path: '/privacy-policy' }])
   return (
-    <LegalPage
-      eyebrow="Privacy Policy"
-      title="Privacy <em>Policy</em>"
-      intro="How we collect, use and protect the information you share with us."
-      updated={UPDATED}
-      blocks={blocks}
-    />
+    <>
+      <JsonLd data={crumbs} />
+      <LegalPage
+        eyebrow="Privacy Policy"
+        title="Privacy <em>Policy</em>"
+        intro="How we collect, use and protect the information you share with us."
+        updated={UPDATED}
+        blocks={blocks}
+      />
+    </>
   )
 }

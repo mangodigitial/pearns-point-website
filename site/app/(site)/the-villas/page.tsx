@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { fetchPage } from '@/lib/sanity'
 import { villasPageQuery } from '@/lib/queries'
 import TheVillasPage from './VillasContent'
+import JsonLd from '@/components/global/JsonLd'
+import { breadcrumbSchema } from '@/lib/structuredData'
 
 export const revalidate = 60
 
@@ -19,5 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Page() {
   const cmsData = await fetchPage(villasPageQuery)
-  return <TheVillasPage cmsData={cmsData as Record<string, any> | null} />
+  const crumbs = breadcrumbSchema([{ name: 'The Villas', path: '/the-villas' }])
+  return (
+    <>
+      <JsonLd data={crumbs} />
+      <TheVillasPage cmsData={cmsData as Record<string, any> | null} />
+    </>
+  )
 }
