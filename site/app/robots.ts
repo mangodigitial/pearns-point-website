@@ -8,7 +8,9 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
       // Keep the Sanity Studio out of the index.
-      disallow: ['/studio', '/studio/'],
+      // /site-plan-preview is an unlisted approval page: reachable by link,
+      // but kept out of the index and out of the sitemap.
+      disallow: ['/studio', '/studio/', '/site-plan-preview'],
     },
     sitemap: `${SITE_URL}/sitemap.xml`,
     host: SITE_URL,

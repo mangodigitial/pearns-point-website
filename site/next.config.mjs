@@ -48,6 +48,11 @@ const nextConfig = {
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },
+      // The unlisted approval page: reachable by link, but never indexed. The
+      // page sets a robots meta tag too; this is the header belt to that braces.
+      { source: '/site-plan-preview', headers: [
+        { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' },
+      ] },
       // Everything except the Studio gets the CSP.
       { source: '/((?!studio).*)', headers: [{ key: 'Content-Security-Policy', value: csp }] },
     ]
