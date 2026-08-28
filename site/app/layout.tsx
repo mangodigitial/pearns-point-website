@@ -4,7 +4,7 @@ import './globals.css'
 
 const SITE_URL = 'https://pearnspoint.com'
 const OG_DESCRIPTION =
-  'An exclusive 137-acre peninsula on the west coast of Antigua — luxury plots, bespoke villas, and Caribbean citizenship by investment.'
+  'An exclusive 160-acre peninsula on the west coast of Antigua — luxury plots, bespoke villas, and Caribbean citizenship by investment.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     template: '%s | Pearns Point',
   },
   description:
-    'Discover Pearns Point, an exclusive 137-acre peninsula on Antigua\u2019s west coast offering luxury plots, bespoke villas, and Caribbean citizenship by investment.',
+    'Discover Pearns Point, an exclusive 160-acre peninsula on Antigua\u2019s west coast offering luxury plots, bespoke villas, and Caribbean citizenship by investment.',
 }
 
 export default function RootLayout({

@@ -34,7 +34,7 @@ const documents = [
     contactPhoneAntigua: '+1 268-736-4028',
     contactPhoneSales: '+1 268-720-2225',
     contactEmail: 'info@orangelimited.com',
-    footerTagline: "An exclusive 137-acre peninsula development on Antigua's stunning west coast, offering the finest in Caribbean luxury living.",
+    footerTagline: "An exclusive 160-acre peninsula development on Antigua's stunning west coast, offering the finest in Caribbean luxury living.",
     navLinks: [
       { _key: key(), label: 'The Development', href: '/the-development' },
       { _key: key(), label: 'Lots & Site Plan', href: '/lots-site-plan' },
@@ -62,7 +62,7 @@ const documents = [
       title: 'A Peninsula of Extraordinary Beauty',
       body: "Stretching along Antigua's celebrated western coast, Pearns Point is a rare and unspoilt peninsula offering spectacular ocean views, seven white sand beaches, and an unmatched sense of privacy. Every detail has been considered to respect and enhance the island's natural beauty.",
       stats: [
-        { _key: key(), number: '49', label: 'Exclusive Plots' },
+        { _key: key(), number: '42', label: 'Lots Remaining' },
         { _key: key(), number: '7', label: 'Pristine Beaches' },
         { _key: key(), number: '360°', label: 'Ocean Views' },
       ],
@@ -110,7 +110,7 @@ const documents = [
     villas: {
       eyebrow: 'Residences',
       title: 'Homes Designed for Exceptional Living',
-      description: 'With only 49 plots available, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from hillside or coastline positions.',
+      description: 'With only 42 lots remaining, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from hillside or coastline positions.',
       cards: [
         { _key: key(), category: 'Premium Collection', title: 'Hillside Estates', isHero: true },
         { _key: key(), category: 'Waterfront', title: 'Beachfront Retreats', isHero: false },
@@ -295,9 +295,9 @@ const documents = [
     ],
     availabilityBanner: {
       stats: [
-        { _key: key(), number: '49', label: 'Total Plots' },
+        { _key: key(), number: '42', label: 'Lots Remaining' },
         { _key: key(), number: '8', label: 'Distinct Areas' },
-        { _key: key(), number: '137', label: 'Acres' },
+        { _key: key(), number: '160', label: 'Acres' },
       ],
     },
   },
