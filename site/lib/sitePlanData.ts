@@ -823,3 +823,66 @@ export const ALL_SHAPES: Lot[] = [
   ...LOTS.map((l) => ({ ...l, tally: [[l.area, 1]] as [string, number][] })),
   MERGED_BLOCK,
 ]
+
+/* ---------------------------------------------------------------- helpers */
+
+/** The Lots & Site Plan page derives each area section's DOM id from the area
+    name the same way, so an area name is all that is needed to scroll a lot to
+    its section — there is no mapping table to keep in step. */
+export const slugifyArea = (name: string) => name.toLowerCase().replace(/\s+/g, '-')
+
+export interface LotStatusOverride {
+  number?: number
+  status?: LotStatus
+  sqft?: number
+  price?: number
+}
+
+/* Geometry lives in this file because it never changes; only commercial state
+   does. Sanity therefore stores a short list of lot numbers with a status
+   dropdown — not 71 SVG paths, which would be unusable in the Studio — and the
+   two are merged here at render time. An override for a lot that does not
+   exist is ignored rather than throwing. */
+export function applyLotStatuses(shapes: Lot[], overrides?: LotStatusOverride[] | null): Lot[] {
+  if (!overrides?.length) return shapes
+  const byNumber = new Map<number, LotStatusOverride>()
+  for (const o of overrides) {
+    if (typeof o?.number === 'number') byNumber.set(o.number, o)
+  }
+  if (byNumber.size === 0) return shapes
+
+  return shapes.map((l) => {
+    // A merged shape takes the status of the lots inside it: sold only while
+    // every one of them is still sold.
+    if (l.n === null && l.group) {
+      const statuses = l.group.map((n) => byNumber.get(n)?.status).filter(Boolean) as LotStatus[]
+      if (statuses.length !== l.group.length) return l
+      const first = statuses[0]
+      return statuses.every((s) => s === first) ? { ...l, status: first } : l
+    }
+    const o = l.n !== null ? byNumber.get(l.n) : undefined
+    if (!o) return l
+    return {
+      ...l,
+      status: o.status ?? l.status,
+      sq: o.sqft ?? l.sq,
+      price: o.price ?? l.price,
+    }
+  })
+}
+
+/** Counts for one area, honouring shapes that span more than one. */
+export function areaTally(shapes: Lot[], area: string) {
+  let total = 0
+  let available = 0
+  for (const l of shapes) {
+    const share = l.tally?.find((t) => t[0] === area)?.[1] ?? 0
+    if (!share) continue
+    total += share
+    if (l.status === 'available') available += share
+  }
+  return { total, available }
+}
+
+export const totalByStatus = (shapes: Lot[], status: LotStatus) =>
+  shapes.reduce((n, l) => n + (l.status === status ? (l.group ? l.group.length : 1) : 0), 0)

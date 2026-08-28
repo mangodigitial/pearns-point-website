@@ -9,7 +9,69 @@ export default defineType({
     defineField({ name: 'heroEyebrow', title: 'Hero Eyebrow', type: 'string' }),
     defineField({ name: 'heroTitle', title: 'Hero Title', type: 'string' }),
     defineField({ name: 'heroSubtitle', title: 'Hero Subtitle', type: 'text', rows: 2 }),
-    defineField({ name: 'siteMapImage', title: 'Site Map Image', type: 'image' }),
+    defineField({
+      name: 'useInteractiveSitePlan',
+      title: 'Use the interactive site plan',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Off: the page shows the painted site map image below. On: it shows the interactive plan, with every lot clickable and coloured by the Lot Status list. Flip this when the interactive plan is signed off \u2014 no redeploy needed.',
+    }),
+    defineField({
+      name: 'siteMapImage',
+      title: 'Site Map Image (fallback)',
+      type: 'image',
+      description:
+        'Only shown if the Lot Status list below is empty. The page normally renders the interactive site plan instead.',
+    }),
+    defineField({
+      name: 'lotStatuses',
+      title: 'Lot Status',
+      type: 'array',
+      description:
+        'Availability for each lot on the interactive site plan. The shapes themselves are drawn from Studio RHE\u2019s master plan and are not editable here \u2014 only status, size and price. Leave size and price blank to keep the published figures.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'number',
+              title: 'Lot Number',
+              type: 'number',
+              validation: (Rule) => Rule.required().integer().min(1).max(71),
+            }),
+            defineField({
+              name: 'status',
+              title: 'Status',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Available', value: 'available' },
+                  { title: 'Reserved', value: 'reserved' },
+                  { title: 'Sold', value: 'sold' },
+                ],
+                layout: 'radio',
+                direction: 'horizontal',
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({ name: 'sqft', title: 'Size (sq ft)', type: 'number' }),
+            defineField({ name: 'price', title: 'Price (US$)', type: 'number' }),
+          ],
+          preview: {
+            select: { number: 'number', status: 'status', price: 'price' },
+            prepare({ number, status, price }: { number?: number; status?: string; price?: number }) {
+              return {
+                title: `Lot ${number ?? '—'}`,
+                subtitle: [status, price ? `$${price.toLocaleString('en-US')}` : null]
+                  .filter(Boolean)
+                  .join(' · '),
+              }
+            },
+          },
+        },
+      ],
+    }),
     defineField({
       name: 'lotAreas',
       title: 'Lot Areas',

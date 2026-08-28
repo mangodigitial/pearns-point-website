@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import PageHero from '@/components/global/PageHero'
 import ScrollReveal from '@/components/global/ScrollReveal'
@@ -10,6 +10,11 @@ import ScrollPillNav from '@/components/interactive/ScrollPillNav'
 import VideoModal from '@/components/interactive/VideoModal'
 import ButtonOutline from '@/components/buttons/ButtonOutline'
 import ButtonPrimary from '@/components/buttons/ButtonPrimary'
+import SitePlanMap from '@/components/interactive/SitePlanMap'
+import {
+  ALL_SHAPES, BASE_LAYERS, applyLotStatuses, areaTally, slugifyArea, totalByStatus,
+  type Lot, type LotStatusOverride,
+} from '@/lib/sitePlanData'
 
 /* ─── Lot Area Data ─── */
 const lotAreas = [
@@ -165,6 +170,8 @@ interface Props {
   cmsData?: Record<string, any> | null
 }
 
+const money = (n: number) => '$' + n.toLocaleString('en-US')
+
 export default function LotsSitePlanPage({ cmsData }: Props) {
   const heroImage = cmsData?.heroImage || 'https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?w=1920&q=85'
   const heroEyebrow = cmsData?.heroEyebrow || 'Available property Pearns Point, Antigua'
@@ -187,9 +194,35 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
     videoUrl: area.videoUrl || '',
   })) : lotAreas
   const displayPillNavSections = displayLotAreas.map((a: any) => ({ id: a.id, label: a.label, lots: a.lots }))
+  /* ─── Site plan ───
+     Geometry is static and lives in lib/sitePlanData; only status, size and
+     price come from the CMS, so the Studio holds a short list of lot numbers
+     rather than 71 SVG paths. */
+  const shapes = useMemo(
+    () => applyLotStatuses(ALL_SHAPES, cmsData?.lotStatuses as LotStatusOverride[] | undefined),
+    [cmsData?.lotStatuses]
+  )
+  // Areas with a section further down, so a lot click has somewhere to land.
+  const linkedAreas = useMemo(
+    () => displayLotAreas.map((a: any) => a.label).filter(Boolean),
+    [displayLotAreas]
+  )
+  const [selectedLot, setSelectedLot] = useState<Lot | null>(null)
+  const [focusArea, setFocusArea] = useState<string | null>(null)
+  const showAreaOnMap = (label: string) => {
+    // Re-set even when the area is unchanged, so a second click still works.
+    setFocusArea(null)
+    requestAnimationFrame(() => {
+      setFocusArea(label)
+      document.getElementById('site-plan')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
+  // Lots remaining and the area count come from the site plan itself, so they
+  // cannot drift from the map the way a hand-typed number does.
   const availabilityStats = cmsData?.availabilityBanner?.stats?.length ? cmsData.availabilityBanner.stats : [
-    { number: '42', label: 'Lots Remaining' },
-    { number: '8', label: 'Distinct Areas' },
+    { number: String(totalByStatus(shapes, 'available')), label: 'Lots Remaining' },
+    { number: String(displayLotAreas.length), label: 'Distinct Areas' },
     { number: '160', label: 'Acres' },
   ]
 
@@ -212,7 +245,10 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
       />
 
       {/* ── SITE MAP ── */}
-      <section className="py-[100px] px-[60px] max-lg:px-7 max-w-content mx-auto text-center">
+      <section
+        id="site-plan"
+        className="py-[100px] px-[60px] max-lg:px-7 max-w-content mx-auto text-center scroll-mt-[120px]"
+      >
         <ScrollReveal>
           <p className="text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
             Interactive Site Plan
@@ -220,20 +256,43 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
           <h2 className="font-display text-[clamp(2rem,4vw,3.2rem)] font-normal leading-[1.2] text-navy mb-5">
             Explore the <em className="font-light italic">Peninsula</em>
           </h2>
-          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[600px] mx-auto mb-12">
-            Select an area below to explore available lots, views, and features. Each zone of the peninsula has been
-            thoughtfully planned to maximise privacy, natural beauty, and ocean access.
+          <p className="text-[1.1rem] font-light leading-[1.85] text-prose-mid max-w-[620px] mx-auto mb-12">
+            Every lot on the peninsula, coloured by availability. Hover for a summary, or select a
+            lot to jump to its area below.
           </p>
-          <div className="relative bg-white rounded-[6px] p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-black/[0.04]">
-            <img loading="lazy" decoding="async"
-              src={siteMapImage}
-              alt="Pearns Point Site Plan — aerial view of peninsula"
-              className="w-full h-auto rounded-[4px]"
-            />
-            <p className="text-[0.65rem] font-light text-prose-light italic mt-4">
-              Map is for illustrative purposes only and is not to scale.
-            </p>
-          </div>
+
+          {/* The painted plan stays as the fallback: if the lot data ever comes
+              back empty the page still shows a site map rather than a gap. */}
+          {/* Off until Orange sign the interactive plan off, so this commit can
+              ship without changing what the public page shows. One switch in the
+              CMS turns it on — no redeploy. */}
+          {cmsData?.useInteractiveSitePlan && shapes.length ? (
+            <div className="text-left bg-white rounded-[6px] p-8 max-lg:p-4 shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-black/[0.04]">
+              <SitePlanMap
+                shapes={shapes}
+                base={BASE_LAYERS}
+                linkedAreas={linkedAreas}
+                selected={selectedLot}
+                onSelect={setSelectedLot}
+                focusArea={focusArea}
+                readLotFromUrl
+              />
+              <p className="text-[0.65rem] font-light text-prose-light italic mt-5">
+                Boundaries are indicative and subject to confirmation by survey. Map is not to scale.
+              </p>
+            </div>
+          ) : (
+            <div className="relative bg-white rounded-[6px] p-8 shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-black/[0.04]">
+              <img loading="lazy" decoding="async"
+                src={siteMapImage}
+                alt="Pearns Point Site Plan — aerial view of peninsula"
+                className="w-full h-auto rounded-[4px]"
+              />
+              <p className="text-[0.65rem] font-light text-prose-light italic mt-4">
+                Map is for illustrative purposes only and is not to scale.
+              </p>
+            </div>
+          )}
         </ScrollReveal>
       </section>
 
@@ -267,7 +326,47 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
                   <div className={idx % 2 === 1 ? 'order-2 max-lg:order-1' : ''}>
                     <p className="text-[0.6rem] font-semibold tracking-[0.25em] uppercase text-ocean mb-5">
                       {area.lots}
+                      {(() => {
+                        // Counted off the site plan, so it can never disagree with it.
+                        const t = areaTally(shapes, area.label)
+                        if (!t.total) return null
+                        return (
+                          <span className="text-prose-light ml-2.5 tracking-[0.18em]">
+                            &middot; {t.available} of {t.total} available
+                          </span>
+                        )
+                      })()}
                     </p>
+
+                    {/* The lot the reader clicked on the map, carried down with them
+                        so they do not lose its price on the way to the photography. */}
+                    {selectedLot && selectedLot.area === area.label && (
+                      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 bg-sand-light border-l-2 border-ocean px-4 py-3 mb-6">
+                        <span className="font-display text-[1.15rem] text-navy">
+                          {selectedLot.n !== null ? `Lot ${selectedLot.n}` : 'Selected lots'}
+                        </span>
+                        {selectedLot.sq && (
+                          <span className="text-[0.78rem] font-light text-prose-mid tabular-nums">
+                            {selectedLot.sq.toLocaleString('en-US')} sq ft
+                          </span>
+                        )}
+                        {selectedLot.price && (
+                          <span className="text-[0.78rem] font-medium text-navy tabular-nums">
+                            {money(selectedLot.price)}
+                          </span>
+                        )}
+                        <span className="text-[0.6rem] font-semibold tracking-[0.16em] uppercase text-prose-light">
+                          {selectedLot.status}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => showAreaOnMap(area.label)}
+                          className="text-[0.6rem] font-semibold tracking-[0.16em] uppercase text-ocean hover:text-ocean-deep transition-colors duration-200 bg-transparent border-none p-0 cursor-pointer ml-auto"
+                        >
+                          Back to the plan &uarr;
+                        </button>
+                      </div>
+                    )}
                     <h2 className="font-display text-[clamp(1.8rem,3.5vw,2.6rem)] font-normal leading-[1.2] text-navy mb-2">
                       {area.name} <em className="font-light italic">{area.nameItalic}</em>
                     </h2>
@@ -289,6 +388,19 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
                     {/* Buttons */}
                     <div className="flex gap-3 flex-wrap max-sm:flex-col">
                       <ButtonOutline href="/contact">Enquire About This Area</ButtonOutline>
+                      {/* The return leg: the map sends readers down here, this sends
+                          them back up with only this area's lots showing. */}
+                      <button
+                        onClick={() => showAreaOnMap(area.label)}
+                        className="inline-flex items-center gap-2 font-body text-[0.6rem] font-semibold tracking-[0.2em] uppercase text-navy bg-sand-light border-[1.5px] border-sand px-7 py-3 cursor-pointer transition-all duration-400 hover:bg-navy hover:text-white hover:border-navy max-sm:justify-center"
+                        style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
+                      >
+                        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" className="w-3.5 h-3.5" strokeWidth="1.5">
+                          <path d="M1 5 L7 1.5 L13 5 L13 10 L7 12.5 L1 10 Z" />
+                          <path d="M7 1.5 L7 12.5" />
+                        </svg>
+                        Show on the Site Plan
+                      </button>
                       {area.videoUrl && (
                         <button
                           onClick={() => openVideo(area.videoUrl)}

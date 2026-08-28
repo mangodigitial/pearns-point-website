@@ -1,7 +1,7 @@
 'use client'
 
-import { useMemo, useState } from 'react'
-import { AREA_ORDER, VIEW_BOX, type Lot, type LotStatus } from '@/lib/sitePlanData'
+import { useEffect, useMemo, useState } from 'react'
+import { AREA_ORDER, VIEW_BOX, slugifyArea, type Lot, type LotStatus } from '@/lib/sitePlanData'
 
 /* Status colours sit deliberately outside the site's ocean accent, so a sold
    lot never reads as a highlighted one. Fill is the wash, line is the border
@@ -34,13 +34,61 @@ interface Props {
   base: { land: string; beach: string[]; resort: string[]; roads: string[] }
   /** Shown under the status legend when the published lot count differs. */
   note?: string
+  /** Areas that have their own section further down the page. Clicking a lot in
+      one of these scrolls the reader to it; a lot in any other area just opens
+      in the panel, because there would be nowhere to send them. */
+  linkedAreas?: string[]
+  /** Lifted so the page can show the selected lot inside its area section. */
+  selected?: Lot | null
+  onSelect?: (lot: Lot | null) => void
+  /** Set by an area section's "Show on the site plan" button. */
+  focusArea?: string | null
+  /** Read ?lot=45 on mount and open that lot — the link a sales email sends. */
+  readLotFromUrl?: boolean
 }
 
-export default function SitePlanMap({ shapes, base, note }: Props) {
+export default function SitePlanMap({
+  shapes, base, note, linkedAreas, selected: selectedProp, onSelect,
+  focusArea, readLotFromUrl,
+}: Props) {
   const [statusFilter, setStatusFilter] = useState<Set<LotStatus>>(new Set())
   const [areaFilter, setAreaFilter] = useState<Set<string>>(new Set())
-  const [selected, setSelected] = useState<Lot | null>(null)
+  const [ownSelected, setOwnSelected] = useState<Lot | null>(null)
   const [hover, setHover] = useState<{ lot: Lot; x: number; y: number } | null>(null)
+
+  // Controlled when the page passes `selected`, self-managed otherwise, so the
+  // component still works standalone on the preview page.
+  const selected = selectedProp !== undefined ? selectedProp : ownSelected
+  const linked = useMemo(() => new Set(linkedAreas ?? []), [linkedAreas])
+
+  const choose = (lot: Lot | null, scroll = false) => {
+    if (selectedProp === undefined) setOwnSelected(lot)
+    onSelect?.(lot)
+    if (!scroll || !lot || !linked.has(lot.area)) return
+    document.getElementById(slugifyArea(lot.area))?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  // An area section asked to be shown on the map.
+  useEffect(() => {
+    if (focusArea) setAreaFilter(new Set([focusArea]))
+  }, [focusArea])
+
+  useEffect(() => {
+    if (!readLotFromUrl) return
+    const n = Number(new URLSearchParams(window.location.search).get('lot'))
+    if (!Number.isFinite(n) || n <= 0) return
+    const lot = shapes.find((l) => l.n === n || l.group?.includes(n))
+    if (!lot) return
+    setAreaFilter(new Set([lot.area]))
+    if (selectedProp === undefined) setOwnSelected(lot)
+    onSelect?.(lot)
+    // Wait for layout before scrolling, or the map is not where we think it is.
+    requestAnimationFrame(() =>
+      document.getElementById('site-plan')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    )
+    // Deliberately runs once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readLotFromUrl])
 
   const areas = useMemo(() => {
     const found = new Set(shapes.flatMap((l) => (l.tally ?? []).map((t) => t[0])))
@@ -177,12 +225,12 @@ export default function SitePlanMap({ shapes, base, note }: Props) {
                       setHover({ lot: l, x: e.clientX - box.left, y: e.clientY - box.top })
                     }}
                     onMouseLeave={() => setHover(null)}
-                    onClick={() => setSelected(l)}
-                    onFocus={() => setSelected(l)}
+                    onClick={() => choose(l, true)}
+                    onFocus={() => choose(l)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
-                        setSelected(l)
+                        choose(l, true)
                       }
                     }}
                   />
@@ -271,7 +319,21 @@ export default function SitePlanMap({ shapes, base, note }: Props) {
               <h3 className="font-display text-[1.5rem] font-normal text-navy mb-0.5">
                 {lotName(selected)}
               </h3>
-              <p className="text-[0.6rem] tracking-[0.2em] uppercase text-ocean mb-4">{selected.area}</p>
+              {linked.has(selected.area) ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    document
+                      .getElementById(slugifyArea(selected.area))
+                      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  }
+                  className="text-[0.6rem] tracking-[0.2em] uppercase text-ocean hover:text-ocean-deep transition-colors duration-200 mb-4 bg-transparent border-none p-0 cursor-pointer"
+                >
+                  {selected.area} &darr;
+                </button>
+              ) : (
+                <p className="text-[0.6rem] tracking-[0.2em] uppercase text-ocean mb-4">{selected.area}</p>
+              )}
               <span
                 className="inline-flex items-center px-2.5 py-1 rounded-sm text-[0.6rem] font-bold tracking-[0.16em] uppercase"
                 style={{
