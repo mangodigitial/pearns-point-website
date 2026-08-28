@@ -8,6 +8,7 @@ import QuoteStrip from '@/components/global/QuoteStrip'
 import CTABand from '@/components/global/CTABand'
 import FeatureCard from '@/components/cards/FeatureCard'
 import ArchitectCard from '@/components/cards/ArchitectCard'
+import ImageCredit from '@/components/global/ImageCredit'
 
 /* ─── Feature Cards Data ─── */
 const featureCards = [
@@ -122,6 +123,10 @@ export default function TheVillasPage({ cmsData }: Props) {
   const philImage = cmsData?.philosophy?.image || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80'
 
   // Showcase image
+  const philCredit = cmsData?.philosophy?.credit
+  const showcaseCredit = cmsData?.showcaseCredit
+  const archCredit = cmsData?.architects?.credit
+  const bespokeCredit = cmsData?.bespoke?.credit
   const showcaseImage = cmsData?.showcaseImage || 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1920&q=80'
 
   // Features
@@ -161,6 +166,7 @@ export default function TheVillasPage({ cmsData }: Props) {
     ? cmsData.gallery.map((g: any) => ({
         src: g.image,
         alt: g.title || '',
+        credit: g.credit || '',
         className: g.isWide ? 'col-span-2 aspect-[2/1]' : g.isTall ? 'row-span-2 aspect-[3/4]' : 'aspect-square',
       }))
     : galleryItems
@@ -191,11 +197,14 @@ export default function TheVillasPage({ cmsData }: Props) {
       <section className="py-[100px] pb-[140px] px-[60px] max-lg:px-7 max-lg:py-[80px]">
         <div className="max-w-content mx-auto grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-[60px]">
           <ScrollReveal>
-            <img
+            <div className="relative overflow-hidden rounded-[4px]">
+              <img
               src={philImage}
               alt="Villa exterior design"
               className="w-full aspect-[4/5] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
+              <ImageCredit credit={philCredit} />
+            </div>
           </ScrollReveal>
           <ScrollReveal>
             <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
@@ -222,6 +231,7 @@ export default function TheVillasPage({ cmsData }: Props) {
           alt="Villa interior with ocean view"
           className="w-full h-full object-cover"
         />
+        <ImageCredit credit={showcaseCredit} />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -259,11 +269,14 @@ export default function TheVillasPage({ cmsData }: Props) {
         <div className="max-w-content mx-auto">
           <div className="grid grid-cols-2 gap-[100px] items-center max-lg:grid-cols-1 max-lg:gap-12">
             <ScrollReveal>
-              <img
+              <div className="relative overflow-hidden rounded-[4px]">
+                <img
                 src={archImage}
                 alt="Architectural detail"
                 className="w-full aspect-[3/2] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
               />
+                <ImageCredit credit={archCredit} />
+              </div>
             </ScrollReveal>
             <ScrollReveal>
               <p className="font-body text-[0.58rem] font-semibold tracking-[0.45em] uppercase text-ocean mb-4">
@@ -316,6 +329,7 @@ export default function TheVillasPage({ cmsData }: Props) {
                   className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.06]"
                   style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
                 />
+                <ImageCredit credit={item.credit} />
               </div>
             ))}
           </div>
@@ -341,11 +355,14 @@ export default function TheVillasPage({ cmsData }: Props) {
             ))}
           </ScrollReveal>
           <ScrollReveal className="order-2">
-            <img
+            <div className="relative overflow-hidden rounded-[4px]">
+              <img
               src={bespokeImage}
               alt="Bespoke villa design"
               className="w-full aspect-[4/3] object-cover rounded-[4px] shadow-[0_24px_60px_rgba(0,0,0,0.08)]"
             />
+              <ImageCredit credit={bespokeCredit} />
+            </div>
           </ScrollReveal>
         </div>
       </section>

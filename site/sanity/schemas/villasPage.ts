@@ -27,9 +27,11 @@ export default defineType({
         defineField({ name: 'title', title: 'Title', type: 'string' }),
         defineField({ name: 'body', title: 'Body', type: 'text', rows: 5 }),
         defineField({ name: 'image', title: 'Image', type: 'image' }),
+        defineField({ name: 'credit', title: 'Credit', type: 'string', description: 'Architect shown over the image, e.g. "Mark Cooney Architect".' }),
       ],
     }),
     defineField({ name: 'showcaseImage', title: 'Showcase Image', type: 'image' }),
+    defineField({ name: 'showcaseCredit', title: 'Showcase Credit', type: 'string' }),
     defineField({
       name: 'features',
       title: 'Features',
@@ -64,6 +66,7 @@ export default defineType({
         defineField({ name: 'title', title: 'Title', type: 'string' }),
         defineField({ name: 'body', title: 'Body', type: 'text', rows: 5 }),
         defineField({ name: 'image', title: 'Image', type: 'image' }),
+        defineField({ name: 'credit', title: 'Credit', type: 'string', description: 'Architect shown over the image, e.g. "Mark Cooney Architect".' }),
         defineField({
           name: 'partners',
           title: 'Partners',
@@ -105,6 +108,7 @@ export default defineType({
           fields: [
             defineField({ name: 'image', title: 'Image', type: 'image' }),
             defineField({ name: 'title', title: 'Title', type: 'string' }),
+            defineField({ name: 'credit', title: 'Credit', type: 'string', description: 'Architect shown over the image, e.g. "Mark Cooney Architect".' }),
             defineField({ name: 'isWide', title: 'Is Wide', type: 'boolean' }),
             defineField({ name: 'isTall', title: 'Is Tall', type: 'boolean' }),
           ],
@@ -129,6 +133,7 @@ export default defineType({
         defineField({ name: 'title', title: 'Title', type: 'string' }),
         defineField({ name: 'body', title: 'Body', type: 'text', rows: 5 }),
         defineField({ name: 'image', title: 'Image', type: 'image' }),
+        defineField({ name: 'credit', title: 'Credit', type: 'string', description: 'Architect shown over the image, e.g. "Mark Cooney Architect".' }),
       ],
     }),
   ],
