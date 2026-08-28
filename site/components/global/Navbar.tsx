@@ -14,6 +14,7 @@ const developmentDropdown = [
 ]
 
 const navLinks = [
+  { label: 'Hotel & Resort Villas', href: '/resort-villas' },
   { label: 'Lifestyle', href: '/the-antigua-experience' },
   { label: 'Citizenship', href: '/citizenship-by-investment' },
   { label: 'Gallery', href: '/gallery' },
@@ -25,6 +26,7 @@ const allMobileLinks = [
   { label: 'Lots & Site Plan', href: '/lots-site-plan' },
   { label: 'Plot & Plan', href: '/plot-and-plan' },
   { label: 'The Villas', href: '/the-villas' },
+  { label: 'Hotel & Resort Villas', href: '/resort-villas' },
   { label: 'Lifestyle', href: '/the-antigua-experience' },
   { label: 'Citizenship', href: '/citizenship-by-investment' },
   { label: 'Gallery', href: '/gallery' },
@@ -80,7 +82,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-[1000] px-[60px] max-lg:px-7 flex items-center justify-between transition-all duration-500 ${navBg} ${navPadY}`}
+        className={`fixed top-0 left-0 right-0 z-[1000] px-[60px] max-xl:px-7 flex items-center justify-between transition-all duration-500 ${navBg} ${navPadY}`}
         style={{ transitionTimingFunction: 'cubic-bezier(0.25, 0.1, 0.25, 1)' }}
       >
         <Link href="/" className="no-underline relative block h-8 w-[160px]">
@@ -121,7 +123,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
         </Link>
 
         {/* Desktop links */}
-        <ul className="hidden lg:flex gap-7 items-center list-none">
+        <ul className="hidden xl:flex gap-7 items-center list-none">
           {/* Development dropdown */}
           <li
             className="relative"
@@ -129,7 +131,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
             onMouseLeave={handleDropdownLeave}
           >
             <button
-              className={`font-body text-[0.67rem] font-medium tracking-[0.18em] uppercase transition-colors duration-300 bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${devParentColor()}`}
+              className={`font-body text-[0.67rem] font-medium tracking-[0.18em] uppercase whitespace-nowrap transition-colors duration-300 bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${devParentColor()}`}
             >
               Development
               <svg viewBox="0 0 10 6" className="w-2.5 h-1.5 fill-current opacity-60">
@@ -167,7 +169,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
             <li key={link.href}>
               <Link
                 href={link.href}
-                className={`font-body text-[0.67rem] font-medium tracking-[0.18em] uppercase no-underline transition-colors duration-300 ${linkColor(link.href)}`}
+                className={`font-body text-[0.67rem] font-medium tracking-[0.18em] uppercase whitespace-nowrap no-underline transition-colors duration-300 ${linkColor(link.href)}`}
               >
                 {link.label}
               </Link>
@@ -176,7 +178,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
           <li>
             <Link
               href="/contact"
-              className={`font-body text-[0.67rem] font-medium tracking-[0.18em] uppercase no-underline px-7 py-2.5 border-[1.5px] transition-all duration-400 ${
+              className={`font-body text-[0.67rem] font-medium tracking-[0.18em] uppercase whitespace-nowrap no-underline px-7 py-2.5 border-[1.5px] transition-all duration-400 ${
                 scrolled
                   ? 'border-ocean text-ocean hover:bg-ocean hover:text-white'
                   : 'border-white/60 text-white/85 hover:bg-white hover:text-navy hover:border-white'
@@ -190,7 +192,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
 
         {/* Mobile toggle */}
         <button
-          className="lg:hidden cursor-pointer flex flex-col gap-[6px] bg-transparent border-none p-0"
+          className="xl:hidden cursor-pointer flex flex-col gap-[6px] bg-transparent border-none p-0"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -220,7 +222,7 @@ export default function Navbar({ logoDark, logoLight }: { logoDark?: string | nu
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed inset-0 z-[999] bg-white pt-24 px-7 overflow-y-auto lg:hidden"
+            className="fixed inset-0 z-[999] bg-white pt-24 px-7 overflow-y-auto xl:hidden"
           >
             <ul className="list-none flex flex-col gap-6">
               {allMobileLinks.map((link, i) => (

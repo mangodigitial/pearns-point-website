@@ -83,27 +83,13 @@ const portfolio = [
   'Small Luxury Hotels of the World',
 ]
 
-interface Props {
-  /** True once the page is live; hides the draft marker. */
-  isPublic?: boolean
-}
-
-export default function ResortVillasPage({ isPublic = false }: Props) {
+export default function ResortVillasPage() {
   return (
     <>
-      {/* ── DRAFT NOTICE — disappears once the page goes public ── */}
-      {!isPublic && (
-        <div className="fixed bottom-5 left-5 z-[1001] rounded-full bg-navy/90 backdrop-blur-sm px-5 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.2)] pointer-events-none">
-          <p className="font-body text-[0.5rem] font-semibold tracking-[0.35em] uppercase text-white">
-            Draft &mdash; not published
-          </p>
-        </div>
-      )}
-
       {/* ── PAGE HERO ── */}
       <PageHero
         backgroundImage="/images/resort-villas/hero-peninsula.jpg"
-        eyebrow="A New Chapter for the Peninsula"
+        eyebrow="Hotel and resort villas at Pearns Point, Antigua"
         title="Hotel &amp; <em>Resort Villas</em>"
         subtitle="A luxury boutique resort within Pearns Point — an intimate collection of suites, turnkey villas for sale, and world-class amenities shared by guests and owners alike."
       />

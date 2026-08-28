@@ -15,11 +15,10 @@ const STATIC_ROUTES = [
   'citizenship-by-investment',
   'gallery',
   'latest-news',
+  'resort-villas',
   'contact',
   'privacy-policy',
   'terms-and-conditions',
-  // Added only once the Resort Villas page is public — see middleware.ts.
-  ...(process.env.RESORT_PREVIEW_PASSWORD === 'public' ? ['resort-villas'] : []),
 ]
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
