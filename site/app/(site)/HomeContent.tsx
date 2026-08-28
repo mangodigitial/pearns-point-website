@@ -25,7 +25,7 @@ const introData = {
   body: "Stretching along Antigua's celebrated western coast, Pearns Point is a rare and unspoilt peninsula offering spectacular ocean views, seven white sand beaches, and an unmatched sense of privacy. Every detail has been considered to respect and enhance the island's natural beauty. Undeniably some of Antigua's most exciting and prime real estate, an exquisite selection of beach and oceanfront lots remain.",
   mainImage: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&q=80',
   stats: [
-    { number: '49', label: 'Exclusive Plots' },
+    { number: '42', label: 'Lots Remaining' },
     { number: '7', label: 'Pristine Beaches' },
     { number: '360°', label: 'Ocean Views' },
   ],
@@ -76,7 +76,7 @@ export default function HomePage({ cmsData }: HomePageProps) {
   // Residences section text
   const villasSection = cmsData?.villas || {}
   const villasTitle = villasSection.title || 'Homes Designed for<br /><em class="font-light italic">Exceptional</em> Living'
-  const villasDescription = villasSection.description || 'With only 49 plots available, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from ocean view or coastline positions. Build your dream home with total creative freedom, or collaborate with our award-winning architects at KSR to craft a residence that is uniquely yours.'
+  const villasDescription = villasSection.description || 'With only 42 lots remaining, homeowners join an exclusive enclave — each property commanding breathtaking panoramic views from ocean view or coastline positions. Build your dream home with total creative freedom, or collaborate with our award-winning architects at KSR to craft a residence that is uniquely yours.'
 
   // Quote section
   const quoteText = cmsData?.quote?.text || "An investment in Pearns Point is an investment in an unparalleled way of life — where every sunrise brings possibility and every sunset is a masterpiece."

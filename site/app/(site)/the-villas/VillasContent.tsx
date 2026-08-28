@@ -77,32 +77,32 @@ const galleryItems = [
   {
     src: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=80',
     alt: 'Villa exterior panorama',
-    className: 'col-span-2 aspect-[2/1]',
+    className: 'col-span-2 max-lg:col-span-1',
   },
   {
     src: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=500&q=80',
     alt: 'Interior living space',
-    className: 'aspect-square',
+    className: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500&q=80',
     alt: 'Pool and terrace',
-    className: 'aspect-square',
+    className: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80',
     alt: 'Villa approach',
-    className: 'aspect-square',
+    className: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=500&q=80',
     alt: 'Bedroom with view',
-    className: 'aspect-square',
+    className: '',
   },
   {
     src: 'https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=900&q=80',
     alt: 'Kitchen and dining',
-    className: 'col-span-2 aspect-[2/1]',
+    className: 'col-span-2 max-lg:col-span-1',
   },
 ]
 
@@ -167,7 +167,11 @@ export default function TheVillasPage({ cmsData }: Props) {
         src: g.image,
         alt: g.title || '',
         credit: g.credit || '',
-        className: g.isWide ? 'col-span-2 aspect-[2/1]' : g.isTall ? 'row-span-2 aspect-[3/4]' : 'aspect-square',
+        className: g.isWide
+          ? 'col-span-2 max-lg:col-span-1'
+          : g.isTall
+            ? 'row-span-2 max-lg:row-span-1'
+            : '',
       }))
     : galleryItems
 
@@ -292,7 +296,7 @@ export default function TheVillasPage({ cmsData }: Props) {
               </p>
             </ScrollReveal>
           </div>
-          <StaggerReveal className="grid grid-cols-3 gap-6 mt-16 max-lg:grid-cols-1">
+          <StaggerReveal className="grid grid-cols-2 gap-6 mt-16 items-stretch max-lg:grid-cols-1">
             {archPartners.map((card: any, i: number) => (
               <ArchitectCard key={i} {...card} />
             ))}
@@ -317,11 +321,11 @@ export default function TheVillasPage({ cmsData }: Props) {
           </p>
         </ScrollReveal>
         <ScrollReveal className="max-w-content mx-auto">
-          <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-2 max-sm:grid-cols-1">
+          <div className="grid grid-flow-dense grid-cols-4 auto-rows-[clamp(150px,15.5vw,230px)] gap-4 max-lg:grid-cols-2 max-lg:auto-rows-[30vw] max-sm:grid-cols-1 max-sm:auto-rows-[58vw]">
             {displayGallery.map((item: any, i: number) => (
               <div
                 key={i}
-                className={`group relative overflow-hidden rounded-[4px] cursor-pointer ${item.className} max-sm:col-span-1 max-sm:aspect-[3/2]`}
+                className={`group relative overflow-hidden rounded-[4px] cursor-pointer h-full ${item.className} max-sm:col-span-1 max-sm:row-span-1`}
               >
                 <img
                   src={item.src}

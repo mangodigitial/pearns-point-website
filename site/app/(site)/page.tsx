@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { absolute: seo?.title || 'Pearns Point — Luxury Caribbean Living in Antigua' },
     description:
       seo?.description ||
-      'Discover Pearns Point, an exclusive 137-acre peninsula on Antigua\u2019s west coast offering luxury plots, bespoke villas, and Caribbean citizenship by investment.',
+      'Discover Pearns Point, an exclusive 160-acre peninsula on Antigua\u2019s west coast offering luxury plots, bespoke villas, and Caribbean citizenship by investment.',
     alternates: { canonical: '/' },
   }
 }

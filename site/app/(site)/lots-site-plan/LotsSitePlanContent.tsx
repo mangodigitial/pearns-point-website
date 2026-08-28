@@ -188,9 +188,9 @@ export default function LotsSitePlanPage({ cmsData }: Props) {
   })) : lotAreas
   const displayPillNavSections = displayLotAreas.map((a: any) => ({ id: a.id, label: a.label, lots: a.lots }))
   const availabilityStats = cmsData?.availabilityBanner?.stats?.length ? cmsData.availabilityBanner.stats : [
-    { number: '49', label: 'Total Plots' },
+    { number: '42', label: 'Lots Remaining' },
     { number: '8', label: 'Distinct Areas' },
-    { number: '137', label: 'Acres' },
+    { number: '160', label: 'Acres' },
   ]
 
   const [videoOpen, setVideoOpen] = useState(false)
