@@ -26,8 +26,8 @@ const telHref = (phone: string) => `tel:${phone.replace(/[^\d+]/g, '')}`
 
 export default function Footer({ tagline, phoneAntigua, phoneSales, email }: FooterProps) {
   const taglineText = tagline || "An exclusive 160-acre peninsula development on Antigua's stunning west coast, offering the finest in Caribbean luxury living."
-  const antiguaPhone = phoneAntigua || '+1 268-736-4028'
-  const salesPhone = phoneSales || '+1 268-720-2225'
+  const antiguaPhone = phoneAntigua || '+1 268 720 2225'
+  const ukPhone = phoneSales || '+44 7957 208978'
   const contactEmail = email || 'info@orangelimited.com'
 
   return (
@@ -88,9 +88,9 @@ export default function Footer({ tagline, phoneAntigua, phoneSales, email }: Foo
               </a>
             </p>
             <p className="text-[0.8rem] font-light text-prose-mid mb-3">
-              Sales:{' '}
-              <a href={telHref(salesPhone)} className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
-                {salesPhone}
+              UK:{' '}
+              <a href={telHref(ukPhone)} className="text-navy font-normal no-underline hover:text-ocean transition-colors duration-300">
+                {ukPhone}
               </a>
             </p>
             <p className="text-[0.8rem] font-light text-prose-mid mb-3">

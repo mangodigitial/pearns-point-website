@@ -21,7 +21,7 @@ const contactIcons: Record<string, React.ReactNode> = {
 }
 
 const defaultContactCards = [
-  { icon: 'phone', title: 'Call Us', subtitle: 'Speak directly with our sales team', linkText: '+1 268-736-4028', linkHref: 'tel:+12687364028', detail: 'Antigua Office' },
+  { icon: 'phone', title: 'Call Us', subtitle: 'Speak directly with our sales team', linkText: '+1 268 720 2225', linkHref: 'tel:+12687202225', detail: 'Antigua Office' },
   { icon: 'email', title: 'Email Us', subtitle: 'We respond within 24 hours', linkText: 'info@orangelimited.com', linkHref: 'mailto:info@orangelimited.com', detail: 'General & Sales Enquiries' },
   { icon: 'location', title: 'Visit Us', subtitle: 'Tour the peninsula in person', linkText: 'Book a Site Visit', linkHref: '/contact', detail: 'Pearns Point, Five Islands, Antigua' },
 ]
@@ -52,8 +52,8 @@ export default function ContactPage({ cmsData }: Props) {
 
   // Direct lines, email & office hours (sidebar)
   const directLines = cmsData?.directLines?.length ? cmsData.directLines : [
-    { label: 'Antigua Office', phone: '+1 268-736-4028' },
-    { label: 'Sales Direct', phone: '+1 268-720-2225' },
+    { label: 'Antigua', phone: '+1 268 720 2225' },
+    { label: 'United Kingdom', phone: '+44 7957 208978' },
   ]
   const contactEmail = cmsData?.email || 'info@orangelimited.com'
   const officeHours = cmsData?.officeHours?.length ? cmsData.officeHours : [

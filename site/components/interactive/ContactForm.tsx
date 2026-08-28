@@ -188,7 +188,7 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
       {status === 'error' && (
         <p className="text-[0.85rem] font-light text-red-700" role="alert">
           Something went wrong sending your enquiry. Please call{' '}
-          <a href="tel:+12687364028" className="underline">+1 268 736 4028</a> or email{' '}
+          <a href="tel:+12687202225" className="underline">+1 268 720 2225</a> or email{' '}
           <a href="mailto:info@orangelimited.com" className="underline">info@orangelimited.com</a>.
         </p>
       )}

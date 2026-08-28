@@ -31,8 +31,8 @@ const documents = [
     _id: 'siteSettings',
     _type: 'siteSettings',
     siteName: 'Pearns Point',
-    contactPhoneAntigua: '+1 268-736-4028',
-    contactPhoneSales: '+1 268-720-2225',
+    contactPhoneAntigua: '+1 268 720 2225',
+    contactPhoneSales: '+44 7957 208978',
     contactEmail: 'info@orangelimited.com',
     footerTagline: "An exclusive 160-acre peninsula development on Antigua's stunning west coast, offering the finest in Caribbean luxury living.",
     navLinks: [
@@ -565,7 +565,7 @@ const documents = [
     heroTitle: 'Contact Us',
     heroSubtitle: "Whether you're ready to invest or simply exploring your options, our team is here to help at every stage.",
     contactCards: [
-      { _key: key(), icon: 'phone', title: 'Call Us', subtitle: 'Speak directly with our sales team', linkText: '+1 268-736-4028', linkHref: 'tel:+12687364028', detail: 'Antigua Office' },
+      { _key: key(), icon: 'phone', title: 'Call Us', subtitle: 'Speak directly with our sales team', linkText: '+1 268 720 2225', linkHref: 'tel:+12687202225', detail: 'Antigua Office' },
       { _key: key(), icon: 'email', title: 'Email Us', subtitle: 'We respond within 24 hours', linkText: 'info@orangelimited.com', linkHref: 'mailto:info@orangelimited.com', detail: 'General & Sales Enquiries' },
       { _key: key(), icon: 'location', title: 'Visit Us', subtitle: 'Tour the peninsula in person', linkText: 'Book a Site Visit', linkHref: '/contact', detail: 'Pearns Point, Five Islands, Antigua' },
     ],
