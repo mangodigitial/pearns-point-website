@@ -15,8 +15,8 @@ import { createClient } from 'next-sanity'
  * error, so the form can tell them to phone instead - which is far better
  * than the previous behaviour of silently discarding the lead.
  *
- * Resend is called over its REST API rather than the SDK so that this route
- * adds no new npm dependencies.
+ * Brevo is called over its REST API (v3/smtp/email) rather than an SDK so
+ * that this route adds no new npm dependencies.
  */
 
 export const runtime = 'nodejs'
@@ -26,9 +26,10 @@ const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || ''
 const SANITY_DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 const SANITY_WRITE_TOKEN = process.env.SANITY_API_WRITE_TOKEN || ''
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY || ''
+const BREVO_API_KEY = process.env.BREVO_API_KEY || ''
 const TO_EMAIL = process.env.ENQUIRY_TO_EMAIL || 'info@orangelimited.com'
-const FROM_EMAIL = process.env.ENQUIRY_FROM_EMAIL || 'Pearns Point <website@pearnspoint.com>'
+const FROM_EMAIL = process.env.ENQUIRY_FROM_EMAIL || 'info@pearnspoint.com'
+const FROM_NAME = process.env.ENQUIRY_FROM_NAME || 'Pearns Point, Antigua'
 
 const MAX = { name: 120, email: 200, phone: 60, country: 120, interest: 200, message: 5000 }
 
@@ -141,7 +142,7 @@ export async function POST(request: Request) {
   let emailed = false
   let emailError: string | null = null
 
-  if (RESEND_API_KEY) {
+  if (BREVO_API_KEY) {
     const rows: Array<[string, string]> = [
       ['Name', enquiry.name],
       ['Email', enquiry.email],
@@ -204,18 +205,22 @@ export async function POST(request: Request) {
         : 'Website enquiry - ' + enquiry.name + (enquiry.interest ? ' (' + enquiry.interest + ')' : '')
 
     try {
-      const response = await fetch('https://api.resend.com/emails', {
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
         headers: {
-          Authorization: 'Bearer ' + RESEND_API_KEY,
+          'api-key': BREVO_API_KEY,
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
-          from: FROM_EMAIL,
-          to: TO_EMAIL.split(',').map((address) => address.trim()).filter(Boolean),
-          reply_to: enquiry.email,
+          sender: { name: FROM_NAME, email: FROM_EMAIL },
+          to: TO_EMAIL.split(',')
+            .map((address) => address.trim())
+            .filter(Boolean)
+            .map((address) => ({ email: address })),
+          replyTo: { email: enquiry.email, name: enquiry.name || undefined },
           subject,
-          html,
+          htmlContent: html,
         }),
       })
 
@@ -223,17 +228,16 @@ export async function POST(request: Request) {
         emailed = true
       } else {
         emailError = response.status + ' ' + (await response.text())
-        console.error('[enquiry] Resend rejected the message:', emailError)
+        console.error('[enquiry] Brevo rejected the message:', emailError)
       }
     } catch (error) {
       emailError = error instanceof Error ? error.message : 'unknown'
-      console.error('[enquiry] Resend request failed:', emailError)
+      console.error('[enquiry] Brevo request failed:', emailError)
     }
   } else {
     emailError = 'not-configured'
     console.warn(
-      '[enquiry] Email notification skipped - RESEND_API_KEY not set. ' +
-        'This is the expected interim state while the sending domain is being verified. ' +
+      '[enquiry] Email notification skipped - BREVO_API_KEY not set. ' +
         'The lead is still stored in Sanity.'
     )
   }
