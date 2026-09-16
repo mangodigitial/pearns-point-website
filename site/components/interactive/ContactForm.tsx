@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { COUNTRIES } from '@/lib/countries'
 
 /**
  * Relative weighting for Google Ads Smart Bidding - NOT a revenue forecast.
@@ -34,6 +35,12 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
+  // Anti-spam: when this component mounted. A form spam bot that POSTs
+  // straight to /api/enquiry without ever rendering the page has no way to
+  // set this, and one that renders the page but submits instantly fails the
+  // server's minimum-elapsed-time check. See /api/enquiry for the other side.
+  const loadedAtRef = useRef(Date.now())
+
   const inputClass = 'w-full px-4 py-3.5 text-[0.85rem] font-light text-charcoal bg-white border-[1.5px] border-sand rounded-none outline-none transition-all duration-300 focus:border-ocean focus:shadow-[0_0_0_3px_rgba(26,122,138,0.08)] placeholder:text-prose-light placeholder:font-light'
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -60,6 +67,7 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
           ...formData,
           source: 'contact-form',
           company: '',
+          loadedAt: loadedAtRef.current,
           pageUrl: window.location.href,
           referrer: document.referrer,
           gclid: stored('gclid'),
@@ -132,13 +140,16 @@ export default function ContactForm({ enquiryTypes = [] }: ContactFormProps) {
           value={formData.phone}
           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
         />
-        <input
-          type="text"
-          placeholder="Country of Residence"
+        <select
           className={inputClass}
           value={formData.country}
           onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-        />
+        >
+          <option value="">Country of Residence</option>
+          {COUNTRIES.map((country) => (
+            <option key={country} value={country}>{country}</option>
+          ))}
+        </select>
       </div>
       {enquiryTypes.length > 0 && (
         <select

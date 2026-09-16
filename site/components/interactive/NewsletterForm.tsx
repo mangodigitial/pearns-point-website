@@ -1,10 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+
+  // Anti-spam: see the matching comment in ContactForm.tsx.
+  const loadedAtRef = useRef(Date.now())
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -19,6 +22,7 @@ export default function NewsletterForm() {
           email,
           source: 'newsletter',
           company: '',
+          loadedAt: loadedAtRef.current,
           pageUrl: window.location.href,
           referrer: document.referrer,
         }),

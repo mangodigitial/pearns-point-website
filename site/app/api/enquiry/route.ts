@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from 'next-sanity'
+import { isKnownCountry } from '@/lib/countries'
 
 /**
  * POST /api/enquiry
@@ -33,6 +34,12 @@ const FROM_NAME = process.env.ENQUIRY_FROM_NAME || 'Pearns Point, Antigua'
 
 const MAX = { name: 120, email: 200, phone: 60, country: 120, interest: 200, message: 5000 }
 
+// A real visitor cannot fill in name, email and a message faster than this -
+// a submission below it either skipped rendering the page entirely (the
+// timestamp is simply absent) or filled every field programmatically in one
+// pass. See the matching loadedAtRef in ContactForm.tsx / NewsletterForm.tsx.
+const MIN_ELAPSED_MS = 1200
+
 type Payload = Record<string, unknown>
 
 /** Trim, coerce to string and hard-cap length. */
@@ -63,11 +70,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: 'invalid-json' }, { status: 400 })
   }
 
-  // --- Spam trap ----------------------------------------------------------
-  // The form renders a hidden 'company' field. Humans never fill it in; bots
-  // that blindly complete every input do. Answer 200 so the bot believes it
-  // succeeded and does not retry, but drop the submission.
+  // --- Spam ----------------------------------------------------------------
+  // All three checks answer 200 with the normal success shape so a bot has no
+  // signal to tell it apart from a real submission and adapt - the same
+  // reasoning as the pre-existing honeypot below.
+  //
+  // 1. Hidden 'company' field. Humans never fill it in; a bot that renders
+  //    the page and blindly completes every input does.
   if (clean(body.company, 100)) {
+    return NextResponse.json({ ok: true })
+  }
+
+  // 2. Elapsed time since the form mounted (loadedAt, set client-side). Not
+  //    signed - it doesn't need to be, since the point isn't to stop a bot
+  //    that specifically targets this site, it's to stop the current wave,
+  //    which POSTs straight to this endpoint and never renders the page at
+  //    all, so the field is simply absent from its payload.
+  const loadedAt = typeof body.loadedAt === 'number' ? body.loadedAt : NaN
+  const elapsed = Date.now() - loadedAt
+  if (!Number.isFinite(loadedAt) || !(elapsed >= MIN_ELAPSED_MS)) {
     return NextResponse.json({ ok: true })
   }
 
@@ -81,6 +102,13 @@ export async function POST(request: Request) {
     interest: clean(body.interest, MAX.interest),
     message: clean(body.message, MAX.message),
     consent: body.consent === true,
+  }
+
+  // 3. Country must be one of the dropdown's own options - the previous free
+  //    text version was a field bots filled with gibberish ("Rvfqe") since
+  //    there was nothing to match.
+  if (enquiry.country && !isKnownCountry(enquiry.country)) {
+    return NextResponse.json({ ok: true })
   }
 
   // Email is the only field we genuinely cannot proceed without, and the
