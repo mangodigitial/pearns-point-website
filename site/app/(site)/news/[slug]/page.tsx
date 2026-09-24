@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { draftMode } from 'next/headers'
+import { notFound } from 'next/navigation'
 import { client, isSanityConfigured, fetchPage } from '@/lib/sanity'
 import { blogPostQuery, blogPostSlugsQuery } from '@/lib/queries'
 import BlogPostContent from './BlogPostContent'
@@ -172,6 +173,12 @@ export default async function BlogPostPage({
   const { slug } = await params
   const { isEnabled: preview } = draftMode()
   const cmsPost = await fetchPage<Record<string, any>>(blogPostQuery, { slug }, { preview })
+
+  // Scheduled posts (publishedAt in the future) stay hidden from the public until
+  // their date; still viewable via the Studio "Open Preview" button (draft mode).
+  if (cmsPost?.publishedAt && !preview && new Date(cmsPost.publishedAt) > new Date()) {
+    notFound()
+  }
 
   const post = cmsPost ? mapCmsPost(cmsPost) : fallbackPost
   const relatedArticles = cmsPost?.relatedPosts?.length

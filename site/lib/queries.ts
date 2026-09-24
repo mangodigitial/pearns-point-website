@@ -36,8 +36,9 @@ export const newsPageQuery = groq`*[_type == "newsPage"][0]{
   featuredPost->{...}
 }`
 
-// All Blog Posts
-export const allBlogPostsQuery = groq`*[_type == "blogPost"] | order(publishedAt desc){
+// All Blog Posts — only those whose publish date has passed (scheduled posts
+// stay hidden until their publishedAt; `now()` is re-evaluated each ISR fetch).
+export const allBlogPostsQuery = groq`*[_type == "blogPost" && publishedAt <= now()] | order(publishedAt desc){
   _id, title, slug, category, publishedAt, heroImage, excerpt, readTime,
   author { name, avatar }
 }`
@@ -51,5 +52,6 @@ export const blogPostQuery = groq`*[_type == "blogPost" && slug.current == $slug
   }
 }`
 
-// Blog Post Slugs (for static generation)
-export const blogPostSlugsQuery = groq`*[_type == "blogPost" && defined(slug.current)][].slug.current`
+// Blog Post Slugs (for static generation + sitemap) — excludes not-yet-published
+// scheduled posts so they aren't pre-rendered or listed until their date.
+export const blogPostSlugsQuery = groq`*[_type == "blogPost" && defined(slug.current) && publishedAt <= now()][].slug.current`
