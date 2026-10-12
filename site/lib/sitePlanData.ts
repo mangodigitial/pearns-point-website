@@ -20,7 +20,7 @@
    centroid, and `r` is that distance — which is what sizes the number so it
    fits inside its lot. */
 
-export type LotStatus = 'available' | 'reserved' | 'sold'
+export type LotStatus = 'available' | 'reserved' | 'sold' | 'hotel'
 
 export interface Lot {
   /** null for the merged block, which covers several lots in one shape */
@@ -61,7 +61,7 @@ export const LOTS: Lot[] = [
 {
 "n":1,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"hotel",
 "d":"M 932.7 723.7 L 934.5 724.2 L 950.3 725.5 L 964.8 722.1 L 996.5 708.2 L 999.1 720.4 L 980.5 776.4 L 937.2 784.4 Z",
 "lx":961.3,
 "ly":750.2,
@@ -70,7 +70,7 @@ export const LOTS: Lot[] = [
 {
 "n":2,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"hotel",
 "d":"M 900.5 791.1 L 890.3 716.5 L 901.9 715.0 L 932.7 723.7 L 937.2 784.4 Z",
 "lx":914.8,
 "ly":749.2,
@@ -79,7 +79,7 @@ export const LOTS: Lot[] = [
 {
 "n":3,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"available",
 "d":"M 855.9 726.6 L 878.8 718.1 L 890.3 716.5 L 900.5 791.1 L 866.6 791.7 Z",
 "lx":875.6,
 "ly":738.7,
@@ -88,7 +88,7 @@ export const LOTS: Lot[] = [
 {
 "n":4,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"available",
 "d":"M 819.2 740.4 L 855.9 726.6 L 866.6 791.7 L 856.8 791.8 L 839.5 799.6 Z",
 "lx":841.8,
 "ly":751.2,
@@ -97,7 +97,7 @@ export const LOTS: Lot[] = [
 {
 "n":5,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"available",
 "d":"M 819.2 740.4 L 793.2 749.5 L 785.9 751.6 L 807.3 814.1 L 839.5 799.6 Z",
 "lx":811.5,
 "ly":772.1,
@@ -106,7 +106,7 @@ export const LOTS: Lot[] = [
 {
 "n":6,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"available",
 "d":"M 757.6 763.7 L 767.7 757.5 L 785.9 751.6 L 807.3 814.1 L 784.7 824.2 L 771.6 826.0 Z",
 "lx":785.1,
 "ly":804.3,
@@ -115,7 +115,7 @@ export const LOTS: Lot[] = [
 {
 "n":7,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"available",
 "d":"M 722.2 770.2 L 757.6 763.7 L 771.6 826.0 L 734.6 836.3 Z",
 "lx":749.1,
 "ly":811.6,
@@ -124,7 +124,7 @@ export const LOTS: Lot[] = [
 {
 "n":8,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"available",
 "d":"M 691.1 770.7 L 700.5 772.0 L 722.2 770.1 L 734.6 836.3 L 728.4 838.2 L 690.3 840.6 Z",
 "lx":710.8,
 "ly":818.9,
@@ -133,7 +133,7 @@ export const LOTS: Lot[] = [
 {
 "n":9,
 "area":"Oceans Edge",
-"status":"reserved",
+"status":"sold",
 "d":"M 657.5 766.0 L 691.1 770.7 L 690.3 840.6 L 646.7 830.7 Z",
 "lx":670.6,
 "ly":810.3,
@@ -151,7 +151,7 @@ export const LOTS: Lot[] = [
 {
 "n":11,
 "area":"Oceans Edge",
-"status":"sold",
+"status":"available",
 "d":"M 569.8 763.0 L 586.4 765.2 L 617.1 762.2 L 607.4 827.3 L 599.5 827.3 L 571.8 820.2 L 564.7 820.9 Z",
 "lx":589.8,
 "ly":792.6,
@@ -291,7 +291,7 @@ export const LOTS: Lot[] = [
 {
 "n":23,
 "area":"Five Islands Point",
-"status":"sold",
+"status":"available",
 "d":"M 118.8 866.5 L 124.8 861.0 L 132.1 852.3 L 21.8 791.9 L 35.4 830.2 L 29.1 891.2 L 27.8 899.1 L 103.1 876.4 L 104.8 877.3 L 106.5 874.8 L 108.7 872.7 L 114.1 870.0 Z",
 "lx":65.9,
 "ly":853.4,
@@ -313,7 +313,7 @@ export const LOTS: Lot[] = [
 {
 "n":25,
 "area":"Pearns Bay",
-"status":"available",
+"status":"sold",
 "d":"M 59.0 719.2 L 104.3 700.6 L 143.1 709.8 L 175.1 691.7 L 228.2 737.3 L 232.3 743.6 L 194.2 774.7 L 169.0 802.7 L 155.0 821.5 Z",
 "lx":152.8,
 "ly":753.6,

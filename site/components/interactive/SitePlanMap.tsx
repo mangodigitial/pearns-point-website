@@ -10,6 +10,7 @@ const STATUS: { key: LotStatus; label: string; fill: string; line: string }[] = 
   { key: 'available', label: 'Available', fill: '#8fc9ba', line: '#2f8f7d' },
   { key: 'reserved',  label: 'Reserved',  fill: '#e2cfa5', line: '#b69a6a' },
   { key: 'sold',      label: 'Sold',      fill: '#d9b1a8', line: '#a4685c' },
+  { key: 'hotel',     label: 'Hotel',     fill: '#c8cdd3', line: '#7a8591' },
 ]
 const STATUS_BY_KEY = Object.fromEntries(STATUS.map((s) => [s.key, s]))
 
@@ -208,6 +209,7 @@ export default function SitePlanMap({
                 const s = STATUS_BY_KEY[l.status]
                 const shown = isShown(l)
                 const active = selected === l
+                const isHotel = l.status === 'hotel'
                 return (
                   <path
                     key={`l${i}`}
@@ -215,19 +217,19 @@ export default function SitePlanMap({
                     fill={s.fill}
                     stroke={active ? '#1a2f3a' : s.line}
                     strokeWidth={active ? 3 : 1}
-                    opacity={shown ? 1 : 0.2}
-                    tabIndex={0}
-                    role="button"
+                    opacity={shown ? (isHotel ? 0.55 : 1) : 0.2}
+                    tabIndex={isHotel ? undefined : 0}
+                    role={isHotel ? undefined : 'button'}
                     aria-label={`${lotName(l)}, ${l.area}, ${l.status}`}
-                    className="cursor-pointer outline-none transition-opacity duration-150"
-                    onMouseMove={(e) => {
+                    className={isHotel ? 'outline-none transition-opacity duration-150' : 'cursor-pointer outline-none transition-opacity duration-150'}
+                    onMouseMove={isHotel ? undefined : (e) => {
                       const box = e.currentTarget.ownerSVGElement!.getBoundingClientRect()
                       setHover({ lot: l, x: e.clientX - box.left, y: e.clientY - box.top })
                     }}
-                    onMouseLeave={() => setHover(null)}
-                    onClick={() => choose(l, true)}
-                    onFocus={() => choose(l)}
-                    onKeyDown={(e) => {
+                    onMouseLeave={isHotel ? undefined : () => setHover(null)}
+                    onClick={isHotel ? undefined : () => choose(l, true)}
+                    onFocus={isHotel ? undefined : () => choose(l)}
+                    onKeyDown={isHotel ? undefined : (e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault()
                         choose(l, true)
@@ -290,6 +292,8 @@ export default function SitePlanMap({
                   ? hover.lot.price
                     ? `${sqft(hover.lot.sq!)} · ${money(hover.lot.price)}`
                     : 'Price on application'
+                  : hover.lot.status === 'hotel'
+                  ? 'Hotel Site'
                   : hover.lot.status[0].toUpperCase() + hover.lot.status.slice(1)}
               </p>
             </div>
@@ -377,6 +381,8 @@ export default function SitePlanMap({
                 <p className="mt-4 text-[0.88rem] font-light text-prose-light">
                   {selected.status === 'sold'
                     ? 'This lot is sold.'
+                    : selected.status === 'hotel'
+                    ? 'Hotel site — not available for individual sale.'
                     : 'Reserved — not currently released for sale.'}
                 </p>
               )}
