@@ -56,6 +56,7 @@ export default function SitePlanMap({
   const [areaFilter, setAreaFilter] = useState<Set<string>>(new Set())
   const [ownSelected, setOwnSelected] = useState<Lot | null>(null)
   const [hover, setHover] = useState<{ lot: Lot; x: number; y: number } | null>(null)
+  const [satellite, setSatellite] = useState(false)
 
   // Controlled when the page passes `selected`, self-managed otherwise, so the
   // component still works standalone on the preview page.
@@ -188,6 +189,27 @@ export default function SitePlanMap({
           className="relative bg-[#d7e9ef] border border-sand rounded-[4px] overflow-hidden"
           onMouseLeave={() => setHover(null)}
         >
+          {/* Satellite / illustrated toggle */}
+          <button
+            type="button"
+            onClick={() => setSatellite((v) => !v)}
+            className="absolute top-2.5 right-2.5 z-[3] flex items-center gap-1.5 px-3 py-1.5 text-[0.72rem] font-semibold tracking-wide rounded-sm shadow-md transition-colors duration-200 border"
+            style={{
+              background: satellite ? '#1a2f3a' : 'rgba(255,255,255,0.92)',
+              color: satellite ? '#f5f0e8' : '#1a2f3a',
+              borderColor: satellite ? '#1a2f3a' : 'rgba(0,0,0,0.12)',
+            }}
+            aria-label={satellite ? 'Switch to illustrated map' : 'Switch to satellite view'}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-none">
+              {satellite
+                ? <><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="4"/></>
+                : <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></>
+              }
+            </svg>
+            {satellite ? 'Map' : 'Satellite'}
+          </button>
+
           {/* At phone width the whole peninsula in 340px makes the lot numbers
               unreadable and the tap targets a few pixels across, so the map keeps
               a usable minimum width and this container scrolls sideways instead. */}
@@ -199,10 +221,21 @@ export default function SitePlanMap({
             aria-label="Interactive site plan of Pearns Point showing every lot and its status"
           >
             <rect x={0} y={0} width={VIEW_BOX.w} height={VIEW_BOX.h} fill="#d7e9ef" />
-            {base.land && <path d={base.land} fill="#efe9dd" stroke="#d6c9b4" strokeWidth={1} />}
-            {base.beach.map((d, i) => <path key={`b${i}`} d={d} fill="#f2e3c4" />)}
-            {base.resort.map((d, i) => <path key={`r${i}`} d={d} fill="#dfe9df" />)}
-            {base.roads.map((d, i) => <path key={`o${i}`} d={d} fill="#e4ded3" />)}
+
+            {/* Satellite imagery layer — georeferenced to the SVG coordinate space */}
+            {satellite && (
+              <image
+                href="/images/satellite-overlay.jpg"
+                x={0} y={0}
+                width={VIEW_BOX.w} height={VIEW_BOX.h}
+                preserveAspectRatio="none"
+              />
+            )}
+
+            {!satellite && base.land && <path d={base.land} fill="#efe9dd" stroke="#d6c9b4" strokeWidth={1} />}
+            {!satellite && base.beach.map((d, i) => <path key={`b${i}`} d={d} fill="#f2e3c4" />)}
+            {!satellite && base.resort.map((d, i) => <path key={`r${i}`} d={d} fill="#dfe9df" />)}
+            {!satellite && base.roads.map((d, i) => <path key={`o${i}`} d={d} fill="#e4ded3" />)}
 
             <g>
               {shapes.map((l, i) => {
@@ -215,9 +248,9 @@ export default function SitePlanMap({
                     key={`l${i}`}
                     d={l.d}
                     fill={s.fill}
-                    stroke={active ? '#1a2f3a' : s.line}
-                    strokeWidth={active ? 3 : 1}
-                    opacity={shown ? (isHotel ? 0.55 : 1) : 0.2}
+                    stroke={active ? '#1a2f3a' : satellite ? 'rgba(255,255,255,0.7)' : s.line}
+                    strokeWidth={active ? 3 : satellite ? 1.5 : 1}
+                    opacity={shown ? (satellite ? 0.45 : isHotel ? 0.55 : 1) : 0.15}
                     tabIndex={isHotel ? undefined : 0}
                     role={isHotel ? undefined : 'button'}
                     aria-label={`${lotName(l)}, ${l.area}, ${l.status}`}
@@ -251,13 +284,13 @@ export default function SitePlanMap({
                   fontSize={l.n === null
                     ? Math.max(9, Math.min(15, l.r * 0.42))
                     : Math.max(9, Math.min(23, l.r * 0.78))}
-                  opacity={isShown(l) ? 1 : 0.2}
-                  fill="#1a2f3a"
+                  opacity={isShown(l) ? 1 : 0.15}
+                  fill={satellite ? '#ffffff' : '#1a2f3a'}
                   style={{
-                    fontWeight: 600,
+                    fontWeight: satellite ? 700 : 600,
                     paintOrder: 'stroke',
-                    stroke: 'rgba(255,255,255,0.55)',
-                    strokeWidth: 2.4,
+                    stroke: satellite ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.55)',
+                    strokeWidth: satellite ? 3 : 2.4,
                     strokeLinejoin: 'round',
                   }}
                 >
