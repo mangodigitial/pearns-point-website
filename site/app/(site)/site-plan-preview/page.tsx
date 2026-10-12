@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import PageHero from '@/components/global/PageHero'
 import SitePlanMap from '@/components/interactive/SitePlanMap'
-import { ALL_SHAPES, BASE_LAYERS } from '@/lib/sitePlanData'
+import { ALL_SHAPES, BASE_LAYERS, applyLotStatuses } from '@/lib/sitePlanData'
+import { fetchLotStatusesFromSheet } from '@/lib/fetchLotStatuses'
 
 /* Unlisted approval page.
 
@@ -9,6 +10,8 @@ import { ALL_SHAPES, BASE_LAYERS } from '@/lib/sitePlanData'
    robots.txt and noindex/nofollow here — but deliberately NOT behind the basic
    auth that gates /resort-villas, so the URL can be sent round for sign-off
    without a password. Anyone with the link can open it; nobody will find it. */
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Site Plan — Preview',
@@ -21,7 +24,12 @@ const NOTE =
   'Lot 66 is on the site’s Five Islands Bay tab but appears on no price list, ' +
   'which is why this shows 43 available rather than 42. Its status needs confirming.'
 
-export default function Page() {
+export default async function Page() {
+  const sheetOverrides = await fetchLotStatusesFromSheet()
+  const shapes = sheetOverrides.length > 0
+    ? applyLotStatuses(ALL_SHAPES, sheetOverrides)
+    : ALL_SHAPES
+
   return (
     <>
       {/* The navbar is white-on-transparent until you scroll, so this page needs a
@@ -41,22 +49,22 @@ export default function Page() {
         </p>
         <p className="text-[1.05rem] font-light leading-[1.85] text-prose-mid max-w-[660px] mx-auto">
           Every lot is drawn from Studio RHE&rsquo;s master plan, grouped by the site&rsquo;s own
-          area tabs and coloured by its status in the August 2026 price list. Hover a lot for a
-          summary, click it for the full details. Once this is signed off the status moves into the
-          CMS, so a sale becomes a dropdown change rather than a new drawing.
+          area tabs and coloured by its current status. Hover a lot for a
+          summary, click it for the full details.
+          {sheetOverrides.length > 0
+            ? ' Statuses are live from the Google Sheet.'
+            : ' Statuses are from the compiled-in defaults.'}
         </p>
       </section>
 
       <section className="pb-[100px] px-[60px] max-lg:px-7 max-w-content mx-auto">
-        <SitePlanMap shapes={ALL_SHAPES} base={BASE_LAYERS} note={NOTE} />
+        <SitePlanMap shapes={shapes} base={BASE_LAYERS} note={NOTE} />
 
         <p className="text-[0.72rem] font-light text-prose-light leading-[1.7] mt-8 max-w-[76ch]">
           Geometry extracted from Studio RHE drawing M01, <em>Pearns Point Site Plan</em>, 1:2000.
-          Boundaries and areas are indicative and subject to confirmation by survey — the drawing
+          Boundaries and areas are indicative and subject to confirmation by survey &mdash; the drawing
           is schematic and not to be scaled. Lots 29&ndash;33 and 37 are drawn as a single block on
-          the master plan and are shown here the same way. Areas follow the site&rsquo;s area tabs,
-          extended to cover the sold lots those tabs leave out; prices and availability come from
-          the August 2026 price list.
+          the master plan and are shown here the same way.
         </p>
       </section>
     </>
